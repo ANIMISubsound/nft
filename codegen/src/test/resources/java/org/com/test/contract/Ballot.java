@@ -11,6 +11,11 @@ import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.RemoteCall;
+import org.web3j.protocol.core.RemoteTransaction;
+import org.web3j.protocol.core.generated.RemoteFunctionCall1;
+import org.web3j.protocol.core.generated.RemoteFunctionCall2;
+import org.web3j.protocol.core.generated.RemoteFunctionCall4;
+import org.web3j.protocol.core.generated.RemoteTransaction0;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tuples.generated.Tuple2;
 import org.web3j.tuples.generated.Tuple4;
@@ -52,111 +57,77 @@ public class Ballot extends Contract {
 
     public static final String FUNC_WINNERNAME = "winnerName";
 
-    @Deprecated
-    protected Ballot(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        super(BINARY, contractAddress, web3j, credentials, gasPrice, gasLimit);
-    }
-
     protected Ballot(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
-    }
-
-    @Deprecated
-    protected Ballot(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        super(BINARY, contractAddress, web3j, transactionManager, gasPrice, gasLimit);
     }
 
     protected Ballot(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
     }
 
-    public RemoteCall<TransactionReceipt> vote(BigInteger proposal) {
+    public RemoteTransaction<Void> vote(BigInteger proposal) {
         final Function function = new Function(
                 FUNC_VOTE, 
-                Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Uint256(proposal)),
+                Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.Uint256(proposal)),
                 Collections.<TypeReference<?>>emptyList());
-        return executeRemoteCallTransaction(function);
+        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager,
+                defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO,
+                false, gasProvider);
     }
 
     public RemoteCall<Tuple2<byte[], BigInteger>> proposals(BigInteger param0) {
         final Function function = new Function(FUNC_PROPOSALS,
-                Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Uint256(param0)),
+                Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.Uint256(param0)),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Bytes32>() {}, new TypeReference<Uint256>() {}));
-        return new RemoteCall<Tuple2<byte[], BigInteger>>(
-                new Callable<Tuple2<byte[], BigInteger>>() {
-                    @Override
-                    public Tuple2<byte[], BigInteger> call() throws Exception {
-                        List<Type> results = executeCallMultipleValueReturn(function);
-                        return new Tuple2<byte[], BigInteger>(
-                                (byte[]) results.get(0).getValue(), 
-                                (BigInteger) results.get(1).getValue());
-                    }
-                });
+        return new RemoteFunctionCall2<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteCall<String> chairperson() {
         final Function function = new Function(FUNC_CHAIRPERSON,
-                Arrays.<Type>asList(),
+                Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}));
-        return executeRemoteCallSingleValueReturn(function, String.class);
+        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public RemoteCall<TransactionReceipt> delegate(String to) {
+    public RemoteTransaction<Void> delegate(String to) {
         final Function function = new Function(
                 FUNC_DELEGATE, 
-                Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(to)),
+                Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(to)),
                 Collections.<TypeReference<?>>emptyList());
-        return executeRemoteCallTransaction(function);
+        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager,
+                defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO,
+                false, gasProvider);
     }
 
     public RemoteCall<BigInteger> winningProposal() {
         final Function function = new Function(FUNC_WINNINGPROPOSAL,
-                Arrays.<Type>asList(),
+                Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
-        return executeRemoteCallSingleValueReturn(function, BigInteger.class);
+        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public RemoteCall<TransactionReceipt> giveRightToVote(String voter) {
+    public RemoteTransaction<Void> giveRightToVote(String voter) {
         final Function function = new Function(
                 FUNC_GIVERIGHTTOVOTE, 
-                Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(voter)),
+                Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(voter)),
                 Collections.<TypeReference<?>>emptyList());
-        return executeRemoteCallTransaction(function);
+        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager,
+                defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO,
+                false, gasProvider);
     }
 
     public RemoteCall<Tuple4<BigInteger, Boolean, String, BigInteger>> voters(String param0) {
         final Function function = new Function(FUNC_VOTERS,
-                Arrays.<Type>asList(new org.web3j.abi.datatypes.Address(param0)),
+                Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(param0)),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}, new TypeReference<Bool>() {}, new TypeReference<Address>() {}, new TypeReference<Uint256>() {}));
-        return new RemoteCall<Tuple4<BigInteger, Boolean, String, BigInteger>>(
-                new Callable<Tuple4<BigInteger, Boolean, String, BigInteger>>() {
-                    @Override
-                    public Tuple4<BigInteger, Boolean, String, BigInteger> call() throws Exception {
-                        List<Type> results = executeCallMultipleValueReturn(function);
-                        return new Tuple4<BigInteger, Boolean, String, BigInteger>(
-                                (BigInteger) results.get(0).getValue(),
-                                (Boolean) results.get(1).getValue(),
-                                (String) results.get(2).getValue(),
-                                (BigInteger) results.get(3).getValue());
-                    }
-                });
+        return new RemoteFunctionCall4<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteCall<byte[]> winnerName() {
         final Function function = new Function(FUNC_WINNERNAME,
-                Arrays.<Type>asList(),
+                Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Bytes32>() {}));
-        return executeRemoteCallSingleValueReturn(function, byte[].class);
-    }
-
-    @Deprecated
-    public static Ballot load(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        return new Ballot(contractAddress, web3j, credentials, gasPrice, gasLimit);
-    }
-
-    @Deprecated
-    public static Ballot load(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        return new Ballot(contractAddress, web3j, transactionManager, gasPrice, gasLimit);
+        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public static Ballot load(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
@@ -168,32 +139,16 @@ public class Ballot extends Contract {
     }
 
     public static RemoteCall<Ballot> deploy(Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider, List<byte[]> proposalNames) {
-        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new org.web3j.abi.datatypes.DynamicArray<org.web3j.abi.datatypes.generated.Bytes32>(
+        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.DynamicArray<org.web3j.abi.datatypes.generated.Bytes32>(
                         org.web3j.abi.datatypes.generated.Bytes32.class,
                         org.web3j.abi.Utils.typeMap(proposalNames, org.web3j.abi.datatypes.generated.Bytes32.class))));
         return deployRemoteCall(Ballot.class, web3j, credentials, contractGasProvider, BINARY, encodedConstructor);
     }
 
     public static RemoteCall<Ballot> deploy(Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider, List<byte[]> proposalNames) {
-        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new org.web3j.abi.datatypes.DynamicArray<org.web3j.abi.datatypes.generated.Bytes32>(
+        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.DynamicArray<org.web3j.abi.datatypes.generated.Bytes32>(
                         org.web3j.abi.datatypes.generated.Bytes32.class,
                         org.web3j.abi.Utils.typeMap(proposalNames, org.web3j.abi.datatypes.generated.Bytes32.class))));
         return deployRemoteCall(Ballot.class, web3j, transactionManager, contractGasProvider, BINARY, encodedConstructor);
-    }
-
-    @Deprecated
-    public static RemoteCall<Ballot> deploy(Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit, List<byte[]> proposalNames) {
-        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new org.web3j.abi.datatypes.DynamicArray<org.web3j.abi.datatypes.generated.Bytes32>(
-                        org.web3j.abi.datatypes.generated.Bytes32.class,
-                        org.web3j.abi.Utils.typeMap(proposalNames, org.web3j.abi.datatypes.generated.Bytes32.class))));
-        return deployRemoteCall(Ballot.class, web3j, credentials, gasPrice, gasLimit, BINARY, encodedConstructor);
-    }
-
-    @Deprecated
-    public static RemoteCall<Ballot> deploy(Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit, List<byte[]> proposalNames) {
-        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new org.web3j.abi.datatypes.DynamicArray<org.web3j.abi.datatypes.generated.Bytes32>(
-                        org.web3j.abi.datatypes.generated.Bytes32.class,
-                        org.web3j.abi.Utils.typeMap(proposalNames, org.web3j.abi.datatypes.generated.Bytes32.class))));
-        return deployRemoteCall(Ballot.class, web3j, transactionManager, gasPrice, gasLimit, BINARY, encodedConstructor);
     }
 }

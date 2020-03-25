@@ -3,6 +3,8 @@ package org.web3j.generated;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
+
+import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Function;
 import org.web3j.abi.datatypes.Type;
@@ -10,6 +12,9 @@ import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.RemoteCall;
+import org.web3j.protocol.core.RemoteTransaction;
+import org.web3j.protocol.core.generated.RemoteFunctionCall1;
+import org.web3j.protocol.core.generated.RemoteTransaction0;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tx.Contract;
 import org.web3j.tx.TransactionManager;
@@ -31,47 +36,29 @@ public class Revert extends Contract {
 
     public static final String FUNC_GET = "get";
 
-    @Deprecated
-    protected Revert(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        super(BINARY, contractAddress, web3j, credentials, gasPrice, gasLimit);
-    }
-
     protected Revert(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
-    }
-
-    @Deprecated
-    protected Revert(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        super(BINARY, contractAddress, web3j, transactionManager, gasPrice, gasLimit);
     }
 
     protected Revert(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
     }
 
-    public RemoteCall<TransactionReceipt> set(BigInteger _number) {
+    public RemoteTransaction<Void> set(BigInteger _number) {
         final Function function = new Function(
                 FUNC_SET, 
-                Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Uint256(_number)), 
+                Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.Uint256(_number)), 
                 Collections.<TypeReference<?>>emptyList());
-        return executeRemoteCallTransaction(function);
+        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager, 
+                defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO, 
+                false, gasProvider);
     }
 
     public RemoteCall<BigInteger> get() {
         final Function function = new Function(FUNC_GET, 
-                Arrays.<Type>asList(), 
+                Arrays.<Type<?>>asList(), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
-        return executeRemoteCallSingleValueReturn(function, BigInteger.class);
-    }
-
-    @Deprecated
-    public static Revert load(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        return new Revert(contractAddress, web3j, credentials, gasPrice, gasLimit);
-    }
-
-    @Deprecated
-    public static Revert load(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        return new Revert(contractAddress, web3j, transactionManager, gasPrice, gasLimit);
+        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public static Revert load(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
@@ -86,17 +73,7 @@ public class Revert extends Contract {
         return deployRemoteCall(Revert.class, web3j, credentials, contractGasProvider, BINARY, "");
     }
 
-    @Deprecated
-    public static RemoteCall<Revert> deploy(Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        return deployRemoteCall(Revert.class, web3j, credentials, gasPrice, gasLimit, BINARY, "");
-    }
-
     public static RemoteCall<Revert> deploy(Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
         return deployRemoteCall(Revert.class, web3j, transactionManager, contractGasProvider, BINARY, "");
-    }
-
-    @Deprecated
-    public static RemoteCall<Revert> deploy(Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        return deployRemoteCall(Revert.class, web3j, transactionManager, gasPrice, gasLimit, BINARY, "");
     }
 }

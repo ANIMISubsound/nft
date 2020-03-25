@@ -36,8 +36,8 @@ import static org.web3j.abi.TypeDecoder.MAX_BYTE_LENGTH_FOR_HEX_STRING;
  */
 public class DefaultFunctionReturnDecoder extends FunctionReturnDecoder {
 
-    public List<Type> decodeFunctionResult(
-            String rawInput, List<TypeReference<Type>> outputParameters) {
+    public List<Type<?>> decodeFunctionResult(
+            String rawInput, List<TypeReference<Type<?>>> outputParameters) {
 
         String input = Numeric.cleanHexPrefix(rawInput);
 
@@ -49,7 +49,7 @@ public class DefaultFunctionReturnDecoder extends FunctionReturnDecoder {
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Type> Type decodeEventParameter(
+    public <T extends Type<?>> Type<?> decodeEventParameter(
             String rawInput, TypeReference<T> typeReference) {
 
         String input = Numeric.cleanHexPrefix(rawInput);
@@ -72,14 +72,15 @@ public class DefaultFunctionReturnDecoder extends FunctionReturnDecoder {
         }
     }
 
-    private static List<Type> build(String input, List<TypeReference<Type>> outputParameters) {
-        List<Type> results = new ArrayList<>(outputParameters.size());
+    private static List<Type<?>> build(
+            String input, List<TypeReference<Type<?>>> outputParameters) {
+        List<Type<?>> results = new ArrayList<>(outputParameters.size());
 
         int offset = 0;
         for (TypeReference<?> typeReference : outputParameters) {
             try {
                 @SuppressWarnings("unchecked")
-                Class<Type> type = (Class<Type>) typeReference.getClassType();
+                Class<Type<?>> type = (Class<Type<?>>) typeReference.getClassType();
 
                 int hexStringDataOffset = getDataOffset(input, offset, type);
 

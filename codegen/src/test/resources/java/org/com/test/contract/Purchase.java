@@ -2,6 +2,7 @@ package org.com.test.contract;
 
 import io.reactivex.Flowable;
 import org.web3j.abi.EventEncoder;
+import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Event;
@@ -13,6 +14,9 @@ import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.RemoteCall;
+import org.web3j.protocol.core.RemoteTransaction;
+import org.web3j.protocol.core.generated.RemoteFunctionCall1;
+import org.web3j.protocol.core.generated.RemoteTransaction0;
 import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
@@ -63,19 +67,9 @@ public class Purchase extends Contract {
     public static final Event ITEMRECEIVED_EVENT = new Event("ItemReceived",
             Arrays.<TypeReference<?>>asList());
     ;
-
-    @Deprecated
-    protected Purchase(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        super(BINARY, contractAddress, web3j, credentials, gasPrice, gasLimit);
-    }
-
+    
     protected Purchase(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
-    }
-
-    @Deprecated
-    protected Purchase(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        super(BINARY, contractAddress, web3j, transactionManager, gasPrice, gasLimit);
     }
 
     protected Purchase(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
@@ -84,54 +78,57 @@ public class Purchase extends Contract {
 
     public RemoteCall<String> seller() {
         final Function function = new Function(FUNC_SELLER,
-                Arrays.<Type>asList(),
+                Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}));
-        return executeRemoteCallSingleValueReturn(function, String.class);
+        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public RemoteCall<TransactionReceipt> abort() {
+    public RemoteTransaction<Void> abort() {
         final Function function = new Function(
                 FUNC_ABORT, 
-                Arrays.<Type>asList(),
+                Arrays.<Type<?>>asList(),
                 Collections.<TypeReference<?>>emptyList());
-        return executeRemoteCallTransaction(function);
+        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager,
+                defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO, false, gasProvider);
     }
 
     public RemoteCall<BigInteger> value() {
         final Function function = new Function(FUNC_VALUE,
-                Arrays.<Type>asList(),
+                Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
-        return executeRemoteCallSingleValueReturn(function, BigInteger.class);
+        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteCall<String> buyer() {
         final Function function = new Function(FUNC_BUYER,
-                Arrays.<Type>asList(),
+                Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}));
-        return executeRemoteCallSingleValueReturn(function, String.class);
+        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public RemoteCall<TransactionReceipt> confirmReceived() {
+    public RemoteTransaction<Void> confirmReceived() {
         final Function function = new Function(
                 FUNC_CONFIRMRECEIVED, 
-                Arrays.<Type>asList(),
+                Arrays.<Type<?>>asList(),
                 Collections.<TypeReference<?>>emptyList());
-        return executeRemoteCallTransaction(function);
+        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager,
+                defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO, false, gasProvider);
     }
 
     public RemoteCall<BigInteger> state() {
         final Function function = new Function(FUNC_STATE,
-                Arrays.<Type>asList(),
+                Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint8>() {}));
-        return executeRemoteCallSingleValueReturn(function, BigInteger.class);
+        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public RemoteCall<TransactionReceipt> confirmPurchase(BigInteger weiValue) {
+    public RemoteTransaction<Void> confirmPurchase(BigInteger weiValue) {
         final Function function = new Function(
                 FUNC_CONFIRMPURCHASE, 
-                Arrays.<Type>asList(),
+                Arrays.<Type<?>>asList(),
                 Collections.<TypeReference<?>>emptyList());
-        return executeRemoteCallTransaction(function, weiValue);
+        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager,
+                defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO, false, gasProvider);
     }
 
     public List<AbortedEventResponse> getAbortedEvents(TransactionReceipt transactionReceipt) {
@@ -221,16 +218,6 @@ public class Purchase extends Contract {
         return itemReceivedEventFlowable(filter);
     }
 
-    @Deprecated
-    public static Purchase load(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        return new Purchase(contractAddress, web3j, credentials, gasPrice, gasLimit);
-    }
-
-    @Deprecated
-    public static Purchase load(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        return new Purchase(contractAddress, web3j, transactionManager, gasPrice, gasLimit);
-    }
-
     public static Purchase load(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
         return new Purchase(contractAddress, web3j, credentials, contractGasProvider);
     }
@@ -245,16 +232,6 @@ public class Purchase extends Contract {
 
     public static RemoteCall<Purchase> deploy(Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider, BigInteger initialWeiValue) {
         return deployRemoteCall(Purchase.class, web3j, transactionManager, contractGasProvider, BINARY, "", initialWeiValue);
-    }
-
-    @Deprecated
-    public static RemoteCall<Purchase> deploy(Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit, BigInteger initialWeiValue) {
-        return deployRemoteCall(Purchase.class, web3j, credentials, gasPrice, gasLimit, BINARY, "", initialWeiValue);
-    }
-
-    @Deprecated
-    public static RemoteCall<Purchase> deploy(Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit, BigInteger initialWeiValue) {
-        return deployRemoteCall(Purchase.class, web3j, transactionManager, gasPrice, gasLimit, BINARY, "", initialWeiValue);
     }
 
     public static class AbortedEventResponse {

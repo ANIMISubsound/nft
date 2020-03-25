@@ -19,6 +19,9 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.RemoteFunctionCall;
+import org.web3j.protocol.core.RemoteTransaction;
+import org.web3j.protocol.core.generated.RemoteFunctionCall1;
+import org.web3j.protocol.core.generated.RemoteTransaction0;
 import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.BaseEventResponse;
 import org.web3j.protocol.core.methods.response.Log;
@@ -60,67 +63,61 @@ public class SimpleAuction extends Contract {
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}, new TypeReference<Uint256>() {}));
     ;
 
-    @Deprecated
-    protected SimpleAuction(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        super(BINARY, contractAddress, web3j, credentials, gasPrice, gasLimit);
-    }
-
     protected SimpleAuction(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
-    }
-
-    @Deprecated
-    protected SimpleAuction(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        super(BINARY, contractAddress, web3j, transactionManager, gasPrice, gasLimit);
     }
 
     protected SimpleAuction(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
     }
 
-    public RemoteFunctionCall<TransactionReceipt> bid(BigInteger weiValue) {
+    public RemoteTransaction<Void> bid(BigInteger weiValue) {
         final Function function = new Function(
                 FUNC_BID, 
-                Arrays.<Type>asList(), 
+                Arrays.<Type<?>>asList(), 
                 Collections.<TypeReference<?>>emptyList());
-        return executeRemoteCallTransaction(function, weiValue);
+        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager,
+                defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO, 
+                false, gasProvider);
     }
 
-    public RemoteFunctionCall<TransactionReceipt> auctionEnd() {
+    public RemoteTransaction<Void> auctionEnd() {
         final Function function = new Function(
                 FUNC_AUCTIONEND, 
-                Arrays.<Type>asList(), 
+                Arrays.<Type<?>>asList(), 
                 Collections.<TypeReference<?>>emptyList());
-        return executeRemoteCallTransaction(function);
+        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager,
+                defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO, false, gasProvider);
     }
 
     public RemoteFunctionCall<String> beneficiary() {
         final Function function = new Function(FUNC_BENEFICIARY, 
-                Arrays.<Type>asList(), 
+                Arrays.<Type<?>>asList(), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}));
-        return executeRemoteCallSingleValueReturn(function, String.class);
+        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public RemoteFunctionCall<TransactionReceipt> withdraw() {
+    public RemoteTransaction<Void> withdraw() {
         final Function function = new Function(
                 FUNC_WITHDRAW, 
-                Arrays.<Type>asList(), 
+                Arrays.<Type<?>>asList(), 
                 Collections.<TypeReference<?>>emptyList());
-        return executeRemoteCallTransaction(function);
+        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager,
+                defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO, false, gasProvider);
     }
 
     public RemoteFunctionCall<String> highestBidder() {
         final Function function = new Function(FUNC_HIGHESTBIDDER, 
-                Arrays.<Type>asList(), 
+                Arrays.<Type<?>>asList(), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}));
-        return executeRemoteCallSingleValueReturn(function, String.class);
+        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteFunctionCall<BigInteger> highestBid() {
         final Function function = new Function(FUNC_HIGHESTBID, 
-                Arrays.<Type>asList(), 
+                Arrays.<Type<?>>asList(), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
-        return executeRemoteCallSingleValueReturn(function, BigInteger.class);
+        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public List<HighestBidIncreasedEventResponse> getHighestBidIncreasedEvents(TransactionReceipt transactionReceipt) {
@@ -189,16 +186,6 @@ public class SimpleAuction extends Contract {
         return auctionEndedEventFlowable(filter);
     }
 
-    @Deprecated
-    public static SimpleAuction load(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        return new SimpleAuction(contractAddress, web3j, credentials, gasPrice, gasLimit);
-    }
-
-    @Deprecated
-    public static SimpleAuction load(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        return new SimpleAuction(contractAddress, web3j, transactionManager, gasPrice, gasLimit);
-    }
-
     public static SimpleAuction load(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
         return new SimpleAuction(contractAddress, web3j, credentials, contractGasProvider);
     }
@@ -208,29 +195,15 @@ public class SimpleAuction extends Contract {
     }
 
     public static RemoteCall<SimpleAuction> deploy(Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider, BigInteger _biddingTime, String _beneficiary) {
-        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Uint256(_biddingTime), 
+        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.Uint256(_biddingTime), 
                 new org.web3j.abi.datatypes.Address(160, _beneficiary)));
         return deployRemoteCall(SimpleAuction.class, web3j, credentials, contractGasProvider, BINARY, encodedConstructor);
     }
 
     public static RemoteCall<SimpleAuction> deploy(Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider, BigInteger _biddingTime, String _beneficiary) {
-        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Uint256(_biddingTime), 
+        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.Uint256(_biddingTime), 
                 new org.web3j.abi.datatypes.Address(160, _beneficiary)));
         return deployRemoteCall(SimpleAuction.class, web3j, transactionManager, contractGasProvider, BINARY, encodedConstructor);
-    }
-
-    @Deprecated
-    public static RemoteCall<SimpleAuction> deploy(Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit, BigInteger _biddingTime, String _beneficiary) {
-        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Uint256(_biddingTime), 
-                new org.web3j.abi.datatypes.Address(160, _beneficiary)));
-        return deployRemoteCall(SimpleAuction.class, web3j, credentials, gasPrice, gasLimit, BINARY, encodedConstructor);
-    }
-
-    @Deprecated
-    public static RemoteCall<SimpleAuction> deploy(Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit, BigInteger _biddingTime, String _beneficiary) {
-        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.Uint256(_biddingTime), 
-                new org.web3j.abi.datatypes.Address(160, _beneficiary)));
-        return deployRemoteCall(SimpleAuction.class, web3j, transactionManager, gasPrice, gasLimit, BINARY, encodedConstructor);
     }
 
     public static class HighestBidIncreasedEventResponse extends BaseEventResponse {

@@ -202,7 +202,7 @@ public class BesuPrivacyQuickstartIntegrationTest {
                                 "eea_token",
                                 BigInteger.TEN,
                                 "EEATKN")
-                        .send();
+                        .call();
 
         final HumanStandardToken tokenBob =
                 HumanStandardToken.load(
@@ -263,7 +263,7 @@ public class BesuPrivacyQuickstartIntegrationTest {
                                 "eea_token",
                                 BigInteger.TEN,
                                 "EEATKN")
-                        .send();
+                        .call();
 
         final HumanStandardToken tokenBob =
                 HumanStandardToken.load(
@@ -279,10 +279,10 @@ public class BesuPrivacyQuickstartIntegrationTest {
             final BigInteger aliceBalance,
             final BigInteger bobBalance)
             throws Exception {
-        final BigInteger aliceAlice = tokenAlice.balanceOf(ALICE.getAddress()).send();
-        final BigInteger aliceBob = tokenAlice.balanceOf(BOB.getAddress()).send();
-        final BigInteger bobAlice = tokenBob.balanceOf(ALICE.getAddress()).send();
-        final BigInteger bobBob = tokenBob.balanceOf(BOB.getAddress()).send();
+        final BigInteger aliceAlice = tokenAlice.balanceOf(ALICE.getAddress()).call();
+        final BigInteger aliceBob = tokenAlice.balanceOf(BOB.getAddress()).call();
+        final BigInteger bobAlice = tokenBob.balanceOf(ALICE.getAddress()).call();
+        final BigInteger bobBob = tokenBob.balanceOf(BOB.getAddress()).call();
 
         assertEquals(aliceAlice, (aliceBalance));
         assertEquals(aliceBob, (bobBalance));

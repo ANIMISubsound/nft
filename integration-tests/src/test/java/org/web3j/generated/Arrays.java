@@ -12,6 +12,7 @@ import org.web3j.abi.datatypes.generated.StaticArray10;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.RemoteArrayFunctionCall;
 import org.web3j.protocol.core.RemoteCall;
 import org.web3j.tx.Contract;
 import org.web3j.tx.TransactionManager;
@@ -39,136 +40,67 @@ public class Arrays extends Contract {
 
     public static final String FUNC_DYNAMICREVERSE = "dynamicReverse";
 
-    @Deprecated
-    protected Arrays(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        super(BINARY, contractAddress, web3j, credentials, gasPrice, gasLimit);
-    }
-
     protected Arrays(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
-    }
-
-    @Deprecated
-    protected Arrays(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        super(BINARY, contractAddress, web3j, transactionManager, gasPrice, gasLimit);
     }
 
     protected Arrays(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
     }
+    
     @SuppressWarnings("unchecked")
-    public RemoteCall<List> multiDynamic(List<List<BigInteger>> input) {
+    public RemoteCall<List<Uint256>> multiDynamic(List<List<BigInteger>> input) {
         final Function function = new Function(FUNC_MULTIDYNAMIC, 
-                java.util.Arrays.<Type>asList(new org.web3j.abi.datatypes.DynamicArray<org.web3j.abi.datatypes.generated.StaticArray2>(
+                java.util.Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.DynamicArray<org.web3j.abi.datatypes.generated.StaticArray2>(
                         org.web3j.abi.datatypes.generated.StaticArray2.class,
                         org.web3j.abi.Utils.typeMap(input, org.web3j.abi.datatypes.generated.StaticArray2.class,
                 org.web3j.abi.datatypes.generated.Uint256.class))), 
                 java.util.Arrays.<TypeReference<?>>asList(new TypeReference<DynamicArray<Uint256>>() {}));
-        return new RemoteCall<List>(
-                new Callable<List>() {
-                    @Override
-                    @SuppressWarnings("unchecked")
-                    public List call() throws Exception {
-                        List<Type> result = (List<Type>) executeCallSingleValueReturn(function, List.class);
-                        return convertToNative(result);
-                    }
-                });
+        return new RemoteArrayFunctionCall<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public RemoteCall<List> returnArray() {
+    public RemoteCall<List<Address>> returnArray() {
         final Function function = new Function(FUNC_RETURNARRAY, 
-                java.util.Arrays.<Type>asList(), 
+                java.util.Arrays.<Type<?>>asList(), 
                 java.util.Arrays.<TypeReference<?>>asList(new TypeReference<DynamicArray<Address>>() {}));
-        return new RemoteCall<List>(
-                new Callable<List>() {
-                    @Override
-                    @SuppressWarnings("unchecked")
-                    public List call() throws Exception {
-                        List<Type> result = (List<Type>) executeCallSingleValueReturn(function, List.class);
-                        return convertToNative(result);
-                    }
-                });
+        return new RemoteArrayFunctionCall<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     @SuppressWarnings("unchecked")
-    public RemoteCall<List> multiFixed(List<List<BigInteger>> input) {
+    public RemoteCall<List<Uint256>> multiFixed(List<List<BigInteger>> input) {
         final Function function = new Function(FUNC_MULTIFIXED,
-                java.util.Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.StaticArray6<org.web3j.abi.datatypes.generated.StaticArray2>(
+                java.util.Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.StaticArray6<org.web3j.abi.datatypes.generated.StaticArray2>(
                         org.web3j.abi.datatypes.generated.StaticArray2.class,
                         org.web3j.abi.Utils.typeMap(input, org.web3j.abi.datatypes.generated.StaticArray2.class,
                 org.web3j.abi.datatypes.generated.Uint256.class))),
                 java.util.Arrays.<TypeReference<?>>asList(new TypeReference<DynamicArray<Uint256>>() {}));
-        return new RemoteCall<List>(
-                new Callable<List>() {
-                    @Override
-                    @SuppressWarnings("unchecked")
-                    public List call() throws Exception {
-                        List<Type> result = (List<Type>) executeCallSingleValueReturn(function, List.class);
-                        return convertToNative(result);
-                    }
-                });
+        return new RemoteArrayFunctionCall<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public RemoteCall<List> fixedReverse(List<BigInteger> input) {
+    public RemoteCall<List<Uint256>> fixedReverse(List<BigInteger> input) {
         final Function function = new Function(FUNC_FIXEDREVERSE, 
-                java.util.Arrays.<Type>asList(new org.web3j.abi.datatypes.generated.StaticArray10<org.web3j.abi.datatypes.generated.Uint256>(
+                java.util.Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.StaticArray10<org.web3j.abi.datatypes.generated.Uint256>(
                         org.web3j.abi.datatypes.generated.Uint256.class,
                         org.web3j.abi.Utils.typeMap(input, org.web3j.abi.datatypes.generated.Uint256.class))), 
                 java.util.Arrays.<TypeReference<?>>asList(new TypeReference<StaticArray10<Uint256>>() {}));
-        return new RemoteCall<List>(
-                new Callable<List>() {
-                    @Override
-                    @SuppressWarnings("unchecked")
-                    public List call() throws Exception {
-                        List<Type> result = (List<Type>) executeCallSingleValueReturn(function, List.class);
-                        return convertToNative(result);
-                    }
-                });
+        return new RemoteArrayFunctionCall<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public RemoteCall<List> dynamicReverse(List<BigInteger> input) {
+    public RemoteCall<List<Uint256>> dynamicReverse(List<BigInteger> input) {
         final Function function = new Function(FUNC_DYNAMICREVERSE, 
-                java.util.Arrays.<Type>asList(new org.web3j.abi.datatypes.DynamicArray<org.web3j.abi.datatypes.generated.Uint256>(
+                java.util.Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.DynamicArray<org.web3j.abi.datatypes.generated.Uint256>(
                         org.web3j.abi.datatypes.generated.Uint256.class,
                         org.web3j.abi.Utils.typeMap(input, org.web3j.abi.datatypes.generated.Uint256.class))), 
                 java.util.Arrays.<TypeReference<?>>asList(new TypeReference<DynamicArray<Uint256>>() {}));
-        return new RemoteCall<List>(
-                new Callable<List>() {
-                    @Override
-                    @SuppressWarnings("unchecked")
-                    public List call() throws Exception {
-                        List<Type> result = (List<Type>) executeCallSingleValueReturn(function, List.class);
-                        return convertToNative(result);
-                    }
-                });
+        return new RemoteArrayFunctionCall<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public static RemoteCall<Arrays> deploy(Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
         return deployRemoteCall(Arrays.class, web3j, credentials, contractGasProvider, BINARY, "");
     }
 
-    @Deprecated
-    public static RemoteCall<Arrays> deploy(Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        return deployRemoteCall(Arrays.class, web3j, credentials, gasPrice, gasLimit, BINARY, "");
-    }
-
     public static RemoteCall<Arrays> deploy(Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
         return deployRemoteCall(Arrays.class, web3j, transactionManager, contractGasProvider, BINARY, "");
-    }
-
-    @Deprecated
-    public static RemoteCall<Arrays> deploy(Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        return deployRemoteCall(Arrays.class, web3j, transactionManager, gasPrice, gasLimit, BINARY, "");
-    }
-
-    @Deprecated
-    public static Arrays load(String contractAddress, Web3j web3j, Credentials credentials, BigInteger gasPrice, BigInteger gasLimit) {
-        return new Arrays(contractAddress, web3j, credentials, gasPrice, gasLimit);
-    }
-
-    @Deprecated
-    public static Arrays load(String contractAddress, Web3j web3j, TransactionManager transactionManager, BigInteger gasPrice, BigInteger gasLimit) {
-        return new Arrays(contractAddress, web3j, transactionManager, gasPrice, gasLimit);
     }
 
     public static Arrays load(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {

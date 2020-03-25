@@ -24,7 +24,7 @@ public class DefaultFunctionEncoder extends FunctionEncoder {
 
     @Override
     public String encodeFunction(final Function function) {
-        final List<Type> parameters = function.getInputParameters();
+        final List<Type<?>> parameters = function.getInputParameters();
 
         final String methodSignature = buildMethodSignature(function.getName(), parameters);
         final String methodId = buildMethodId(methodSignature);
@@ -36,17 +36,17 @@ public class DefaultFunctionEncoder extends FunctionEncoder {
     }
 
     @Override
-    public String encodeParameters(final List<Type> parameters) {
+    public String encodeParameters(final List<Type<?>> parameters) {
         return encodeParameters(parameters, new StringBuilder());
     }
 
     private static String encodeParameters(
-            final List<Type> parameters, final StringBuilder result) {
+            final List<Type<?>> parameters, final StringBuilder result) {
 
         int dynamicDataOffset = getLength(parameters) * Type.MAX_BYTE_LENGTH;
         final StringBuilder dynamicData = new StringBuilder();
 
-        for (Type parameter : parameters) {
+        for (final Type<?> parameter : parameters) {
             final String encodedValue = TypeEncoder.encode(parameter);
 
             if (TypeEncoder.isDynamic(parameter)) {
@@ -64,9 +64,9 @@ public class DefaultFunctionEncoder extends FunctionEncoder {
         return result.toString();
     }
 
-    private static int getLength(final List<Type> parameters) {
+    private static int getLength(final List<Type<?>> parameters) {
         int count = 0;
-        for (final Type type : parameters) {
+        for (final Type<?> type : parameters) {
             if (type instanceof StaticArray) {
                 count += ((StaticArray) type).getValue().size();
             } else {

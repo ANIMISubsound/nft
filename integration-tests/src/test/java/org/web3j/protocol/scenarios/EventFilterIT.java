@@ -78,7 +78,7 @@ public class EventFilterIT extends Scenario {
         assertEquals(topics.get(0), (encodedEventSignature));
 
         // verify our two event parameters
-        List<Type> results =
+        List<Type<?>> results =
                 FunctionReturnDecoder.decode(log.getData(), event.getNonIndexedParameters());
         assertEquals(
                 results,

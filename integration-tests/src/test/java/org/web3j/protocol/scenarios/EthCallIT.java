@@ -38,7 +38,7 @@ public class EthCallIT extends Scenario {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        this.contract = Revert.deploy(web3j, ALICE, new DefaultGasProvider()).send();
+        this.contract = Revert.deploy(web3j, ALICE, new DefaultGasProvider()).call();
     }
 
     @Test

@@ -43,7 +43,7 @@ public class FunctionReturnDecoderTest {
         Function function =
                 new Function(
                         "test",
-                        Collections.<Type>emptyList(),
+                        Collections.<Type<?>>emptyList(),
                         Collections.singletonList(new TypeReference<Uint>() {}));
 
         assertEquals(
@@ -61,7 +61,7 @@ public class FunctionReturnDecoderTest {
                         Arrays.asList(),
                         Collections.singletonList(new TypeReference<Utf8String>() {}));
 
-        List<Type> utf8Strings =
+        List<Type<?>> utf8Strings =
                 FunctionReturnDecoder.decode(
                         "0x0000000000000000000000000000000000000000000000000000000000000020"
                                 + "000000000000000000000000000000000000000000000000000000000000000d"
@@ -79,7 +79,7 @@ public class FunctionReturnDecoderTest {
                         Collections.emptyList(),
                         Collections.singletonList(new TypeReference<Utf8String>() {}));
 
-        List<Type> utf8Strings =
+        List<Type<?>> utf8Strings =
                 FunctionReturnDecoder.decode(
                         "0x0000000000000000000000000000000000000000000000000000000000000020"
                                 + "0000000000000000000000000000000000000000000000000000000000000000",
@@ -93,7 +93,7 @@ public class FunctionReturnDecoderTest {
         Function function =
                 new Function(
                         "test",
-                        Collections.<Type>emptyList(),
+                        Collections.<Type<?>>emptyList(),
                         Arrays.asList(new TypeReference<Uint>() {}, new TypeReference<Uint>() {}));
 
         assertEquals(
@@ -109,7 +109,7 @@ public class FunctionReturnDecoderTest {
         Function function =
                 new Function(
                         "function",
-                        Collections.<Type>emptyList(),
+                        Collections.<Type<?>>emptyList(),
                         Arrays.asList(
                                 new TypeReference<Utf8String>() {},
                                         new TypeReference<Utf8String>() {},
@@ -139,13 +139,13 @@ public class FunctionReturnDecoderTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testDecodeStaticArrayValue() {
-        List<TypeReference<Type>> outputParameters = new ArrayList<>(1);
+        List<TypeReference<Type<?>>> outputParameters = new ArrayList<>(1);
         outputParameters.add(
                 (TypeReference)
                         new TypeReference.StaticArrayTypeReference<StaticArray<Uint256>>(2) {});
         outputParameters.add((TypeReference) new TypeReference<Uint256>() {});
 
-        List<Type> decoded =
+        List<Type<?>> decoded =
                 FunctionReturnDecoder.decode(
                         "0x0000000000000000000000000000000000000000000000000000000000000037"
                                 + "0000000000000000000000000000000000000000000000000000000000000001"
@@ -156,7 +156,7 @@ public class FunctionReturnDecoderTest {
                 new StaticArray2<>(
                         new Uint256(BigInteger.valueOf(55)), new Uint256(BigInteger.ONE));
 
-        List<Type> expected = Arrays.asList(uint256StaticArray2, new Uint256(BigInteger.TEN));
+        List<Type<?>> expected = Arrays.asList(uint256StaticArray2, new Uint256(BigInteger.TEN));
         assertEquals(decoded, (expected));
     }
 

@@ -61,7 +61,7 @@ public class FastRawTransactionManagerIT extends Scenario {
         for (int i = 0; i < COUNT; i++) {
 
             Future<TransactionReceipt> transactionReceiptFuture =
-                    createTransaction(transfer, gasPrice).sendAsync();
+                    sendFunds(transfer, gasPrice).callAsync();
             transactionReceipts.add(transactionReceiptFuture);
         }
 
@@ -116,7 +116,7 @@ public class FastRawTransactionManagerIT extends Scenario {
         BigInteger gasPrice = transfer.requestCurrentGasPrice();
 
         for (int i = 0; i < COUNT; i++) {
-            TransactionReceipt transactionReceipt = createTransaction(transfer, gasPrice).send();
+            TransactionReceipt transactionReceipt = sendFunds(transfer, gasPrice).call();
             pendingTransactions.put(transactionReceipt.getTransactionHash(), new Object());
         }
 
@@ -135,8 +135,7 @@ public class FastRawTransactionManagerIT extends Scenario {
         assertTrue(transactionReceipts.isEmpty());
     }
 
-    private RemoteCall<TransactionReceipt> createTransaction(
-            Transfer transfer, BigInteger gasPrice) {
+    private RemoteCall<TransactionReceipt> sendFunds(Transfer transfer, BigInteger gasPrice) {
         return transfer.sendFunds(
                 BOB.getAddress(),
                 BigDecimal.valueOf(1.0),

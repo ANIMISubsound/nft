@@ -31,18 +31,18 @@ public class ClassProvider {
         this.pathToJavaFiles = pathToJavaFiles;
     }
 
-    public final List<Class> getClasses() throws IOException {
+    public final List<Class<?>> getClasses() throws IOException {
         return loadClassesToList(compileClasses());
     }
 
     private CompilerClassLoader compileClasses() throws IOException {
-        URL[] classPathURL = new URL[] {pathToJavaFiles.toURI().toURL()};
-        Path outputDirectory = Files.createTempDirectory("tmp");
+        final URL[] classPathURL = new URL[] {pathToJavaFiles.toURI().toURL()};
+        final Path outputDirectory = Files.createTempDirectory("tmp");
         return new CompilerClassLoader(
                 Objects.requireNonNull(outputDirectory).toFile(), classPathURL);
     }
 
-    private List<Class> loadClassesToList(final CompilerClassLoader compilerClassLoader)
+    private List<Class<?>> loadClassesToList(final CompilerClassLoader compilerClassLoader)
             throws IOException {
         return getFormattedClassPath().stream()
                 .map(
@@ -58,15 +58,15 @@ public class ClassProvider {
     }
 
     private List<String> getFormattedClassPath() throws IOException {
-        Stream<Path> walk = Files.walk(Paths.get(pathToJavaFiles.toURI()));
+        final Stream<Path> walk = Files.walk(Paths.get(pathToJavaFiles.toURI()));
         return getClassPathFromURL(
                 walk.filter(Files::isRegularFile).map(Path::toString).collect(Collectors.toList()));
     }
 
     private List<String> getClassPathFromURL(final List<String> listOfUrl) throws IOException {
-        int length = pathToJavaFiles.getCanonicalPath().length();
-        List<String> formattedClassPath = new ArrayList<>();
-        for (String s : listOfUrl) {
+        final int length = pathToJavaFiles.getCanonicalPath().length();
+        final List<String> formattedClassPath = new ArrayList<>();
+        for (final String s : listOfUrl) {
             formattedClassPath.add(s.substring(length + 1, s.lastIndexOf(".java")));
         }
         return formattedClassPath;

@@ -32,24 +32,24 @@ public class SignTransactionIT extends Scenario {
 
     @Test
     public void testSignTransaction() throws Exception {
-        boolean accountUnlocked = unlockAccount();
+        final boolean accountUnlocked = unlockAccount();
         assertTrue(accountUnlocked);
 
-        RawTransaction rawTransaction = createTransaction();
+        final RawTransaction rawTransaction = createTransaction();
 
-        byte[] encoded = TransactionEncoder.encode(rawTransaction);
-        byte[] hashed = Hash.sha3(encoded);
+        final byte[] encoded = TransactionEncoder.encode(rawTransaction);
+        final byte[] hashed = Hash.sha3(encoded);
 
-        EthSign ethSign =
+        final EthSign ethSign =
                 web3j.ethSign(ALICE.getAddress(), Numeric.toHexString(hashed)).sendAsync().get();
 
-        String signature = ethSign.getSignature();
+        final String signature = ethSign.getSignature();
         assertNotNull(signature);
         assertFalse(signature.isEmpty());
     }
 
     private static RawTransaction createTransaction() {
-        BigInteger value = Convert.toWei("1", Convert.Unit.ETHER).toBigInteger();
+        final BigInteger value = Convert.toWei("1", Convert.Unit.ETHER).toBigInteger();
 
         return RawTransaction.createEtherTransaction(
                 BigInteger.valueOf(1048587),

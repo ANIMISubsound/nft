@@ -33,21 +33,21 @@ public class SendEtherIT extends Scenario {
     public void testTransferEther() throws Exception {
         unlockAccount();
 
-        BigInteger nonce = getNonce(ALICE.getAddress());
-        BigInteger value = Convert.toWei("0.5", Convert.Unit.ETHER).toBigInteger();
+        final BigInteger nonce = getNonce(ALICE.getAddress());
+        final BigInteger value = Convert.toWei("0.5", Convert.Unit.ETHER).toBigInteger();
 
-        Transaction transaction =
+        final Transaction transaction =
                 Transaction.createEtherTransaction(
                         ALICE.getAddress(), nonce, GAS_PRICE, GAS_LIMIT, BOB.getAddress(), value);
 
-        EthSendTransaction ethSendTransaction =
+        final EthSendTransaction ethSendTransaction =
                 web3j.ethSendTransaction(transaction).sendAsync().get();
 
-        String transactionHash = ethSendTransaction.getTransactionHash();
+        final String transactionHash = ethSendTransaction.getTransactionHash();
 
         assertFalse(transactionHash.isEmpty());
 
-        TransactionReceipt transactionReceipt = waitForTransactionReceipt(transactionHash);
+        final TransactionReceipt transactionReceipt = waitForTransactionReceipt(transactionHash);
 
         assertEquals(transactionReceipt.getTransactionHash(), (transactionHash));
     }
@@ -74,7 +74,7 @@ public class SendEtherIT extends Scenario {
      */
     @Test
     public void testTransfer() throws Exception {
-        TransactionReceipt transactionReceipt =
+        final TransactionReceipt transactionReceipt =
                 Transfer.sendFunds(
                                 web3j,
                                 ALICE,

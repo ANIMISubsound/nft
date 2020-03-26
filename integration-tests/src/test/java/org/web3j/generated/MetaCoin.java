@@ -57,22 +57,22 @@ public class MetaCoin extends Contract {
         _addresses.put("4", "0xaea9d31a4aeda9e510f7d85559261c16ea0b6b8b");
     }
 
-    protected MetaCoin(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+    protected MetaCoin(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
     }
     
-    protected MetaCoin(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+    protected MetaCoin(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
     }
 
-    public RemoteCall<BigInteger> getBalanceInEth(String addr) {
+    public RemoteCall<BigInteger> getBalanceInEth(final String addr) {
         final Function function = new Function(FUNC_GETBALANCEINETH, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(addr)), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
         return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public RemoteTransaction<Void> sendCoin(String receiver, BigInteger amount) {
+    public RemoteTransaction<Void> sendCoin(final String receiver, final BigInteger amount) {
         final Function function = new Function(
                 FUNC_SENDCOIN, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(receiver), 
@@ -83,26 +83,26 @@ public class MetaCoin extends Contract {
                 false, gasProvider);
     }
 
-    public RemoteCall<BigInteger> getBalance(String addr) {
+    public RemoteCall<BigInteger> getBalance(final String addr) {
         final Function function = new Function(FUNC_GETBALANCE, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(addr)), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
         return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public static RemoteCall<MetaCoin> deploy(Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+    public static RemoteCall<MetaCoin> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(MetaCoin.class, web3j, credentials, contractGasProvider, BINARY, "");
     }
 
-    public static RemoteCall<MetaCoin> deploy(Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+    public static RemoteCall<MetaCoin> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(MetaCoin.class, web3j, transactionManager, contractGasProvider, BINARY, "");
     }
     
-    public List<TransferEventResponse> getTransferEvents(TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(TRANSFER_EVENT, transactionReceipt);
-        ArrayList<TransferEventResponse> responses = new ArrayList<TransferEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
-            TransferEventResponse typedResponse = new TransferEventResponse();
+    public List<TransferEventResponse> getTransferEvents(final TransactionReceipt transactionReceipt) {
+        final List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(TRANSFER_EVENT, transactionReceipt);
+        final ArrayList<TransferEventResponse> responses = new ArrayList<TransferEventResponse>(valueList.size());
+        for (final Contract.EventValuesWithLog eventValues : valueList) {
+            final TransferEventResponse typedResponse = new TransferEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse._from = (String) eventValues.getIndexedValues().get(0).getValue();
             typedResponse._to = (String) eventValues.getIndexedValues().get(1).getValue();
@@ -112,12 +112,12 @@ public class MetaCoin extends Contract {
         return responses;
     }
 
-    public Flowable<TransferEventResponse> transferEventFlowable(EthFilter filter) {
+    public Flowable<TransferEventResponse> transferEventFlowable(final EthFilter filter) {
         return web3j.ethLogFlowable(filter).map(new io.reactivex.functions.Function<Log, TransferEventResponse>() {
             @Override
-            public TransferEventResponse apply(Log log) {
-                Contract.EventValuesWithLog eventValues = extractEventParametersWithLog(TRANSFER_EVENT, log);
-                TransferEventResponse typedResponse = new TransferEventResponse();
+            public TransferEventResponse apply(final Log log) {
+                final Contract.EventValuesWithLog eventValues = extractEventParametersWithLog(TRANSFER_EVENT, log);
+                final TransferEventResponse typedResponse = new TransferEventResponse();
                 typedResponse.log = log;
                 typedResponse._from = (String) eventValues.getIndexedValues().get(0).getValue();
                 typedResponse._to = (String) eventValues.getIndexedValues().get(1).getValue();
@@ -127,25 +127,25 @@ public class MetaCoin extends Contract {
         });
     }
 
-    public Flowable<TransferEventResponse> transferEventFlowable(DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
-        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
+    public Flowable<TransferEventResponse> transferEventFlowable(final DefaultBlockParameter startBlock, final DefaultBlockParameter endBlock) {
+        final EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
         filter.addSingleTopic(EventEncoder.encode(TRANSFER_EVENT));
         return transferEventFlowable(filter);
     }
 
-    public static MetaCoin load(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+    public static MetaCoin load(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         return new MetaCoin(contractAddress, web3j, credentials, contractGasProvider);
     }
 
-    public static MetaCoin load(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+    public static MetaCoin load(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         return new MetaCoin(contractAddress, web3j, transactionManager, contractGasProvider);
     }
 
-    protected String getStaticDeployedAddress(String networkId) {
+    protected String getStaticDeployedAddress(final String networkId) {
         return _addresses.get(networkId);
     }
 
-    public static String getPreviouslyDeployedAddress(String networkId) {
+    public static String getPreviouslyDeployedAddress(final String networkId) {
         return _addresses.get(networkId);
     }
 

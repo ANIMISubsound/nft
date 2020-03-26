@@ -36,15 +36,15 @@ public class SimpleStorage extends Contract {
 
     public static final String FUNC_GET = "get";
 
-    protected SimpleStorage(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+    protected SimpleStorage(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
     }
 
-    protected SimpleStorage(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+    protected SimpleStorage(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
     }
 
-    public RemoteTransaction<Void> set(BigInteger x) {
+    public RemoteTransaction<Void> set(final BigInteger x) {
         final Function function = new Function(
                 FUNC_SET, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.Uint256(x)), 
@@ -61,19 +61,19 @@ public class SimpleStorage extends Contract {
         return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public static RemoteCall<SimpleStorage> deploy(Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+    public static RemoteCall<SimpleStorage> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(SimpleStorage.class, web3j, credentials, contractGasProvider, BINARY, "");
     }
 
-    public static RemoteCall<SimpleStorage> deploy(Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+    public static RemoteCall<SimpleStorage> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(SimpleStorage.class, web3j, transactionManager, contractGasProvider, BINARY, "");
     }
 
-    public static SimpleStorage load(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+    public static SimpleStorage load(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         return new SimpleStorage(contractAddress, web3j, credentials, contractGasProvider);
     }
 
-    public static SimpleStorage load(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+    public static SimpleStorage load(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         return new SimpleStorage(contractAddress, web3j, transactionManager, contractGasProvider);
     }
 }

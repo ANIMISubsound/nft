@@ -46,15 +46,15 @@ public class Fibonacci extends Contract {
     public static final Event NOTIFY_EVENT = new Event("Notify", 
             Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}, new TypeReference<Uint256>() {}));
     
-    protected Fibonacci(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+    protected Fibonacci(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
     }
 
-    protected Fibonacci(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+    protected Fibonacci(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
     }
 
-    public RemoteTransaction<Void> fibonacciNotify(BigInteger number) {
+    public RemoteTransaction<Void> fibonacciNotify(final BigInteger number) {
         final Function function = new Function(
                 FUNC_FIBONACCINOTIFY, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.Uint256(number)), 
@@ -64,18 +64,18 @@ public class Fibonacci extends Contract {
                 false, gasProvider);
     }
 
-    public RemoteCall<BigInteger> fibonacci(BigInteger number) {
+    public RemoteCall<BigInteger> fibonacci(final BigInteger number) {
         final Function function = new Function(FUNC_FIBONACCI, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.Uint256(number)), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
         return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public List<NotifyEventResponse> getNotifyEvents(TransactionReceipt transactionReceipt) {
-        List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(NOTIFY_EVENT, transactionReceipt);
-        ArrayList<NotifyEventResponse> responses = new ArrayList<NotifyEventResponse>(valueList.size());
-        for (Contract.EventValuesWithLog eventValues : valueList) {
-            NotifyEventResponse typedResponse = new NotifyEventResponse();
+    public List<NotifyEventResponse> getNotifyEvents(final TransactionReceipt transactionReceipt) {
+        final List<Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(NOTIFY_EVENT, transactionReceipt);
+        final ArrayList<NotifyEventResponse> responses = new ArrayList<NotifyEventResponse>(valueList.size());
+        for (final Contract.EventValuesWithLog eventValues : valueList) {
+            final NotifyEventResponse typedResponse = new NotifyEventResponse();
             typedResponse.log = eventValues.getLog();
             typedResponse.input = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
             typedResponse.result = (BigInteger) eventValues.getNonIndexedValues().get(1).getValue();
@@ -84,12 +84,12 @@ public class Fibonacci extends Contract {
         return responses;
     }
 
-    public Flowable<NotifyEventResponse> notifyEventFlowable(EthFilter filter) {
+    public Flowable<NotifyEventResponse> notifyEventFlowable(final EthFilter filter) {
         return web3j.ethLogFlowable(filter).map(new io.reactivex.functions.Function<Log, NotifyEventResponse>() {
             @Override
-            public NotifyEventResponse apply(Log log) {
-                Contract.EventValuesWithLog eventValues = extractEventParametersWithLog(NOTIFY_EVENT, log);
-                NotifyEventResponse typedResponse = new NotifyEventResponse();
+            public NotifyEventResponse apply(final Log log) {
+                final Contract.EventValuesWithLog eventValues = extractEventParametersWithLog(NOTIFY_EVENT, log);
+                final NotifyEventResponse typedResponse = new NotifyEventResponse();
                 typedResponse.log = log;
                 typedResponse.input = (BigInteger) eventValues.getNonIndexedValues().get(0).getValue();
                 typedResponse.result = (BigInteger) eventValues.getNonIndexedValues().get(1).getValue();
@@ -98,25 +98,25 @@ public class Fibonacci extends Contract {
         });
     }
 
-    public Flowable<NotifyEventResponse> notifyEventFlowable(DefaultBlockParameter startBlock, DefaultBlockParameter endBlock) {
-        EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
+    public Flowable<NotifyEventResponse> notifyEventFlowable(final DefaultBlockParameter startBlock, final DefaultBlockParameter endBlock) {
+        final EthFilter filter = new EthFilter(startBlock, endBlock, getContractAddress());
         filter.addSingleTopic(EventEncoder.encode(NOTIFY_EVENT));
         return notifyEventFlowable(filter);
     }
 
-    public static RemoteCall<Fibonacci> deploy(Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+    public static RemoteCall<Fibonacci> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(Fibonacci.class, web3j, credentials, contractGasProvider, BINARY, "");
     }
 
-    public static RemoteCall<Fibonacci> deploy(Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+    public static RemoteCall<Fibonacci> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(Fibonacci.class, web3j, transactionManager, contractGasProvider, BINARY, "");
     }
 
-    public static Fibonacci load(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+    public static Fibonacci load(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         return new Fibonacci(contractAddress, web3j, credentials, contractGasProvider);
     }
 
-    public static Fibonacci load(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+    public static Fibonacci load(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         return new Fibonacci(contractAddress, web3j, transactionManager, contractGasProvider);
     }
 

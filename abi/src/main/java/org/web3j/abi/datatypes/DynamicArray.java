@@ -20,33 +20,33 @@ public class DynamicArray<T extends Type> extends Array<T> {
     @Deprecated
     @SafeVarargs
     @SuppressWarnings({"unchecked"})
-    public DynamicArray(T... values) {
+    public DynamicArray(final T... values) {
         super((Class<T>) AbiTypes.getType(values[0].getTypeAsString()), values);
     }
 
     @Deprecated
     @SuppressWarnings("unchecked")
-    public DynamicArray(List<T> values) {
+    public DynamicArray(final List<T> values) {
         super((Class<T>) AbiTypes.getType(values.get(0).getTypeAsString()), values);
     }
 
     @Deprecated
     @SuppressWarnings("unchecked")
-    private DynamicArray(String type) {
+    private DynamicArray(final String type) {
         super((Class<T>) AbiTypes.getType(type));
     }
 
     @Deprecated
-    public static DynamicArray empty(String type) {
+    public static DynamicArray empty(final String type) {
         return new DynamicArray(type);
     }
 
-    public DynamicArray(Class<T> type, List<T> values) {
+    public DynamicArray(final Class<T> type, final List<T> values) {
         super(type, values);
     }
 
     @SafeVarargs
-    public DynamicArray(Class<T> type, T... values) {
+    public DynamicArray(final Class<T> type, final T... values) {
         super(type, values);
     }
 

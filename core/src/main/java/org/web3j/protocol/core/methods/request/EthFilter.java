@@ -31,7 +31,9 @@ public class EthFilter extends Filter<EthFilter> {
     }
 
     public EthFilter(
-            DefaultBlockParameter fromBlock, DefaultBlockParameter toBlock, List<String> address) {
+            final DefaultBlockParameter fromBlock,
+            final DefaultBlockParameter toBlock,
+            final List<String> address) {
         super();
         this.fromBlock = fromBlock;
         this.toBlock = toBlock;
@@ -39,7 +41,9 @@ public class EthFilter extends Filter<EthFilter> {
     }
 
     public EthFilter(
-            DefaultBlockParameter fromBlock, DefaultBlockParameter toBlock, String address) {
+            final DefaultBlockParameter fromBlock,
+            final DefaultBlockParameter toBlock,
+            final String address) {
         this(fromBlock, toBlock, Arrays.asList(address));
     }
 

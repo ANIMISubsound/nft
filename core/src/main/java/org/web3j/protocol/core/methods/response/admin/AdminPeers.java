@@ -32,14 +32,14 @@ public class AdminPeers extends Response<List<AdminPeers.Peer>> {
     @JsonIgnoreProperties(ignoreUnknown = true)
     @Override
     @JsonDeserialize(using = AdminPeers.ResponseDeserialiser.class)
-    public void setResult(List<Peer> result) {
+    public void setResult(final List<Peer> result) {
         super.setResult(result);
     }
 
     public static class Peer {
         public Peer() {}
 
-        public Peer(String id, String name, PeerNetwork network) {
+        public Peer(final String id, final String name, final PeerNetwork network) {
             this.id = id;
             this.name = name;
             this.network = network;
@@ -69,7 +69,7 @@ public class AdminPeers extends Response<List<AdminPeers.Peer>> {
         private String localAddress;
         private String remoteAddress;
 
-        public PeerNetwork(String localAddress, String remoteAddress) {
+        public PeerNetwork(final String localAddress, final String remoteAddress) {
             this.localAddress = localAddress;
             this.remoteAddress = remoteAddress;
         }
@@ -85,11 +85,11 @@ public class AdminPeers extends Response<List<AdminPeers.Peer>> {
 
     public static class ResponseDeserialiser extends JsonDeserializer<List<Peer>> {
 
-        private ObjectReader objectReader = ObjectMapperFactory.getObjectReader();
+        private final ObjectReader objectReader = ObjectMapperFactory.getObjectReader();
 
         @Override
         public List<Peer> deserialize(
-                JsonParser jsonParser, DeserializationContext deserializationContext)
+                final JsonParser jsonParser, final DeserializationContext deserializationContext)
                 throws IOException {
             if (jsonParser.getCurrentToken() != JsonToken.VALUE_NULL) {
                 return objectReader.readValue(jsonParser, new TypeReference<List<Peer>>() {});

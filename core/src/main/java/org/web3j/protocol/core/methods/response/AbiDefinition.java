@@ -47,7 +47,7 @@ public class AbiDefinition {
 
     public AbiDefinition() {}
 
-    public AbiDefinition(AbiDefinition from) {
+    public AbiDefinition(final AbiDefinition from) {
         this(
                 from.constant,
                 clone(from.inputs),
@@ -59,23 +59,23 @@ public class AbiDefinition {
     }
 
     public AbiDefinition(
-            boolean constant,
-            List<NamedType> inputs,
-            String name,
-            List<NamedType> outputs,
-            String type,
-            boolean payable) {
+            final boolean constant,
+            final List<NamedType> inputs,
+            final String name,
+            final List<NamedType> outputs,
+            final String type,
+            final boolean payable) {
         this(constant, inputs, name, outputs, type, payable, null);
     }
 
     public AbiDefinition(
-            boolean constant,
-            List<NamedType> inputs,
-            String name,
-            List<NamedType> outputs,
-            String type,
-            boolean payable,
-            String stateMutability) {
+            final boolean constant,
+            final List<NamedType> inputs,
+            final String name,
+            final List<NamedType> outputs,
+            final String type,
+            final boolean payable,
+            final String stateMutability) {
         this.constant = constant;
         this.inputs = inputs;
         this.name = name;
@@ -89,7 +89,7 @@ public class AbiDefinition {
         return constant;
     }
 
-    public void setConstant(boolean constant) {
+    public void setConstant(final boolean constant) {
         this.constant = constant;
     }
 
@@ -97,7 +97,7 @@ public class AbiDefinition {
         return inputs;
     }
 
-    public void setInputs(List<NamedType> inputs) {
+    public void setInputs(final List<NamedType> inputs) {
         this.inputs = inputs;
     }
 
@@ -105,7 +105,7 @@ public class AbiDefinition {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -117,7 +117,7 @@ public class AbiDefinition {
         return !outputs.isEmpty();
     }
 
-    public void setOutputs(List<NamedType> outputs) {
+    public void setOutputs(final List<NamedType> outputs) {
         this.outputs = outputs;
     }
 
@@ -125,7 +125,7 @@ public class AbiDefinition {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
@@ -133,7 +133,7 @@ public class AbiDefinition {
         return payable;
     }
 
-    public void setPayable(boolean payable) {
+    public void setPayable(final boolean payable) {
         this.payable = payable;
     }
 
@@ -141,12 +141,12 @@ public class AbiDefinition {
         return stateMutability;
     }
 
-    public void setStateMutability(String stateMutability) {
+    public void setStateMutability(final String stateMutability) {
         this.stateMutability = stateMutability;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
@@ -154,7 +154,7 @@ public class AbiDefinition {
             return false;
         }
 
-        AbiDefinition that = (AbiDefinition) o;
+        final AbiDefinition that = (AbiDefinition) o;
 
         if (isConstant() != that.isConstant()) {
             return false;
@@ -202,16 +202,16 @@ public class AbiDefinition {
 
         public NamedType() {}
 
-        public NamedType(NamedType from) {
+        public NamedType(final NamedType from) {
             this(from.name, from.type, from.indexed);
         }
 
-        public NamedType(String name, String type) {
+        public NamedType(final String name, final String type) {
             this.name = name;
             this.type = type;
         }
 
-        public NamedType(String name, String type, boolean indexed) {
+        public NamedType(final String name, final String type, final boolean indexed) {
             this.name = name;
             this.type = type;
             this.indexed = indexed;
@@ -221,7 +221,7 @@ public class AbiDefinition {
             return name;
         }
 
-        public void setName(String name) {
+        public void setName(final String name) {
             this.name = name;
         }
 
@@ -229,7 +229,7 @@ public class AbiDefinition {
             return type;
         }
 
-        public void setType(String type) {
+        public void setType(final String type) {
             this.type = type;
         }
 
@@ -237,12 +237,12 @@ public class AbiDefinition {
             return indexed;
         }
 
-        public void setIndexed(boolean indexed) {
+        public void setIndexed(final boolean indexed) {
             this.indexed = indexed;
         }
 
         @Override
-        public boolean equals(Object o) {
+        public boolean equals(final Object o) {
             if (this == o) {
                 return true;
             }
@@ -250,7 +250,7 @@ public class AbiDefinition {
                 return false;
             }
 
-            NamedType namedType = (NamedType) o;
+            final NamedType namedType = (NamedType) o;
 
             if (isIndexed() != namedType.isIndexed()) {
                 return false;

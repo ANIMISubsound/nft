@@ -33,32 +33,38 @@ public class TransactionEncoder {
     private static final int CHAIN_ID_INC = 35;
     private static final int LOWER_REAL_V = 27;
 
-    public static byte[] signMessage(RawTransaction rawTransaction, Credentials credentials) {
-        byte[] encodedTransaction = encode(rawTransaction);
-        Sign.SignatureData signatureData =
+    public static byte[] signMessage(
+            final RawTransaction rawTransaction, final Credentials credentials) {
+        final byte[] encodedTransaction = encode(rawTransaction);
+        final Sign.SignatureData signatureData =
                 Sign.signMessage(encodedTransaction, credentials.getEcKeyPair());
 
         return encode(rawTransaction, signatureData);
     }
 
     public static byte[] signMessage(
-            RawTransaction rawTransaction, long chainId, Credentials credentials) {
-        byte[] encodedTransaction = encode(rawTransaction, chainId);
-        Sign.SignatureData signatureData =
+            final RawTransaction rawTransaction,
+            final long chainId,
+            final Credentials credentials) {
+        final byte[] encodedTransaction = encode(rawTransaction, chainId);
+        final Sign.SignatureData signatureData =
                 Sign.signMessage(encodedTransaction, credentials.getEcKeyPair());
 
-        Sign.SignatureData eip155SignatureData = createEip155SignatureData(signatureData, chainId);
+        final Sign.SignatureData eip155SignatureData =
+                createEip155SignatureData(signatureData, chainId);
         return encode(rawTransaction, eip155SignatureData);
     }
 
     @Deprecated
     public static byte[] signMessage(
-            RawTransaction rawTransaction, byte chainId, Credentials credentials) {
+            final RawTransaction rawTransaction,
+            final byte chainId,
+            final Credentials credentials) {
         return signMessage(rawTransaction, (long) chainId, credentials);
     }
 
     public static Sign.SignatureData createEip155SignatureData(
-            Sign.SignatureData signatureData, long chainId) {
+            final Sign.SignatureData signatureData, final long chainId) {
         BigInteger v = Numeric.toBigInt(signatureData.getV());
         v = v.subtract(BigInteger.valueOf(LOWER_REAL_V));
         v = v.add(BigInteger.valueOf(chainId * 2));
@@ -69,47 +75,48 @@ public class TransactionEncoder {
 
     @Deprecated
     public static Sign.SignatureData createEip155SignatureData(
-            Sign.SignatureData signatureData, byte chainId) {
+            final Sign.SignatureData signatureData, final byte chainId) {
         return createEip155SignatureData(signatureData, (long) chainId);
     }
 
-    public static byte[] encode(RawTransaction rawTransaction) {
+    public static byte[] encode(final RawTransaction rawTransaction) {
         return encode(rawTransaction, null);
     }
 
-    public static byte[] encode(RawTransaction rawTransaction, long chainId) {
-        Sign.SignatureData signatureData =
+    public static byte[] encode(final RawTransaction rawTransaction, final long chainId) {
+        final Sign.SignatureData signatureData =
                 new Sign.SignatureData(longToBytes(chainId), new byte[] {}, new byte[] {});
         return encode(rawTransaction, signatureData);
     }
 
     @Deprecated
-    public static byte[] encode(RawTransaction rawTransaction, byte chainId) {
+    public static byte[] encode(final RawTransaction rawTransaction, final byte chainId) {
         return encode(rawTransaction, (long) chainId);
     }
 
-    private static byte[] encode(RawTransaction rawTransaction, Sign.SignatureData signatureData) {
-        List<RlpType> values = asRlpValues(rawTransaction, signatureData);
-        RlpList rlpList = new RlpList(values);
+    private static byte[] encode(
+            final RawTransaction rawTransaction, final Sign.SignatureData signatureData) {
+        final List<RlpType> values = asRlpValues(rawTransaction, signatureData);
+        final RlpList rlpList = new RlpList(values);
         return RlpEncoder.encode(rlpList);
     }
 
-    private static byte[] longToBytes(long x) {
-        ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
+    private static byte[] longToBytes(final long x) {
+        final ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
         buffer.putLong(x);
         return buffer.array();
     }
 
     public static List<RlpType> asRlpValues(
-            RawTransaction rawTransaction, Sign.SignatureData signatureData) {
-        List<RlpType> result = new ArrayList<>();
+            final RawTransaction rawTransaction, final Sign.SignatureData signatureData) {
+        final List<RlpType> result = new ArrayList<>();
 
         result.add(RlpString.create(rawTransaction.getNonce()));
         result.add(RlpString.create(rawTransaction.getGasPrice()));
         result.add(RlpString.create(rawTransaction.getGasLimit()));
 
         // an empty to address (contract creation) should not be encoded as a numeric 0 value
-        String to = rawTransaction.getTo();
+        final String to = rawTransaction.getTo();
         if (to != null && to.length() > 0) {
             // addresses that start with zeros should be encoded with the zeros included, not
             // as numeric values
@@ -121,7 +128,7 @@ public class TransactionEncoder {
         result.add(RlpString.create(rawTransaction.getValue()));
 
         // value field will already be hex encoded, so we need to convert into binary first
-        byte[] data = Numeric.hexStringToByteArray(rawTransaction.getData());
+        final byte[] data = Numeric.hexStringToByteArray(rawTransaction.getData());
         result.add(RlpString.create(data));
 
         // add gas premium and fee cap if this is an EIP-1559 transaction

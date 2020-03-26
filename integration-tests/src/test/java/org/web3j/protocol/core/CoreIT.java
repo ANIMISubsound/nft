@@ -71,7 +71,7 @@ public class CoreIT {
 
     private Web3j web3j;
 
-    private IntegrationTestConfig config = new TestnetConfig();
+    private final IntegrationTestConfig config = new TestnetConfig();
 
     public CoreIT() {}
 
@@ -82,15 +82,15 @@ public class CoreIT {
 
     @Test
     public void testWeb3ClientVersion() throws Exception {
-        Web3ClientVersion web3ClientVersion = web3j.web3ClientVersion().send();
-        String clientVersion = web3ClientVersion.getWeb3ClientVersion();
+        final Web3ClientVersion web3ClientVersion = web3j.web3ClientVersion().send();
+        final String clientVersion = web3ClientVersion.getWeb3ClientVersion();
         System.out.println("Ethereum client version: " + clientVersion);
         assertFalse(clientVersion.isEmpty());
     }
 
     @Test
     public void testWeb3Sha3() throws Exception {
-        Web3Sha3 web3Sha3 = web3j.web3Sha3("0x68656c6c6f20776f726c64").send();
+        final Web3Sha3 web3Sha3 = web3j.web3Sha3("0x68656c6c6f20776f726c64").send();
         assertEquals(
                 web3Sha3.getResult(),
                 ("0x47173285a8d7341e5e972fc677286384f802f8ef42a5ec5f03bbfa254cb01fad"));
@@ -98,73 +98,73 @@ public class CoreIT {
 
     @Test
     public void testNetVersion() throws Exception {
-        NetVersion netVersion = web3j.netVersion().send();
+        final NetVersion netVersion = web3j.netVersion().send();
         assertFalse(netVersion.getNetVersion().isEmpty());
     }
 
     @Test
     public void testNetListening() throws Exception {
-        NetListening netListening = web3j.netListening().send();
+        final NetListening netListening = web3j.netListening().send();
         assertTrue(netListening.isListening());
     }
 
     @Test
     public void testNetPeerCount() throws Exception {
-        NetPeerCount netPeerCount = web3j.netPeerCount().send();
+        final NetPeerCount netPeerCount = web3j.netPeerCount().send();
         assertTrue(netPeerCount.getQuantity().signum() == 1);
     }
 
     @Test
     public void testEthProtocolVersion() throws Exception {
-        EthProtocolVersion ethProtocolVersion = web3j.ethProtocolVersion().send();
+        final EthProtocolVersion ethProtocolVersion = web3j.ethProtocolVersion().send();
         assertFalse(ethProtocolVersion.getProtocolVersion().isEmpty());
     }
 
     @Test
     public void testEthSyncing() throws Exception {
-        EthSyncing ethSyncing = web3j.ethSyncing().send();
+        final EthSyncing ethSyncing = web3j.ethSyncing().send();
         assertNotNull(ethSyncing.getResult());
     }
 
     @Test
     public void testEthCoinbase() throws Exception {
-        EthCoinbase ethCoinbase = web3j.ethCoinbase().send();
+        final EthCoinbase ethCoinbase = web3j.ethCoinbase().send();
         assertNotNull(ethCoinbase.getAddress());
     }
 
     @Test
     public void testEthMining() throws Exception {
-        EthMining ethMining = web3j.ethMining().send();
+        final EthMining ethMining = web3j.ethMining().send();
         assertNotNull(ethMining.getResult());
     }
 
     @Test
     public void testEthHashrate() throws Exception {
-        EthHashrate ethHashrate = web3j.ethHashrate().send();
+        final EthHashrate ethHashrate = web3j.ethHashrate().send();
         assertEquals(ethHashrate.getHashrate(), (BigInteger.ZERO));
     }
 
     @Test
     public void testEthGasPrice() throws Exception {
-        EthGasPrice ethGasPrice = web3j.ethGasPrice().send();
+        final EthGasPrice ethGasPrice = web3j.ethGasPrice().send();
         assertTrue(ethGasPrice.getGasPrice().signum() == 1);
     }
 
     @Test
     public void testEthAccounts() throws Exception {
-        EthAccounts ethAccounts = web3j.ethAccounts().send();
+        final EthAccounts ethAccounts = web3j.ethAccounts().send();
         assertNotNull(ethAccounts.getAccounts());
     }
 
     @Test
     public void testEthBlockNumber() throws Exception {
-        EthBlockNumber ethBlockNumber = web3j.ethBlockNumber().send();
+        final EthBlockNumber ethBlockNumber = web3j.ethBlockNumber().send();
         assertTrue(ethBlockNumber.getBlockNumber().signum() == 1);
     }
 
     @Test
     public void testEthGetBalance() throws Exception {
-        EthGetBalance ethGetBalance =
+        final EthGetBalance ethGetBalance =
                 web3j.ethGetBalance(config.validAccount(), DefaultBlockParameter.valueOf("latest"))
                         .send();
         assertTrue(ethGetBalance.getBalance().signum() == 1);
@@ -172,7 +172,7 @@ public class CoreIT {
 
     @Test
     public void testEthGetStorageAt() throws Exception {
-        EthGetStorageAt ethGetStorageAt =
+        final EthGetStorageAt ethGetStorageAt =
                 web3j.ethGetStorageAt(
                                 config.validContractAddress(),
                                 BigInteger.valueOf(0),
@@ -183,7 +183,7 @@ public class CoreIT {
 
     @Test
     public void testEthGetTransactionCount() throws Exception {
-        EthGetTransactionCount ethGetTransactionCount =
+        final EthGetTransactionCount ethGetTransactionCount =
                 web3j.ethGetTransactionCount(
                                 config.validAccount(), DefaultBlockParameter.valueOf("latest"))
                         .send();
@@ -192,7 +192,7 @@ public class CoreIT {
 
     @Test
     public void testEthGetBlockTransactionCountByHash() throws Exception {
-        EthGetBlockTransactionCountByHash ethGetBlockTransactionCountByHash =
+        final EthGetBlockTransactionCountByHash ethGetBlockTransactionCountByHash =
                 web3j.ethGetBlockTransactionCountByHash(config.validBlockHash()).send();
         assertEquals(
                 ethGetBlockTransactionCountByHash.getTransactionCount(),
@@ -201,7 +201,7 @@ public class CoreIT {
 
     @Test
     public void testEthGetBlockTransactionCountByNumber() throws Exception {
-        EthGetBlockTransactionCountByNumber ethGetBlockTransactionCountByNumber =
+        final EthGetBlockTransactionCountByNumber ethGetBlockTransactionCountByNumber =
                 web3j.ethGetBlockTransactionCountByNumber(
                                 DefaultBlockParameter.valueOf(config.validBlock()))
                         .send();
@@ -212,14 +212,14 @@ public class CoreIT {
 
     @Test
     public void testEthGetUncleCountByBlockHash() throws Exception {
-        EthGetUncleCountByBlockHash ethGetUncleCountByBlockHash =
+        final EthGetUncleCountByBlockHash ethGetUncleCountByBlockHash =
                 web3j.ethGetUncleCountByBlockHash(config.validBlockHash()).send();
         assertEquals(ethGetUncleCountByBlockHash.getUncleCount(), (config.validBlockUncleCount()));
     }
 
     @Test
     public void testEthGetUncleCountByBlockNumber() throws Exception {
-        EthGetUncleCountByBlockNumber ethGetUncleCountByBlockNumber =
+        final EthGetUncleCountByBlockNumber ethGetUncleCountByBlockNumber =
                 web3j.ethGetUncleCountByBlockNumber(DefaultBlockParameter.valueOf("latest")).send();
         assertEquals(
                 ethGetUncleCountByBlockNumber.getUncleCount(), (config.validBlockUncleCount()));
@@ -227,7 +227,7 @@ public class CoreIT {
 
     @Test
     public void testEthGetCode() throws Exception {
-        EthGetCode ethGetCode =
+        final EthGetCode ethGetCode =
                 web3j.ethGetCode(
                                 config.validContractAddress(),
                                 DefaultBlockParameter.valueOf(config.validBlock()))
@@ -244,7 +244,7 @@ public class CoreIT {
     @Disabled // TODO: Once account unlock functionality is available
     @Test
     public void testEthSendTransaction() throws Exception {
-        EthSendTransaction ethSendTransaction =
+        final EthSendTransaction ethSendTransaction =
                 web3j.ethSendTransaction(config.buildTransaction()).send();
         assertFalse(ethSendTransaction.getTransactionHash().isEmpty());
     }
@@ -255,7 +255,7 @@ public class CoreIT {
 
     @Test
     public void testEthCall() throws Exception {
-        EthCall ethCall =
+        final EthCall ethCall =
                 web3j.ethCall(config.buildTransaction(), DefaultBlockParameter.valueOf("latest"))
                         .send();
 
@@ -265,15 +265,16 @@ public class CoreIT {
 
     @Test
     public void testEthEstimateGas() throws Exception {
-        EthEstimateGas ethEstimateGas = web3j.ethEstimateGas(config.buildTransaction()).send();
+        final EthEstimateGas ethEstimateGas =
+                web3j.ethEstimateGas(config.buildTransaction()).send();
         assertTrue(ethEstimateGas.getAmountUsed().signum() == 1);
     }
 
     @Test
     public void testEthGetBlockByHashReturnHashObjects() throws Exception {
-        EthBlock ethBlock = web3j.ethGetBlockByHash(config.validBlockHash(), false).send();
+        final EthBlock ethBlock = web3j.ethGetBlockByHash(config.validBlockHash(), false).send();
 
-        EthBlock.Block block = ethBlock.getBlock();
+        final EthBlock.Block block = ethBlock.getBlock();
         assertNotNull(ethBlock.getBlock());
         assertEquals(block.getNumber(), (config.validBlock()));
         assertEquals(
@@ -282,9 +283,9 @@ public class CoreIT {
 
     @Test
     public void testEthGetBlockByHashReturnFullTransactionObjects() throws Exception {
-        EthBlock ethBlock = web3j.ethGetBlockByHash(config.validBlockHash(), true).send();
+        final EthBlock ethBlock = web3j.ethGetBlockByHash(config.validBlockHash(), true).send();
 
-        EthBlock.Block block = ethBlock.getBlock();
+        final EthBlock.Block block = ethBlock.getBlock();
         assertNotNull(ethBlock.getBlock());
         assertEquals(block.getNumber(), (config.validBlock()));
         assertEquals(
@@ -293,11 +294,11 @@ public class CoreIT {
 
     @Test
     public void testEthGetBlockByNumberReturnHashObjects() throws Exception {
-        EthBlock ethBlock =
+        final EthBlock ethBlock =
                 web3j.ethGetBlockByNumber(DefaultBlockParameter.valueOf(config.validBlock()), false)
                         .send();
 
-        EthBlock.Block block = ethBlock.getBlock();
+        final EthBlock.Block block = ethBlock.getBlock();
         assertNotNull(ethBlock.getBlock());
         assertEquals(block.getNumber(), (config.validBlock()));
         assertEquals(
@@ -306,11 +307,11 @@ public class CoreIT {
 
     @Test
     public void testEthGetBlockByNumberReturnTransactionObjects() throws Exception {
-        EthBlock ethBlock =
+        final EthBlock ethBlock =
                 web3j.ethGetBlockByNumber(DefaultBlockParameter.valueOf(config.validBlock()), true)
                         .send();
 
-        EthBlock.Block block = ethBlock.getBlock();
+        final EthBlock.Block block = ethBlock.getBlock();
         assertNotNull(ethBlock.getBlock());
         assertEquals(block.getNumber(), (config.validBlock()));
         assertEquals(
@@ -319,52 +320,52 @@ public class CoreIT {
 
     @Test
     public void testEthGetTransactionByHash() throws Exception {
-        EthTransaction ethTransaction =
+        final EthTransaction ethTransaction =
                 web3j.ethGetTransactionByHash(config.validTransactionHash()).send();
         assertTrue(ethTransaction.getTransaction().isPresent());
-        Transaction transaction = ethTransaction.getTransaction().get();
+        final Transaction transaction = ethTransaction.getTransaction().get();
         assertEquals(transaction.getBlockHash(), (config.validBlockHash()));
     }
 
     @Test
     public void testEthGetTransactionByBlockHashAndIndex() throws Exception {
-        BigInteger index = BigInteger.ONE;
+        final BigInteger index = BigInteger.ONE;
 
-        EthTransaction ethTransaction =
+        final EthTransaction ethTransaction =
                 web3j.ethGetTransactionByBlockHashAndIndex(config.validBlockHash(), index).send();
         assertTrue(ethTransaction.getTransaction().isPresent());
-        Transaction transaction = ethTransaction.getTransaction().get();
+        final Transaction transaction = ethTransaction.getTransaction().get();
         assertEquals(transaction.getBlockHash(), (config.validBlockHash()));
         assertEquals(transaction.getTransactionIndex(), (index));
     }
 
     @Test
     public void testEthGetTransactionByBlockNumberAndIndex() throws Exception {
-        BigInteger index = BigInteger.ONE;
+        final BigInteger index = BigInteger.ONE;
 
-        EthTransaction ethTransaction =
+        final EthTransaction ethTransaction =
                 web3j.ethGetTransactionByBlockNumberAndIndex(
                                 DefaultBlockParameter.valueOf(config.validBlock()), index)
                         .send();
         assertTrue(ethTransaction.getTransaction().isPresent());
-        Transaction transaction = ethTransaction.getTransaction().get();
+        final Transaction transaction = ethTransaction.getTransaction().get();
         assertEquals(transaction.getBlockHash(), (config.validBlockHash()));
         assertEquals(transaction.getTransactionIndex(), (index));
     }
 
     @Test
     public void testEthGetTransactionReceipt() throws Exception {
-        EthGetTransactionReceipt ethGetTransactionReceipt =
+        final EthGetTransactionReceipt ethGetTransactionReceipt =
                 web3j.ethGetTransactionReceipt(config.validTransactionHash()).send();
         assertTrue(ethGetTransactionReceipt.getTransactionReceipt().isPresent());
-        TransactionReceipt transactionReceipt =
+        final TransactionReceipt transactionReceipt =
                 ethGetTransactionReceipt.getTransactionReceipt().get();
         assertEquals(transactionReceipt.getTransactionHash(), (config.validTransactionHash()));
     }
 
     @Test
     public void testEthGetUncleByBlockHashAndIndex() throws Exception {
-        EthBlock ethBlock =
+        final EthBlock ethBlock =
                 web3j.ethGetUncleByBlockHashAndIndex(config.validUncleBlockHash(), BigInteger.ZERO)
                         .send();
         assertNotNull(ethBlock.getBlock());
@@ -372,7 +373,7 @@ public class CoreIT {
 
     @Test
     public void testEthGetUncleByBlockNumberAndIndex() throws Exception {
-        EthBlock ethBlock =
+        final EthBlock ethBlock =
                 web3j.ethGetUncleByBlockNumberAndIndex(
                                 DefaultBlockParameter.valueOf(config.validUncleBlock()),
                                 BigInteger.ZERO)
@@ -382,26 +383,27 @@ public class CoreIT {
 
     @Test
     public void testEthGetCompilers() throws Exception {
-        EthGetCompilers ethGetCompilers = web3j.ethGetCompilers().send();
+        final EthGetCompilers ethGetCompilers = web3j.ethGetCompilers().send();
         assertNotNull(ethGetCompilers.getCompilers());
     }
 
     @Disabled // The method eth_compileLLL does not exist/is not available
     @Test
     public void testEthCompileLLL() throws Exception {
-        EthCompileLLL ethCompileLLL = web3j.ethCompileLLL("(returnlll (suicide (caller)))").send();
+        final EthCompileLLL ethCompileLLL =
+                web3j.ethCompileLLL("(returnlll (suicide (caller)))").send();
         assertFalse(ethCompileLLL.getCompiledSourceCode().isEmpty());
     }
 
     @Test
     public void testEthCompileSolidity() throws Exception {
-        String sourceCode =
+        final String sourceCode =
                 "pragma solidity ^0.4.0;"
                         + "\ncontract test { function multiply(uint a) returns(uint d) {"
                         + "   return a * 7;   } }"
                         + "\ncontract test2 { function multiply2(uint a) returns(uint d) {"
                         + "   return a * 7;   } }";
-        EthCompileSolidity ethCompileSolidity = web3j.ethCompileSolidity(sourceCode).send();
+        final EthCompileSolidity ethCompileSolidity = web3j.ethCompileSolidity(sourceCode).send();
         assertNotNull(ethCompileSolidity.getCompiledSolidity());
         assertEquals(
                 ethCompileSolidity.getCompiledSolidity().get("test2").getInfo().getSource(),
@@ -411,54 +413,56 @@ public class CoreIT {
     @Disabled // The method eth_compileSerpent does not exist/is not available
     @Test
     public void testEthCompileSerpent() throws Exception {
-        EthCompileSerpent ethCompileSerpent = web3j.ethCompileSerpent("/* some serpent */").send();
+        final EthCompileSerpent ethCompileSerpent =
+                web3j.ethCompileSerpent("/* some serpent */").send();
         assertFalse(ethCompileSerpent.getCompiledSourceCode().isEmpty());
     }
 
     @Test
     public void testFiltersByFilterId() throws Exception {
-        org.web3j.protocol.core.methods.request.EthFilter ethFilter =
+        final org.web3j.protocol.core.methods.request.EthFilter ethFilter =
                 new org.web3j.protocol.core.methods.request.EthFilter(
                         DefaultBlockParameterName.EARLIEST,
                         DefaultBlockParameterName.LATEST,
                         config.validContractAddress());
 
-        String eventSignature = config.encodedEvent();
+        final String eventSignature = config.encodedEvent();
         ethFilter.addSingleTopic(eventSignature);
 
         // eth_newFilter
-        EthFilter ethNewFilter = web3j.ethNewFilter(ethFilter).send();
-        BigInteger filterId = ethNewFilter.getFilterId();
+        final EthFilter ethNewFilter = web3j.ethNewFilter(ethFilter).send();
+        final BigInteger filterId = ethNewFilter.getFilterId();
 
         // eth_getFilterLogs
-        EthLog ethFilterLogs = web3j.ethGetFilterLogs(filterId).send();
-        List<EthLog.LogResult> filterLogs = ethFilterLogs.getLogs();
+        final EthLog ethFilterLogs = web3j.ethGetFilterLogs(filterId).send();
+        final List<EthLog.LogResult> filterLogs = ethFilterLogs.getLogs();
         assertFalse(filterLogs.isEmpty());
 
         // eth_getFilterChanges - nothing will have changed in this interval
-        EthLog ethLog = web3j.ethGetFilterChanges(filterId).send();
+        final EthLog ethLog = web3j.ethGetFilterChanges(filterId).send();
         assertTrue(ethLog.getLogs().isEmpty());
 
         // eth_uninstallFilter
-        EthUninstallFilter ethUninstallFilter = web3j.ethUninstallFilter(filterId).send();
+        final EthUninstallFilter ethUninstallFilter = web3j.ethUninstallFilter(filterId).send();
         assertTrue(ethUninstallFilter.isUninstalled());
     }
 
     @Test
     public void testEthNewBlockFilter() throws Exception {
-        EthFilter ethNewBlockFilter = web3j.ethNewBlockFilter().send();
+        final EthFilter ethNewBlockFilter = web3j.ethNewBlockFilter().send();
         assertNotNull(ethNewBlockFilter.getFilterId());
     }
 
     @Test
     public void testEthNewPendingTransactionFilter() throws Exception {
-        EthFilter ethNewPendingTransactionFilter = web3j.ethNewPendingTransactionFilter().send();
+        final EthFilter ethNewPendingTransactionFilter =
+                web3j.ethNewPendingTransactionFilter().send();
         assertNotNull(ethNewPendingTransactionFilter.getFilterId());
     }
 
     @Test
     public void testEthGetLogs() throws Exception {
-        org.web3j.protocol.core.methods.request.EthFilter ethFilter =
+        final org.web3j.protocol.core.methods.request.EthFilter ethFilter =
                 new org.web3j.protocol.core.methods.request.EthFilter(
                         DefaultBlockParameterName.EARLIEST,
                         DefaultBlockParameterName.LATEST,
@@ -466,8 +470,8 @@ public class CoreIT {
 
         ethFilter.addSingleTopic(config.encodedEvent());
 
-        EthLog ethLog = web3j.ethGetLogs(ethFilter).send();
-        List<EthLog.LogResult> logs = ethLog.getLogs();
+        final EthLog ethLog = web3j.ethGetLogs(ethFilter).send();
+        final List<EthLog.LogResult> logs = ethLog.getLogs();
         assertFalse(logs.isEmpty());
     }
 
@@ -501,14 +505,14 @@ public class CoreIT {
     @Disabled // The method shh_version does not exist/is not available
     @Test
     public void testShhVersion() throws Exception {
-        ShhVersion shhVersion = web3j.shhVersion().send();
+        final ShhVersion shhVersion = web3j.shhVersion().send();
         assertNotNull(shhVersion.getVersion());
     }
 
     @Disabled // The method shh_newIdentity does not exist/is not available
     @Test
     public void testShhNewIdentity() throws Exception {
-        ShhNewIdentity shhNewIdentity = web3j.shhNewIdentity().send();
+        final ShhNewIdentity shhNewIdentity = web3j.shhNewIdentity().send();
         assertNotNull(shhNewIdentity.getAddress());
     }
 
@@ -518,7 +522,7 @@ public class CoreIT {
     @Disabled // The method shh_newIdentity does not exist/is not available
     @Test
     public void testShhNewGroup() throws Exception {
-        ShhNewGroup shhNewGroup = web3j.shhNewGroup().send();
+        final ShhNewGroup shhNewGroup = web3j.shhNewGroup().send();
         assertNotNull(shhNewGroup.getAddress());
     }
 

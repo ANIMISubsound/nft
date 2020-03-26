@@ -37,11 +37,11 @@ public class Greeter extends Contract {
 
     public static final String FUNC_GREET = "greet";
     
-    protected Greeter(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+    protected Greeter(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
     }
 
-    protected Greeter(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+    protected Greeter(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
     }
 
@@ -55,7 +55,7 @@ public class Greeter extends Contract {
                 false, gasProvider);
     }
 
-    public RemoteTransaction<Void> newGreeting(String _greeting) {
+    public RemoteTransaction<Void> newGreeting(final String _greeting) {
         final Function function = new Function(
                 FUNC_NEWGREETING, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Utf8String(_greeting)), 
@@ -72,21 +72,21 @@ public class Greeter extends Contract {
         return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public static RemoteCall<Greeter> deploy(Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider, String _greeting) {
-        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Utf8String(_greeting)));
+    public static RemoteCall<Greeter> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider, final String _greeting) {
+        final String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Utf8String(_greeting)));
         return deployRemoteCall(Greeter.class, web3j, credentials, contractGasProvider, BINARY, encodedConstructor);
     }
 
-    public static RemoteCall<Greeter> deploy(Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider, String _greeting) {
-        String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Utf8String(_greeting)));
+    public static RemoteCall<Greeter> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider, final String _greeting) {
+        final String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Utf8String(_greeting)));
         return deployRemoteCall(Greeter.class, web3j, transactionManager, contractGasProvider, BINARY, encodedConstructor);
     }
 
-    public static Greeter load(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+    public static Greeter load(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         return new Greeter(contractAddress, web3j, credentials, contractGasProvider);
     }
 
-    public static Greeter load(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+    public static Greeter load(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         return new Greeter(contractAddress, web3j, transactionManager, contractGasProvider);
     }
 }

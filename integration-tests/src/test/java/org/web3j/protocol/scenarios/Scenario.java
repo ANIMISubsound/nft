@@ -81,7 +81,7 @@ public class Scenario {
     }
 
     boolean unlockAccount() throws Exception {
-        PersonalUnlockAccount personalUnlockAccount =
+        final PersonalUnlockAccount personalUnlockAccount =
                 web3j.personalUnlockAccount(
                                 ALICE.getAddress(), WALLET_PASSWORD, ACCOUNT_UNLOCK_DURATION)
                         .sendAsync()
@@ -89,9 +89,9 @@ public class Scenario {
         return personalUnlockAccount.accountUnlocked();
     }
 
-    TransactionReceipt waitForTransactionReceipt(String transactionHash) throws Exception {
+    TransactionReceipt waitForTransactionReceipt(final String transactionHash) throws Exception {
 
-        Optional<TransactionReceipt> transactionReceiptOptional =
+        final Optional<TransactionReceipt> transactionReceiptOptional =
                 getTransactionReceipt(transactionHash, SLEEP_DURATION, ATTEMPTS);
 
         if (!transactionReceiptOptional.isPresent()) {
@@ -102,7 +102,8 @@ public class Scenario {
     }
 
     private Optional<TransactionReceipt> getTransactionReceipt(
-            String transactionHash, int sleepDuration, int attempts) throws Exception {
+            final String transactionHash, final int sleepDuration, final int attempts)
+            throws Exception {
 
         Optional<TransactionReceipt> receiptOptional =
                 sendTransactionReceiptRequest(transactionHash);
@@ -118,16 +119,16 @@ public class Scenario {
         return receiptOptional;
     }
 
-    private Optional<TransactionReceipt> sendTransactionReceiptRequest(String transactionHash)
+    private Optional<TransactionReceipt> sendTransactionReceiptRequest(final String transactionHash)
             throws Exception {
-        EthGetTransactionReceipt transactionReceipt =
+        final EthGetTransactionReceipt transactionReceipt =
                 web3j.ethGetTransactionReceipt(transactionHash).sendAsync().get();
 
         return transactionReceipt.getTransactionReceipt();
     }
 
-    BigInteger getNonce(String address) throws Exception {
-        EthGetTransactionCount ethGetTransactionCount =
+    BigInteger getNonce(final String address) throws Exception {
+        final EthGetTransactionCount ethGetTransactionCount =
                 web3j.ethGetTransactionCount(address, DefaultBlockParameterName.LATEST)
                         .sendAsync()
                         .get();
@@ -142,9 +143,9 @@ public class Scenario {
                 Collections.singletonList(new TypeReference<Uint>() {}));
     }
 
-    static String load(String filePath) throws URISyntaxException, IOException {
-        URL url = Scenario.class.getClass().getResource(filePath);
-        byte[] bytes = Files.readAllBytes(Paths.get(url.toURI()));
+    static String load(final String filePath) throws URISyntaxException, IOException {
+        final URL url = Scenario.class.getClass().getResource(filePath);
+        final byte[] bytes = Files.readAllBytes(Paths.get(url.toURI()));
         return new String(bytes);
     }
 

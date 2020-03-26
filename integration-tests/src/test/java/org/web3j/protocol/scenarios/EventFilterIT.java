@@ -48,25 +48,26 @@ public class EventFilterIT extends Scenario {
     public void testEventFilter() throws Exception {
         unlockAccount();
 
-        Function function = createFibonacciFunction();
-        String encodedFunction = FunctionEncoder.encode(function);
+        final Function function = createFibonacciFunction();
+        final String encodedFunction = FunctionEncoder.encode(function);
 
-        BigInteger gas = estimateGas(encodedFunction);
-        String transactionHash = sendTransaction(ALICE, CONTRACT_ADDRESS, gas, encodedFunction);
+        final BigInteger gas = estimateGas(encodedFunction);
+        final String transactionHash =
+                sendTransaction(ALICE, CONTRACT_ADDRESS, gas, encodedFunction);
 
-        TransactionReceipt transactionReceipt = waitForTransactionReceipt(transactionHash);
+        final TransactionReceipt transactionReceipt = waitForTransactionReceipt(transactionHash);
 
         assertFalse(gas.equals(transactionReceipt.getGasUsed()));
 
-        List<Log> logs = transactionReceipt.getLogs();
+        final List<Log> logs = transactionReceipt.getLogs();
         assertFalse(logs.isEmpty());
 
-        Log log = logs.get(0);
+        final Log log = logs.get(0);
 
-        List<String> topics = log.getTopics();
+        final List<String> topics = log.getTopics();
         assertEquals(topics.size(), (1));
 
-        Event event =
+        final Event event =
                 new Event(
                         "Notify",
                         Arrays.asList(
@@ -74,11 +75,11 @@ public class EventFilterIT extends Scenario {
 
         // check function signature - we only have a single topic our event signature,
         // there are no indexed parameters in this example
-        String encodedEventSignature = EventEncoder.encode(event);
+        final String encodedEventSignature = EventEncoder.encode(event);
         assertEquals(topics.get(0), (encodedEventSignature));
 
         // verify our two event parameters
-        List<Type<?>> results =
+        final List<Type<?>> results =
                 FunctionReturnDecoder.decode(log.getData(), event.getNonIndexedParameters());
         assertEquals(
                 results,
@@ -86,13 +87,13 @@ public class EventFilterIT extends Scenario {
                         new Uint256(BigInteger.valueOf(7)), new Uint256(BigInteger.valueOf(13)))));
 
         // finally check it shows up in the event filter
-        List<EthLog.LogResult> filterLogs =
+        final List<EthLog.LogResult> filterLogs =
                 createFilterForEvent(encodedEventSignature, CONTRACT_ADDRESS);
         assertFalse(filterLogs.isEmpty());
     }
 
-    private BigInteger estimateGas(String encodedFunction) throws Exception {
-        EthEstimateGas ethEstimateGas =
+    private BigInteger estimateGas(final String encodedFunction) throws Exception {
+        final EthEstimateGas ethEstimateGas =
                 web3j.ethEstimateGas(
                                 Transaction.createEthCallTransaction(
                                         ALICE.getAddress(), null, encodedFunction))
@@ -104,10 +105,13 @@ public class EventFilterIT extends Scenario {
     }
 
     private String sendTransaction(
-            Credentials credentials, String contractAddress, BigInteger gas, String encodedFunction)
+            final Credentials credentials,
+            final String contractAddress,
+            final BigInteger gas,
+            final String encodedFunction)
             throws Exception {
-        BigInteger nonce = getNonce(credentials.getAddress());
-        Transaction transaction =
+        final BigInteger nonce = getNonce(credentials.getAddress());
+        final Transaction transaction =
                 Transaction.createFunctionCallTransaction(
                         credentials.getAddress(),
                         nonce,
@@ -116,7 +120,7 @@ public class EventFilterIT extends Scenario {
                         contractAddress,
                         encodedFunction);
 
-        org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse =
+        final org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse =
                 web3j.ethSendTransaction(transaction).sendAsync().get();
 
         assertFalse(transactionResponse.hasError());
@@ -125,8 +129,8 @@ public class EventFilterIT extends Scenario {
     }
 
     private List<EthLog.LogResult> createFilterForEvent(
-            String encodedEventSignature, String contractAddress) throws Exception {
-        EthFilter ethFilter =
+            final String encodedEventSignature, final String contractAddress) throws Exception {
+        final EthFilter ethFilter =
                 new EthFilter(
                         DefaultBlockParameterName.EARLIEST,
                         DefaultBlockParameterName.LATEST,
@@ -134,7 +138,7 @@ public class EventFilterIT extends Scenario {
 
         ethFilter.addSingleTopic(encodedEventSignature);
 
-        EthLog ethLog = web3j.ethGetLogs(ethFilter).send();
+        final EthLog ethLog = web3j.ethGetLogs(ethFilter).send();
         return ethLog.getLogs();
     }
 }

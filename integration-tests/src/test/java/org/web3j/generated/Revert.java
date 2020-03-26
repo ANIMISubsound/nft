@@ -36,15 +36,15 @@ public class Revert extends Contract {
 
     public static final String FUNC_GET = "get";
 
-    protected Revert(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+    protected Revert(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
     }
 
-    protected Revert(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+    protected Revert(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
     }
 
-    public RemoteTransaction<Void> set(BigInteger _number) {
+    public RemoteTransaction<Void> set(final BigInteger _number) {
         final Function function = new Function(
                 FUNC_SET, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.Uint256(_number)), 
@@ -61,19 +61,19 @@ public class Revert extends Contract {
         return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public static Revert load(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+    public static Revert load(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         return new Revert(contractAddress, web3j, credentials, contractGasProvider);
     }
 
-    public static Revert load(String contractAddress, Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+    public static Revert load(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         return new Revert(contractAddress, web3j, transactionManager, contractGasProvider);
     }
 
-    public static RemoteCall<Revert> deploy(Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {
+    public static RemoteCall<Revert> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(Revert.class, web3j, credentials, contractGasProvider, BINARY, "");
     }
 
-    public static RemoteCall<Revert> deploy(Web3j web3j, TransactionManager transactionManager, ContractGasProvider contractGasProvider) {
+    public static RemoteCall<Revert> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(Revert.class, web3j, transactionManager, contractGasProvider, BINARY, "");
     }
 }

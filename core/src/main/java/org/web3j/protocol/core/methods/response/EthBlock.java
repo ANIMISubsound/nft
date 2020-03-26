@@ -49,7 +49,7 @@ public class EthBlock extends Response<EthBlock.Block> {
 
     @Override
     @JsonDeserialize(using = EthBlock.ResponseDeserialiser.class)
-    public void setResult(Block result) {
+    public void setResult(final Block result) {
         super.setResult(result);
     }
 
@@ -84,28 +84,28 @@ public class EthBlock extends Response<EthBlock.Block> {
         public Block() {}
 
         public Block(
-                String number,
-                String hash,
-                String parentHash,
-                String nonce,
-                String sha3Uncles,
-                String logsBloom,
-                String transactionsRoot,
-                String stateRoot,
-                String receiptsRoot,
-                String author,
-                String miner,
-                String mixHash,
-                String difficulty,
-                String totalDifficulty,
-                String extraData,
-                String size,
-                String gasLimit,
-                String gasUsed,
-                String timestamp,
-                List<TransactionResult> transactions,
-                List<String> uncles,
-                List<String> sealFields) {
+                final String number,
+                final String hash,
+                final String parentHash,
+                final String nonce,
+                final String sha3Uncles,
+                final String logsBloom,
+                final String transactionsRoot,
+                final String stateRoot,
+                final String receiptsRoot,
+                final String author,
+                final String miner,
+                final String mixHash,
+                final String difficulty,
+                final String totalDifficulty,
+                final String extraData,
+                final String size,
+                final String gasLimit,
+                final String gasUsed,
+                final String timestamp,
+                final List<TransactionResult> transactions,
+                final List<String> uncles,
+                final List<String> sealFields) {
             this.number = number;
             this.hash = hash;
             this.parentHash = parentHash;
@@ -138,7 +138,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return number;
         }
 
-        public void setNumber(String number) {
+        public void setNumber(final String number) {
             this.number = number;
         }
 
@@ -146,7 +146,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return hash;
         }
 
-        public void setHash(String hash) {
+        public void setHash(final String hash) {
             this.hash = hash;
         }
 
@@ -154,7 +154,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return parentHash;
         }
 
-        public void setParentHash(String parentHash) {
+        public void setParentHash(final String parentHash) {
             this.parentHash = parentHash;
         }
 
@@ -166,7 +166,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return nonce;
         }
 
-        public void setNonce(String nonce) {
+        public void setNonce(final String nonce) {
             this.nonce = nonce;
         }
 
@@ -174,7 +174,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return sha3Uncles;
         }
 
-        public void setSha3Uncles(String sha3Uncles) {
+        public void setSha3Uncles(final String sha3Uncles) {
             this.sha3Uncles = sha3Uncles;
         }
 
@@ -182,7 +182,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return logsBloom;
         }
 
-        public void setLogsBloom(String logsBloom) {
+        public void setLogsBloom(final String logsBloom) {
             this.logsBloom = logsBloom;
         }
 
@@ -190,7 +190,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return transactionsRoot;
         }
 
-        public void setTransactionsRoot(String transactionsRoot) {
+        public void setTransactionsRoot(final String transactionsRoot) {
             this.transactionsRoot = transactionsRoot;
         }
 
@@ -198,7 +198,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return stateRoot;
         }
 
-        public void setStateRoot(String stateRoot) {
+        public void setStateRoot(final String stateRoot) {
             this.stateRoot = stateRoot;
         }
 
@@ -206,7 +206,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return receiptsRoot;
         }
 
-        public void setReceiptsRoot(String receiptsRoot) {
+        public void setReceiptsRoot(final String receiptsRoot) {
             this.receiptsRoot = receiptsRoot;
         }
 
@@ -214,7 +214,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return author;
         }
 
-        public void setAuthor(String author) {
+        public void setAuthor(final String author) {
             this.author = author;
         }
 
@@ -222,7 +222,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return miner;
         }
 
-        public void setMiner(String miner) {
+        public void setMiner(final String miner) {
             this.miner = miner;
         }
 
@@ -230,7 +230,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return mixHash;
         }
 
-        public void setMixHash(String mixHash) {
+        public void setMixHash(final String mixHash) {
             this.mixHash = mixHash;
         }
 
@@ -242,7 +242,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return difficulty;
         }
 
-        public void setDifficulty(String difficulty) {
+        public void setDifficulty(final String difficulty) {
             this.difficulty = difficulty;
         }
 
@@ -254,7 +254,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return totalDifficulty;
         }
 
-        public void setTotalDifficulty(String totalDifficulty) {
+        public void setTotalDifficulty(final String totalDifficulty) {
             this.totalDifficulty = totalDifficulty;
         }
 
@@ -262,7 +262,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return extraData;
         }
 
-        public void setExtraData(String extraData) {
+        public void setExtraData(final String extraData) {
             this.extraData = extraData;
         }
 
@@ -274,7 +274,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return size;
         }
 
-        public void setSize(String size) {
+        public void setSize(final String size) {
             this.size = size;
         }
 
@@ -286,7 +286,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return gasLimit;
         }
 
-        public void setGasLimit(String gasLimit) {
+        public void setGasLimit(final String gasLimit) {
             this.gasLimit = gasLimit;
         }
 
@@ -298,7 +298,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return gasUsed;
         }
 
-        public void setGasUsed(String gasUsed) {
+        public void setGasUsed(final String gasUsed) {
             this.gasUsed = gasUsed;
         }
 
@@ -310,7 +310,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return timestamp;
         }
 
-        public void setTimestamp(String timestamp) {
+        public void setTimestamp(final String timestamp) {
             this.timestamp = timestamp;
         }
 
@@ -319,7 +319,7 @@ public class EthBlock extends Response<EthBlock.Block> {
         }
 
         @JsonDeserialize(using = ResultTransactionDeserialiser.class)
-        public void setTransactions(List<TransactionResult> transactions) {
+        public void setTransactions(final List<TransactionResult> transactions) {
             this.transactions = transactions;
         }
 
@@ -327,7 +327,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             return uncles;
         }
 
-        public void setUncles(List<String> uncles) {
+        public void setUncles(final List<String> uncles) {
             this.uncles = uncles;
         }
 
@@ -335,12 +335,12 @@ public class EthBlock extends Response<EthBlock.Block> {
             return sealFields;
         }
 
-        public void setSealFields(List<String> sealFields) {
+        public void setSealFields(final List<String> sealFields) {
             this.sealFields = sealFields;
         }
 
         @Override
-        public boolean equals(Object o) {
+        public boolean equals(final Object o) {
             if (this == o) {
                 return true;
             }
@@ -348,7 +348,7 @@ public class EthBlock extends Response<EthBlock.Block> {
                 return false;
             }
 
-            Block block = (Block) o;
+            final Block block = (Block) o;
 
             if (getNumberRaw() != null
                     ? !getNumberRaw().equals(block.getNumberRaw())
@@ -503,7 +503,7 @@ public class EthBlock extends Response<EthBlock.Block> {
 
         public TransactionHash() {}
 
-        public TransactionHash(String value) {
+        public TransactionHash(final String value) {
             this.value = value;
         }
 
@@ -512,12 +512,12 @@ public class EthBlock extends Response<EthBlock.Block> {
             return value;
         }
 
-        public void setValue(String value) {
+        public void setValue(final String value) {
             this.value = value;
         }
 
         @Override
-        public boolean equals(Object o) {
+        public boolean equals(final Object o) {
             if (this == o) {
                 return true;
             }
@@ -525,7 +525,7 @@ public class EthBlock extends Response<EthBlock.Block> {
                 return false;
             }
 
-            TransactionHash that = (TransactionHash) o;
+            final TransactionHash that = (TransactionHash) o;
 
             return value != null ? value.equals(that.value) : that.value == null;
         }
@@ -541,23 +541,23 @@ public class EthBlock extends Response<EthBlock.Block> {
         public TransactionObject() {}
 
         public TransactionObject(
-                String hash,
-                String nonce,
-                String blockHash,
-                String blockNumber,
-                String transactionIndex,
-                String from,
-                String to,
-                String value,
-                String gasPrice,
-                String gas,
-                String input,
-                String creates,
-                String publicKey,
-                String raw,
-                String r,
-                String s,
-                int v) {
+                final String hash,
+                final String nonce,
+                final String blockHash,
+                final String blockNumber,
+                final String transactionIndex,
+                final String from,
+                final String to,
+                final String value,
+                final String gasPrice,
+                final String gas,
+                final String input,
+                final String creates,
+                final String publicKey,
+                final String raw,
+                final String r,
+                final String s,
+                final int v) {
             super(
                     hash,
                     nonce,
@@ -587,18 +587,18 @@ public class EthBlock extends Response<EthBlock.Block> {
     public static class ResultTransactionDeserialiser
             extends JsonDeserializer<List<TransactionResult>> {
 
-        private ObjectReader objectReader = ObjectMapperFactory.getObjectReader();
+        private final ObjectReader objectReader = ObjectMapperFactory.getObjectReader();
 
         @Override
         public List<TransactionResult> deserialize(
-                JsonParser jsonParser, DeserializationContext deserializationContext)
+                final JsonParser jsonParser, final DeserializationContext deserializationContext)
                 throws IOException {
 
-            List<TransactionResult> transactionResults = new ArrayList<>();
-            JsonToken nextToken = jsonParser.nextToken();
+            final List<TransactionResult> transactionResults = new ArrayList<>();
+            final JsonToken nextToken = jsonParser.nextToken();
 
             if (nextToken == JsonToken.START_OBJECT) {
-                Iterator<TransactionObject> transactionObjectIterator =
+                final Iterator<TransactionObject> transactionObjectIterator =
                         objectReader.readValues(jsonParser, TransactionObject.class);
                 while (transactionObjectIterator.hasNext()) {
                     transactionResults.add(transactionObjectIterator.next());
@@ -606,7 +606,7 @@ public class EthBlock extends Response<EthBlock.Block> {
             } else if (nextToken == JsonToken.VALUE_STRING) {
                 jsonParser.getValueAsString();
 
-                Iterator<TransactionHash> transactionHashIterator =
+                final Iterator<TransactionHash> transactionHashIterator =
                         objectReader.readValues(jsonParser, TransactionHash.class);
                 while (transactionHashIterator.hasNext()) {
                     transactionResults.add(transactionHashIterator.next());
@@ -619,11 +619,11 @@ public class EthBlock extends Response<EthBlock.Block> {
 
     public static class ResponseDeserialiser extends JsonDeserializer<Block> {
 
-        private ObjectReader objectReader = ObjectMapperFactory.getObjectReader();
+        private final ObjectReader objectReader = ObjectMapperFactory.getObjectReader();
 
         @Override
         public Block deserialize(
-                JsonParser jsonParser, DeserializationContext deserializationContext)
+                final JsonParser jsonParser, final DeserializationContext deserializationContext)
                 throws IOException {
             if (jsonParser.getCurrentToken() != JsonToken.VALUE_NULL) {
                 return objectReader.readValue(jsonParser, Block.class);

@@ -30,14 +30,14 @@ import org.web3j.codegen.unit.gen.MethodFilter;
 public class Setup {
     @TempDir static File temp;
     static File classAsFile;
-    public static Class greeterContractClass;
+    public static Class<?> greeterContractClass;
     static List<Method> filteredMethods;
     static String classAsString;
     static String pathToTest;
 
     @BeforeAll
     public static void setUp() throws IOException, ClassNotFoundException {
-        String urlAsString =
+        final String urlAsString =
                 Objects.requireNonNull(
                                 Setup.class
                                         .getClassLoader()
@@ -54,13 +54,13 @@ public class Setup {
                         "contracts",
                         "GreeterTest.java");
         classAsFile = new File(urlAsString);
-        File greeter = new File(urlAsString.substring(0, urlAsString.indexOf("org/")));
+        final File greeter = new File(urlAsString.substring(0, urlAsString.indexOf("org/")));
         greeterContractClass =
                 new ClassProvider(greeter)
                         .getClasses().stream()
                                 .filter(className -> className.getSimpleName().equals("Greeter"))
                                 .findAny()
-                                .orElse(null);
+                                .orElseThrow(() -> new AssertionError("Greeter not found"));
 
         filteredMethods = MethodFilter.extractValidMethods(greeterContractClass);
         new JavaClassGenerator(

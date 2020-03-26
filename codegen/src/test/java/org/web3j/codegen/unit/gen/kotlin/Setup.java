@@ -36,7 +36,7 @@ public class Setup {
 
     @BeforeAll
     public static void setUp() throws Exception {
-        String urlAsString =
+        final String urlAsString =
                 Objects.requireNonNull(
                                 Setup.class
                                         .getClassLoader()
@@ -53,7 +53,7 @@ public class Setup {
                         "contracts",
                         "GreeterTest.kt");
         classAsFile = new File(urlAsString);
-        File greeter = new File(urlAsString.substring(0, urlAsString.indexOf("org/")));
+        final File greeter = new File(urlAsString.substring(0, urlAsString.indexOf("org/")));
         greeterContractClass =
                 new ClassProvider(greeter)
                         .getClasses().stream()

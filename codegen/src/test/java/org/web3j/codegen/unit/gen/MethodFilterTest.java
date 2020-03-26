@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.web3j.codegen.unit.gen.java.Setup;
@@ -27,22 +28,23 @@ import org.web3j.tx.gas.ContractGasProvider;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Disabled
 public class MethodFilterTest extends Setup {
 
     @Test
     public void testExtractValidMethods() {
-        List<Method> filteredMethods = MethodFilter.extractValidMethods(greeterContractClass);
+        final List<Method> filteredMethods = MethodFilter.extractValidMethods(greeterContractClass);
         filteredMethods.forEach(m -> assertFalse(m.getName().toLowerCase().contains("event")));
     }
 
     @Test
     public void testThatTheCorrectDeployMethodWasExtracted() {
-        List<Method> filteredMethods = MethodFilter.extractValidMethods(greeterContractClass);
-        List<Method> deployMethod =
+        final List<Method> filteredMethods = MethodFilter.extractValidMethods(greeterContractClass);
+        final List<Method> deployMethod =
                 filteredMethods.stream()
                         .filter(m -> m.getName().equals("deploy"))
                         .collect(Collectors.toList());
-        List<Class<?>> deployMethodParameterTypes =
+        final List<Class<?>> deployMethodParameterTypes =
                 Arrays.asList(deployMethod.get(0).getParameterTypes());
         assertTrue(
                 deployMethodParameterTypes.containsAll(

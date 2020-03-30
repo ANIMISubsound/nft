@@ -236,8 +236,8 @@ public class SolidityFunctionWrapperGenerator extends FunctionWrapperGenerator {
                                 contractName,
                                 packageName,
                                 useJavaTypes,
-                        primitiveTypes,
-                        addressLength)
+                                primitiveTypes,
+                                addressLength)
                         .generate();
             } catch (final Exception e) {
                 exitError(e);

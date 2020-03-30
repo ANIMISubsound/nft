@@ -21,7 +21,7 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.RemoteTransaction;
-import org.web3j.protocol.core.generated.RemoteFunctionCall1;
+import org.web3j.protocol.core.generated.RemoteCall1;
 import org.web3j.protocol.core.generated.RemoteTransaction0;
 import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.Log;
@@ -82,7 +82,7 @@ public class HumanStandardToken extends Contract {
         final Function function = new Function(FUNC_NAME, 
                 Arrays.<Type<?>>asList(), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Utf8String>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteTransaction<Void> approve(final String _spender, final BigInteger _value) {
@@ -100,7 +100,7 @@ public class HumanStandardToken extends Contract {
         final Function function = new Function(FUNC_TOTALSUPPLY, 
                 Arrays.<Type<?>>asList(), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteTransaction<Void> transferFrom(final String _from, final String _to, final BigInteger _value) {
@@ -119,28 +119,28 @@ public class HumanStandardToken extends Contract {
         final Function function = new Function(FUNC_DECIMALS, 
                 Arrays.<Type<?>>asList(), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint8>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteCall<String> version() {
         final Function function = new Function(FUNC_VERSION, 
                 Arrays.<Type<?>>asList(), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Utf8String>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteCall<BigInteger> balanceOf(final String _owner) {
         final Function function = new Function(FUNC_BALANCEOF, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(_owner)), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteCall<String> symbol() {
         final Function function = new Function(FUNC_SYMBOL, 
                 Arrays.<Type<?>>asList(), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Utf8String>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteTransaction<Void> transfer(final String _to, final BigInteger _value) {
@@ -171,7 +171,7 @@ public class HumanStandardToken extends Contract {
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(_owner), 
                 new org.web3j.abi.datatypes.Address(_spender)), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public static RemoteCall<HumanStandardToken> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider, final BigInteger _initialAmount, final String _tokenName, final BigInteger _decimalUnits, final String _tokenSymbol) {

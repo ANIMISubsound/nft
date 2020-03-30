@@ -12,11 +12,10 @@ import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.RemoteTransaction;
-import org.web3j.protocol.core.generated.RemoteFunctionCall1;
-import org.web3j.protocol.core.generated.RemoteFunctionCall2;
-import org.web3j.protocol.core.generated.RemoteFunctionCall4;
+import org.web3j.protocol.core.generated.RemoteCall1;
+import org.web3j.protocol.core.generated.RemoteCall2;
+import org.web3j.protocol.core.generated.RemoteCall4;
 import org.web3j.protocol.core.generated.RemoteTransaction0;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tuples.generated.Tuple2;
 import org.web3j.tuples.generated.Tuple4;
 import org.web3j.tx.Contract;
@@ -27,7 +26,6 @@ import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * <p>Auto generated code.
@@ -79,14 +77,14 @@ public class Ballot extends Contract {
         final Function function = new Function(FUNC_PROPOSALS,
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.Uint256(param0)),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Bytes32>() {}, new TypeReference<Uint256>() {}));
-        return new RemoteFunctionCall2<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall2<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteCall<String> chairperson() {
         final Function function = new Function(FUNC_CHAIRPERSON,
                 Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteTransaction<Void> delegate(String to) {
@@ -103,7 +101,7 @@ public class Ballot extends Contract {
         final Function function = new Function(FUNC_WINNINGPROPOSAL,
                 Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteTransaction<Void> giveRightToVote(String voter) {
@@ -120,14 +118,14 @@ public class Ballot extends Contract {
         final Function function = new Function(FUNC_VOTERS,
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(param0)),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}, new TypeReference<Bool>() {}, new TypeReference<Address>() {}, new TypeReference<Uint256>() {}));
-        return new RemoteFunctionCall4<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall4<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteCall<byte[]> winnerName() {
         final Function function = new Function(FUNC_WINNERNAME,
                 Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Bytes32>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public static Ballot load(String contractAddress, Web3j web3j, Credentials credentials, ContractGasProvider contractGasProvider) {

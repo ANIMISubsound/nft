@@ -15,7 +15,7 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.RemoteTransaction;
-import org.web3j.protocol.core.generated.RemoteFunctionCall1;
+import org.web3j.protocol.core.generated.RemoteCall1;
 import org.web3j.protocol.core.generated.RemoteTransaction0;
 import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.Log;
@@ -80,7 +80,7 @@ public class Purchase extends Contract {
         final Function function = new Function(FUNC_SELLER,
                 Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteTransaction<Void> abort() {
@@ -96,14 +96,14 @@ public class Purchase extends Contract {
         final Function function = new Function(FUNC_VALUE,
                 Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteCall<String> buyer() {
         final Function function = new Function(FUNC_BUYER,
                 Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteTransaction<Void> confirmReceived() {
@@ -119,7 +119,7 @@ public class Purchase extends Contract {
         final Function function = new Function(FUNC_STATE,
                 Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint8>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteTransaction<Void> confirmPurchase(BigInteger weiValue) {

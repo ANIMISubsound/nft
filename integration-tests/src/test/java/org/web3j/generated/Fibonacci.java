@@ -18,7 +18,7 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.RemoteTransaction;
-import org.web3j.protocol.core.generated.RemoteFunctionCall1;
+import org.web3j.protocol.core.generated.RemoteCall1;
 import org.web3j.protocol.core.generated.RemoteTransaction0;
 import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.Log;
@@ -68,7 +68,7 @@ public class Fibonacci extends Contract {
         final Function function = new Function(FUNC_FIBONACCI, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.Uint256(number)), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public List<NotifyEventResponse> getNotifyEvents(final TransactionReceipt transactionReceipt) {

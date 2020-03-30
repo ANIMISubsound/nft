@@ -20,7 +20,7 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.RemoteTransaction;
-import org.web3j.protocol.core.generated.RemoteFunctionCall1;
+import org.web3j.protocol.core.generated.RemoteCall1;
 import org.web3j.protocol.core.generated.RemoteTransaction0;
 import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.Log;
@@ -69,7 +69,7 @@ public class MetaCoin extends Contract {
         final Function function = new Function(FUNC_GETBALANCEINETH, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(addr)), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteTransaction<Void> sendCoin(final String receiver, final BigInteger amount) {
@@ -87,7 +87,7 @@ public class MetaCoin extends Contract {
         final Function function = new Function(FUNC_GETBALANCE, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(addr)), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public static RemoteCall<MetaCoin> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {

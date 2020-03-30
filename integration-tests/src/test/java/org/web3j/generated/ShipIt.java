@@ -2,8 +2,7 @@ package org.web3j.generated;
 
 import java.math.BigInteger;
 import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.Callable;
+
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Function;
@@ -15,7 +14,7 @@ import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.RemoteCall;
-import org.web3j.protocol.core.generated.RemoteFunctionCall8;
+import org.web3j.protocol.core.generated.RemoteCall8;
 import org.web3j.tuples.generated.Tuple8;
 import org.web3j.tx.Contract;
 import org.web3j.tx.TransactionManager;
@@ -48,7 +47,7 @@ public class ShipIt extends Contract {
         final Function function = new Function(FUNC_SHIPMENTS, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(param0)), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}, new TypeReference<Address>() {}, new TypeReference<Uint256>() {}, new TypeReference<Uint256>() {}, new TypeReference<Uint8>() {}, new TypeReference<Uint256>() {}, new TypeReference<Utf8String>() {}, new TypeReference<Bytes32>() {}));
-        return new RemoteFunctionCall8<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall8<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public static RemoteCall<ShipIt> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {

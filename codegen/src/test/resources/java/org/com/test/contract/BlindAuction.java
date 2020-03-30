@@ -16,8 +16,8 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.RemoteTransaction;
-import org.web3j.protocol.core.generated.RemoteFunctionCall1;
-import org.web3j.protocol.core.generated.RemoteFunctionCall2;
+import org.web3j.protocol.core.generated.RemoteCall1;
+import org.web3j.protocol.core.generated.RemoteCall2;
 import org.web3j.protocol.core.generated.RemoteTransaction0;
 import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.Log;
@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * <p>Auto generated code.
@@ -84,14 +83,14 @@ public class BlindAuction extends Contract {
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(param0),
                 new org.web3j.abi.datatypes.generated.Uint256(param1)), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Bytes32>() {}, new TypeReference<Uint256>() {}));
-        return new RemoteFunctionCall2<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall2<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteCall<Boolean> ended() {
         final Function function = new Function(FUNC_ENDED,
                 Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Bool>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteTransaction<Void> auctionEnd() {
@@ -108,7 +107,7 @@ public class BlindAuction extends Contract {
         final Function function = new Function(FUNC_BENEFICIARY,
                 Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteTransaction<Void> withdraw() {
@@ -125,7 +124,7 @@ public class BlindAuction extends Contract {
         final Function function = new Function(FUNC_BIDDINGEND,
                 Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteTransaction<Void> reveal(List<BigInteger> _values, List<Boolean> _fake, List<byte[]> _secret) {
@@ -150,7 +149,7 @@ public class BlindAuction extends Contract {
         final Function function = new Function(FUNC_HIGHESTBIDDER,
                 Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteTransaction<Void> bid(byte[] _blindedBid, BigInteger weiValue) {
@@ -167,14 +166,14 @@ public class BlindAuction extends Contract {
         final Function function = new Function(FUNC_REVEALEND,
                 Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteCall<BigInteger> highestBid() {
         final Function function = new Function(FUNC_HIGHESTBID,
                 Arrays.<Type<?>>asList(),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public List<AuctionEndedEventResponse> getAuctionEndedEvents(TransactionReceipt transactionReceipt) {

@@ -20,7 +20,7 @@ import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.RemoteFunctionCall;
 import org.web3j.protocol.core.RemoteTransaction;
-import org.web3j.protocol.core.generated.RemoteFunctionCall1;
+import org.web3j.protocol.core.generated.RemoteCall1;
 import org.web3j.protocol.core.generated.RemoteTransaction0;
 import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.BaseEventResponse;
@@ -94,7 +94,7 @@ public class SimpleAuction extends Contract {
         final Function function = new Function(FUNC_BENEFICIARY, 
                 Arrays.<Type<?>>asList(), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteTransaction<Void> withdraw() {
@@ -110,14 +110,14 @@ public class SimpleAuction extends Contract {
         final Function function = new Function(FUNC_HIGHESTBIDDER, 
                 Arrays.<Type<?>>asList(), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public RemoteFunctionCall<BigInteger> highestBid() {
         final Function function = new Function(FUNC_HIGHESTBID, 
                 Arrays.<Type<?>>asList(), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}));
-        return new RemoteFunctionCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
     public List<HighestBidIncreasedEventResponse> getHighestBidIncreasedEvents(TransactionReceipt transactionReceipt) {

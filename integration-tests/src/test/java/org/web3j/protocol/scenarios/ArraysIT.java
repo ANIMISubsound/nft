@@ -37,7 +37,7 @@ public class ArraysIT extends Scenario {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        this.contract = Arrays.deploy(web3j, ALICE, new DefaultGasProvider()).call();
+        this.contract = Arrays.deploy(web3j, ALICE, new DefaultGasProvider()).send();
     }
 
     @Test

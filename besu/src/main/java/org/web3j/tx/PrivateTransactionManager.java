@@ -228,8 +228,8 @@ public abstract class PrivateTransactionManager extends TransactionManager {
         try {
             final EthSendTransaction est =
                     sendTransaction(
-                            gasProvider.getGasPrice(),
-                            gasProvider.getGasLimit(),
+                            gasProvider.getGasPrice(null),
+                            gasProvider.getGasLimit(null),
                             to,
                             data,
                             BigInteger.ZERO);

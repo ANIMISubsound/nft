@@ -14,6 +14,8 @@ import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.RemoteArrayFunctionCall;
 import org.web3j.protocol.core.RemoteCall;
+import org.web3j.protocol.core.RemoteTransaction;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tx.Contract;
 import org.web3j.tx.TransactionManager;
 import org.web3j.tx.gas.ContractGasProvider;
@@ -40,12 +42,12 @@ public class Arrays extends Contract {
 
     public static final String FUNC_DYNAMICREVERSE = "dynamicReverse";
 
-    protected Arrays(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
-        super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
+    protected Arrays(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider, final TransactionReceipt transactionReceipt) {
+        super(BINARY, contractAddress, web3j, credentials, contractGasProvider, transactionReceipt);
     }
 
-    protected Arrays(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
-        super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
+    protected Arrays(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider, final TransactionReceipt transactionReceipt) {
+        super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider, transactionReceipt);
     }
     
     @SuppressWarnings("unchecked")
@@ -95,19 +97,19 @@ public class Arrays extends Contract {
         return new RemoteArrayFunctionCall<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public static RemoteCall<Arrays> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
+    public static RemoteTransaction<Arrays> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(Arrays.class, web3j, credentials, contractGasProvider, BINARY, "");
     }
 
-    public static RemoteCall<Arrays> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
+    public static RemoteTransaction<Arrays> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(Arrays.class, web3j, transactionManager, contractGasProvider, BINARY, "");
     }
 
     public static Arrays load(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
-        return new Arrays(contractAddress, web3j, credentials, contractGasProvider);
+        return new Arrays(contractAddress, web3j, credentials, contractGasProvider, null);
     }
 
     public static Arrays load(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
-        return new Arrays(contractAddress, web3j, transactionManager, contractGasProvider);
+        return new Arrays(contractAddress, web3j, transactionManager, contractGasProvider, null);
     }
 }

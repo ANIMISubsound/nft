@@ -19,9 +19,10 @@ import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.RemoteCall;
+import org.web3j.protocol.core.RemoteTransactionCall;
 import org.web3j.protocol.core.RemoteTransaction;
 import org.web3j.protocol.core.generated.RemoteCall1;
-import org.web3j.protocol.core.generated.RemoteTransaction0;
+import org.web3j.protocol.core.generated.RemoteTransactionCall0;
 import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
@@ -57,12 +58,12 @@ public class MetaCoin extends Contract {
         _addresses.put("4", "0xaea9d31a4aeda9e510f7d85559261c16ea0b6b8b");
     }
 
-    protected MetaCoin(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
-        super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
+    protected MetaCoin(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider, final TransactionReceipt transactionReceipt) {
+        super(BINARY, contractAddress, web3j, credentials, contractGasProvider, transactionReceipt);
     }
     
-    protected MetaCoin(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
-        super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
+    protected MetaCoin(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider, final TransactionReceipt transactionReceipt) {
+        super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider, transactionReceipt);
     }
 
     public RemoteCall<BigInteger> getBalanceInEth(final String addr) {
@@ -72,13 +73,13 @@ public class MetaCoin extends Contract {
         return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public RemoteTransaction<Void> sendCoin(final String receiver, final BigInteger amount) {
+    public RemoteTransactionCall<Void> sendCoin(final String receiver, final BigInteger amount) {
         final Function function = new Function(
                 FUNC_SENDCOIN, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(receiver), 
                 new org.web3j.abi.datatypes.generated.Uint256(amount)), 
                 Collections.<TypeReference<?>>emptyList());
-        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager,
+        return new RemoteTransactionCall0(web3j, function, contractAddress, transactionManager,
                 defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO,
                 false, gasProvider);
     }
@@ -90,11 +91,11 @@ public class MetaCoin extends Contract {
         return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public static RemoteCall<MetaCoin> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
+    public static RemoteTransaction<MetaCoin> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(MetaCoin.class, web3j, credentials, contractGasProvider, BINARY, "");
     }
 
-    public static RemoteCall<MetaCoin> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
+    public static RemoteTransaction<MetaCoin> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(MetaCoin.class, web3j, transactionManager, contractGasProvider, BINARY, "");
     }
     
@@ -134,11 +135,11 @@ public class MetaCoin extends Contract {
     }
 
     public static MetaCoin load(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
-        return new MetaCoin(contractAddress, web3j, credentials, contractGasProvider);
+        return new MetaCoin(contractAddress, web3j, credentials, contractGasProvider, null);
     }
 
     public static MetaCoin load(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
-        return new MetaCoin(contractAddress, web3j, transactionManager, contractGasProvider);
+        return new MetaCoin(contractAddress, web3j, transactionManager, contractGasProvider, null);
     }
 
     protected String getStaticDeployedAddress(final String networkId) {

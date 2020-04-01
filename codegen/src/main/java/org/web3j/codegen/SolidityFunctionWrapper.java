@@ -64,7 +64,6 @@ import org.web3j.protocol.ObjectMapperFactory;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.RemoteCall;
-import org.web3j.protocol.core.RemoteFunctionCall;
 import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.AbiDefinition;
 import org.web3j.protocol.core.methods.response.BaseEventResponse;
@@ -1118,8 +1117,9 @@ public class SolidityFunctionWrapper extends Generator {
         return ParameterizedTypeName.get(ClassName.get(RemoteCall.class), typeName);
     }
 
+    // FIXME RemoteFunctionCall has been removed
     private static ParameterizedTypeName buildRemoteFunctionCall(final TypeName typeName) {
-        return ParameterizedTypeName.get(ClassName.get(RemoteFunctionCall.class), typeName);
+        return ParameterizedTypeName.get(ClassName.get(RemoteCall.class), typeName);
     }
 
     private void buildTransactionFunction(

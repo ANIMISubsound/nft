@@ -20,9 +20,10 @@ import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.RemoteCall;
+import org.web3j.protocol.core.RemoteTransactionCall;
 import org.web3j.protocol.core.RemoteTransaction;
 import org.web3j.protocol.core.generated.RemoteCall1;
-import org.web3j.protocol.core.generated.RemoteTransaction0;
+import org.web3j.protocol.core.generated.RemoteTransactionCall0;
 import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
@@ -70,12 +71,12 @@ public class HumanStandardToken extends Contract {
     public static final Event APPROVAL_EVENT = new Event("Approval", 
             Arrays.<TypeReference<?>>asList(new TypeReference<Address>(true) {}, new TypeReference<Address>(true) {}, new TypeReference<Uint256>() {}));
 
-    protected HumanStandardToken(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
-        super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
+    protected HumanStandardToken(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider, final TransactionReceipt transactionReceipt) {
+        super(BINARY, contractAddress, web3j, credentials, contractGasProvider, transactionReceipt);
     }
 
-    protected HumanStandardToken(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
-        super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
+    protected HumanStandardToken(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider, final TransactionReceipt transactionReceipt) {
+        super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider, transactionReceipt);
     }
 
     public RemoteCall<String> name() {
@@ -85,13 +86,13 @@ public class HumanStandardToken extends Contract {
         return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public RemoteTransaction<Void> approve(final String _spender, final BigInteger _value) {
+    public RemoteTransactionCall<Void> approve(final String _spender, final BigInteger _value) {
         final Function function = new Function(
                 FUNC_APPROVE, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(_spender), 
                 new org.web3j.abi.datatypes.generated.Uint256(_value)), 
                 Collections.<TypeReference<?>>emptyList());
-        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager,
+        return new RemoteTransactionCall0(web3j, function, contractAddress, transactionManager,
                 defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO,
                 false, gasProvider);
     }
@@ -103,14 +104,14 @@ public class HumanStandardToken extends Contract {
         return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public RemoteTransaction<Void> transferFrom(final String _from, final String _to, final BigInteger _value) {
+    public RemoteTransactionCall<Void> transferFrom(final String _from, final String _to, final BigInteger _value) {
         final Function function = new Function(
                 FUNC_TRANSFERFROM, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(_from), 
                 new org.web3j.abi.datatypes.Address(_to), 
                 new org.web3j.abi.datatypes.generated.Uint256(_value)), 
                 Collections.<TypeReference<?>>emptyList());
-        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager,
+        return new RemoteTransactionCall0(web3j, function, contractAddress, transactionManager,
                 defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO,
                 false, gasProvider);
     }
@@ -143,25 +144,25 @@ public class HumanStandardToken extends Contract {
         return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public RemoteTransaction<Void> transfer(final String _to, final BigInteger _value) {
+    public RemoteTransactionCall<Void> transfer(final String _to, final BigInteger _value) {
         final Function function = new Function(
                 FUNC_TRANSFER, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(_to), 
                 new org.web3j.abi.datatypes.generated.Uint256(_value)), 
                 Collections.<TypeReference<?>>emptyList());
-        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager, 
+        return new RemoteTransactionCall0(web3j, function, contractAddress, transactionManager, 
                 defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO, 
                 false, gasProvider);
     }
 
-    public RemoteTransaction<Void> approveAndCall(final String _spender, final BigInteger _value, final byte[] _extraData) {
+    public RemoteTransactionCall<Void> approveAndCall(final String _spender, final BigInteger _value, final byte[] _extraData) {
         final Function function = new Function(
                 FUNC_APPROVEANDCALL, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(_spender), 
                 new org.web3j.abi.datatypes.generated.Uint256(_value), 
                 new org.web3j.abi.datatypes.DynamicBytes(_extraData)), 
                 Collections.<TypeReference<?>>emptyList());
-        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager, 
+        return new RemoteTransactionCall0(web3j, function, contractAddress, transactionManager, 
                 defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO, 
                 false, gasProvider);
     }
@@ -174,7 +175,7 @@ public class HumanStandardToken extends Contract {
         return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public static RemoteCall<HumanStandardToken> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider, final BigInteger _initialAmount, final String _tokenName, final BigInteger _decimalUnits, final String _tokenSymbol) {
+    public static RemoteTransaction<HumanStandardToken> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider, final BigInteger _initialAmount, final String _tokenName, final BigInteger _decimalUnits, final String _tokenSymbol) {
         final String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.Uint256(_initialAmount),
                 new org.web3j.abi.datatypes.Utf8String(_tokenName),
                 new org.web3j.abi.datatypes.generated.Uint8(_decimalUnits),
@@ -182,7 +183,7 @@ public class HumanStandardToken extends Contract {
         return deployRemoteCall(HumanStandardToken.class, web3j, credentials, contractGasProvider, BINARY, encodedConstructor);
     }
 
-    public static RemoteCall<HumanStandardToken> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider, final BigInteger _initialAmount, final String _tokenName, final BigInteger _decimalUnits, final String _tokenSymbol) {
+    public static RemoteTransaction<HumanStandardToken> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider, final BigInteger _initialAmount, final String _tokenName, final BigInteger _decimalUnits, final String _tokenSymbol) {
         final String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.Uint256(_initialAmount),
                 new org.web3j.abi.datatypes.Utf8String(_tokenName),
                 new org.web3j.abi.datatypes.generated.Uint8(_decimalUnits),
@@ -261,11 +262,11 @@ public class HumanStandardToken extends Contract {
     }
 
     public static HumanStandardToken load(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
-        return new HumanStandardToken(contractAddress, web3j, credentials, contractGasProvider);
+        return new HumanStandardToken(contractAddress, web3j, credentials, contractGasProvider, null);
     }
 
     public static HumanStandardToken load(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
-        return new HumanStandardToken(contractAddress, web3j, transactionManager, contractGasProvider);
+        return new HumanStandardToken(contractAddress, web3j, transactionManager, contractGasProvider, null);
     }
 
     public static class TransferEventResponse {

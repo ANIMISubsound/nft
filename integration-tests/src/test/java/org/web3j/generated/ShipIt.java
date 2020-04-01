@@ -14,7 +14,9 @@ import org.web3j.abi.datatypes.generated.Uint8;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.RemoteCall;
+import org.web3j.protocol.core.RemoteTransaction;
 import org.web3j.protocol.core.generated.RemoteCall8;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tuples.generated.Tuple8;
 import org.web3j.tx.Contract;
 import org.web3j.tx.TransactionManager;
@@ -34,12 +36,12 @@ public class ShipIt extends Contract {
 
     public static final String FUNC_SHIPMENTS = "shipments";
 
-    protected ShipIt(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
-        super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
+    protected ShipIt(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider, final TransactionReceipt transactionReceipt) {
+        super(BINARY, contractAddress, web3j, credentials, contractGasProvider, transactionReceipt);
     }
     
-    protected ShipIt(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
-        super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
+    protected ShipIt(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider, final TransactionReceipt transactionReceipt) {
+        super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider, transactionReceipt);
     }
 
     public RemoteCall<Tuple8<String, String, BigInteger, BigInteger, BigInteger, BigInteger, String, byte[]>> shipments(
@@ -50,19 +52,19 @@ public class ShipIt extends Contract {
         return new RemoteCall8<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public static RemoteCall<ShipIt> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
+    public static RemoteTransaction<ShipIt> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(ShipIt.class, web3j, credentials, contractGasProvider, BINARY, "");
     }
 
-    public static RemoteCall<ShipIt> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
+    public static RemoteTransaction<ShipIt> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(ShipIt.class, web3j, transactionManager, contractGasProvider, BINARY, "");
     }
 
     public static ShipIt load(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
-        return new ShipIt(contractAddress, web3j, credentials, contractGasProvider);
+        return new ShipIt(contractAddress, web3j, credentials, contractGasProvider, null);
     }
 
     public static ShipIt load(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
-        return new ShipIt(contractAddress, web3j, transactionManager, contractGasProvider);
+        return new ShipIt(contractAddress, web3j, transactionManager, contractGasProvider, null);
     }
 }

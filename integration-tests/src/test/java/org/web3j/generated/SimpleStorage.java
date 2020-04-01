@@ -12,9 +12,11 @@ import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.RemoteCall;
+import org.web3j.protocol.core.RemoteTransactionCall;
 import org.web3j.protocol.core.RemoteTransaction;
 import org.web3j.protocol.core.generated.RemoteCall1;
-import org.web3j.protocol.core.generated.RemoteTransaction0;
+import org.web3j.protocol.core.generated.RemoteTransactionCall0;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tx.Contract;
 import org.web3j.tx.TransactionManager;
 import org.web3j.tx.gas.ContractGasProvider;
@@ -35,20 +37,20 @@ public class SimpleStorage extends Contract {
 
     public static final String FUNC_GET = "get";
 
-    protected SimpleStorage(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
-        super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
+    protected SimpleStorage(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider, final TransactionReceipt transactionReceipt) {
+        super(BINARY, contractAddress, web3j, credentials, contractGasProvider, transactionReceipt);
     }
 
-    protected SimpleStorage(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
-        super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
+    protected SimpleStorage(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider, final TransactionReceipt transactionReceipt) {
+        super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider, transactionReceipt);
     }
 
-    public RemoteTransaction<Void> set(final BigInteger x) {
+    public RemoteTransactionCall<Void> set(final BigInteger x) {
         final Function function = new Function(
                 FUNC_SET, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.Uint256(x)), 
                 Collections.<TypeReference<?>>emptyList());
-        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager,
+        return new RemoteTransactionCall0(web3j, function, contractAddress, transactionManager,
                 defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO,
                 false, gasProvider);
     }
@@ -60,19 +62,19 @@ public class SimpleStorage extends Contract {
         return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public static RemoteCall<SimpleStorage> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
+    public static RemoteTransaction<SimpleStorage> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(SimpleStorage.class, web3j, credentials, contractGasProvider, BINARY, "");
     }
 
-    public static RemoteCall<SimpleStorage> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
+    public static RemoteTransaction<SimpleStorage> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(SimpleStorage.class, web3j, transactionManager, contractGasProvider, BINARY, "");
     }
 
     public static SimpleStorage load(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
-        return new SimpleStorage(contractAddress, web3j, credentials, contractGasProvider);
+        return new SimpleStorage(contractAddress, web3j, credentials, contractGasProvider, null);
     }
 
     public static SimpleStorage load(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
-        return new SimpleStorage(contractAddress, web3j, transactionManager, contractGasProvider);
+        return new SimpleStorage(contractAddress, web3j, transactionManager, contractGasProvider, null);
     }
 }

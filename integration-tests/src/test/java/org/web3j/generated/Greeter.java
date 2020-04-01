@@ -11,9 +11,11 @@ import org.web3j.abi.datatypes.Utf8String;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.RemoteCall;
+import org.web3j.protocol.core.RemoteTransactionCall;
 import org.web3j.protocol.core.RemoteTransaction;
 import org.web3j.protocol.core.generated.RemoteCall1;
-import org.web3j.protocol.core.generated.RemoteTransaction0;
+import org.web3j.protocol.core.generated.RemoteTransactionCall0;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.tx.Contract;
 import org.web3j.tx.TransactionManager;
 import org.web3j.tx.gas.ContractGasProvider;
@@ -36,30 +38,30 @@ public class Greeter extends Contract {
 
     public static final String FUNC_GREET = "greet";
     
-    protected Greeter(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
-        super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
+    protected Greeter(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider, final TransactionReceipt transactionReceipt) {
+        super(BINARY, contractAddress, web3j, credentials, contractGasProvider, transactionReceipt);
     }
 
-    protected Greeter(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
-        super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
+    protected Greeter(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider, final TransactionReceipt transactionReceipt) {
+        super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider, transactionReceipt);
     }
 
-    public RemoteTransaction<Void> kill() {
+    public RemoteTransactionCall<Void> kill() {
         final Function function = new Function(
                 FUNC_KILL, 
                 Arrays.<Type<?>>asList(), 
                 Collections.<TypeReference<?>>emptyList());
-        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager,
+        return new RemoteTransactionCall0(web3j, function, contractAddress, transactionManager,
                 defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO,
                 false, gasProvider);
     }
 
-    public RemoteTransaction<Void> newGreeting(final String _greeting) {
+    public RemoteTransactionCall<Void> newGreeting(final String _greeting) {
         final Function function = new Function(
                 FUNC_NEWGREETING, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Utf8String(_greeting)), 
                 Collections.<TypeReference<?>>emptyList());
-        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager,
+        return new RemoteTransactionCall0(web3j, function, contractAddress, transactionManager,
                 defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO,
                 false, gasProvider);
     }
@@ -71,21 +73,21 @@ public class Greeter extends Contract {
         return new RemoteCall1<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public static RemoteCall<Greeter> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider, final String _greeting) {
+    public static RemoteTransaction<Greeter> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider, final String _greeting) {
         final String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Utf8String(_greeting)));
         return deployRemoteCall(Greeter.class, web3j, credentials, contractGasProvider, BINARY, encodedConstructor);
     }
 
-    public static RemoteCall<Greeter> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider, final String _greeting) {
+    public static RemoteTransaction<Greeter> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider, final String _greeting) {
         final String encodedConstructor = FunctionEncoder.encodeConstructor(Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Utf8String(_greeting)));
         return deployRemoteCall(Greeter.class, web3j, transactionManager, contractGasProvider, BINARY, encodedConstructor);
     }
 
     public static Greeter load(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
-        return new Greeter(contractAddress, web3j, credentials, contractGasProvider);
+        return new Greeter(contractAddress, web3j, credentials, contractGasProvider, null);
     }
 
     public static Greeter load(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
-        return new Greeter(contractAddress, web3j, transactionManager, contractGasProvider);
+        return new Greeter(contractAddress, web3j, transactionManager, contractGasProvider, null);
     }
 }

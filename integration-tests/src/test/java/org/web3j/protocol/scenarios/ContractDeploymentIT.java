@@ -27,11 +27,12 @@ import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** Integration test demonstrating the full contract deployment workflow. */
-public class DeployContractIT extends Scenario {
+public class ContractDeploymentIT extends Scenario {
 
     @Test
     public void testContractCreation() throws Exception {
@@ -45,7 +46,7 @@ public class DeployContractIT extends Scenario {
 
         assertEquals(transactionReceipt.getTransactionHash(), (transactionHash));
 
-        assertFalse(transactionReceipt.getGasUsed().equals(GAS_LIMIT));
+        assertNotEquals(transactionReceipt.getGasUsed(), GAS_LIMIT);
 
         final String contractAddress = transactionReceipt.getContractAddress();
 

@@ -17,9 +17,10 @@ import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.RemoteCall;
+import org.web3j.protocol.core.RemoteTransactionCall;
 import org.web3j.protocol.core.RemoteTransaction;
 import org.web3j.protocol.core.generated.RemoteCall1;
-import org.web3j.protocol.core.generated.RemoteTransaction0;
+import org.web3j.protocol.core.generated.RemoteTransactionCall0;
 import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
@@ -46,20 +47,20 @@ public class Fibonacci extends Contract {
     public static final Event NOTIFY_EVENT = new Event("Notify", 
             Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}, new TypeReference<Uint256>() {}));
     
-    protected Fibonacci(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
-        super(BINARY, contractAddress, web3j, credentials, contractGasProvider);
+    protected Fibonacci(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider, final TransactionReceipt transactionReceipt) {
+        super(BINARY, contractAddress, web3j, credentials, contractGasProvider, transactionReceipt);
     }
 
-    protected Fibonacci(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
-        super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider);
+    protected Fibonacci(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider, final TransactionReceipt transactionReceipt) {
+        super(BINARY, contractAddress, web3j, transactionManager, contractGasProvider, transactionReceipt);
     }
 
-    public RemoteTransaction<Void> fibonacciNotify(final BigInteger number) {
+    public RemoteTransactionCall<Void> fibonacciNotify(final BigInteger number) {
         final Function function = new Function(
                 FUNC_FIBONACCINOTIFY, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.Uint256(number)), 
                 Collections.<TypeReference<?>>emptyList());
-        return new RemoteTransaction0(web3j, function, contractAddress, transactionManager,
+        return new RemoteTransactionCall0(web3j, function, contractAddress, transactionManager,
                 defaultBlockParameter, FunctionEncoder.encode(function), BigInteger.ZERO,
                 false, gasProvider);
     }
@@ -104,20 +105,20 @@ public class Fibonacci extends Contract {
         return notifyEventFlowable(filter);
     }
 
-    public static RemoteCall<Fibonacci> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
+    public static RemoteTransaction<Fibonacci> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(Fibonacci.class, web3j, credentials, contractGasProvider, BINARY, "");
     }
 
-    public static RemoteCall<Fibonacci> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
+    public static RemoteTransaction<Fibonacci> deploy(final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
         return deployRemoteCall(Fibonacci.class, web3j, transactionManager, contractGasProvider, BINARY, "");
     }
 
     public static Fibonacci load(final String contractAddress, final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {
-        return new Fibonacci(contractAddress, web3j, credentials, contractGasProvider);
+        return new Fibonacci(contractAddress, web3j, credentials, contractGasProvider, null);
     }
 
     public static Fibonacci load(final String contractAddress, final Web3j web3j, final TransactionManager transactionManager, final ContractGasProvider contractGasProvider) {
-        return new Fibonacci(contractAddress, web3j, transactionManager, contractGasProvider);
+        return new Fibonacci(contractAddress, web3j, transactionManager, contractGasProvider, null);
     }
 
     public static class NotifyEventResponse {

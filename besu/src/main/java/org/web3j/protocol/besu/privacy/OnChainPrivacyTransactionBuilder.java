@@ -74,8 +74,8 @@ public class OnChainPrivacyTransactionBuilder {
         RawPrivateTransaction rawTransaction =
                 RawPrivateTransaction.createTransaction(
                         nonce,
-                        ZERO_GAS_PROVIDER.getGasPrice(),
-                        ZERO_GAS_PROVIDER.getGasLimit(),
+                        ZERO_GAS_PROVIDER.getGasPrice(null),
+                        ZERO_GAS_PROVIDER.getGasLimit(null),
                         "0x000000000000000000000000000000000000007c",
                         call,
                         enclaveKey,

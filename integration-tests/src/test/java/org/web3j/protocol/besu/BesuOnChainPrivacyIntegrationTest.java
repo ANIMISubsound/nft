@@ -66,8 +66,8 @@ public class BesuOnChainPrivacyIntegrationTest {
         processor = new PollingPrivateTransactionReceiptProcessor(nodeAlice, 1000, 15);
     }
 
-    static byte[] generateRandomBytes(int size) {
-        byte[] bytes = new byte[size];
+    static byte[] generateRandomBytes(final int size) {
+        final byte[] bytes = new byte[size];
         new SecureRandom().nextBytes(bytes);
         return bytes;
     }
@@ -77,7 +77,7 @@ public class BesuOnChainPrivacyIntegrationTest {
 
     @Test
     public void testCreateAndFindOnChainPrivacyGroup() throws Exception {
-        Base64String privacyGroupId = Base64String.wrap(generateRandomBytes(32));
+        final Base64String privacyGroupId = Base64String.wrap(generateRandomBytes(32));
         final String txHash =
                 nodeAlice
                         .privOnChainCreatePrivacyGroup(
@@ -88,10 +88,10 @@ public class BesuOnChainPrivacyIntegrationTest {
                         .send()
                         .getTransactionHash();
 
-        TransactionReceipt receipt = processor.waitForTransactionReceipt(txHash);
+        final TransactionReceipt receipt = processor.waitForTransactionReceipt(txHash);
         assertTrue(receipt.isStatusOK());
 
-        List<PrivacyGroup> groups =
+        final List<PrivacyGroup> groups =
                 nodeAlice
                         .privOnChainFindPrivacyGroup(
                                 Arrays.asList(ENCLAVE_KEY_ALICE, ENCLAVE_KEY_BOB))
@@ -103,7 +103,7 @@ public class BesuOnChainPrivacyIntegrationTest {
 
     @Test
     public void testCreateAddRemoveOnChainPrivacyGroup() throws Exception {
-        Base64String privacyGroupId = Base64String.wrap(generateRandomBytes(32));
+        final Base64String privacyGroupId = Base64String.wrap(generateRandomBytes(32));
         final String createTxHash =
                 nodeAlice
                         .privOnChainCreatePrivacyGroup(
@@ -114,7 +114,7 @@ public class BesuOnChainPrivacyIntegrationTest {
                         .send()
                         .getTransactionHash();
 
-        TransactionReceipt createReceipt = processor.waitForTransactionReceipt(createTxHash);
+        final TransactionReceipt createReceipt = processor.waitForTransactionReceipt(createTxHash);
         assertTrue(createReceipt.isStatusOK());
 
         final String addTxHash =
@@ -127,10 +127,10 @@ public class BesuOnChainPrivacyIntegrationTest {
                         .send()
                         .getTransactionHash();
 
-        TransactionReceipt addReceipt = processor.waitForTransactionReceipt(addTxHash);
+        final TransactionReceipt addReceipt = processor.waitForTransactionReceipt(addTxHash);
         assertTrue(addReceipt.isStatusOK());
 
-        List<PrivacyGroup> groups =
+        final List<PrivacyGroup> groups =
                 nodeAlice
                         .privOnChainFindPrivacyGroup(
                                 Arrays.asList(
@@ -151,10 +151,10 @@ public class BesuOnChainPrivacyIntegrationTest {
                         .send()
                         .getTransactionHash();
 
-        TransactionReceipt removeReceipt = processor.waitForTransactionReceipt(removeTxHash);
+        final TransactionReceipt removeReceipt = processor.waitForTransactionReceipt(removeTxHash);
         assertTrue(removeReceipt.isStatusOK());
 
-        List<PrivacyGroup> removedGroups =
+        final List<PrivacyGroup> removedGroups =
                 nodeAlice
                         .privOnChainFindPrivacyGroup(
                                 Arrays.asList(ENCLAVE_KEY_ALICE, ENCLAVE_KEY_BOB))
@@ -170,7 +170,7 @@ public class BesuOnChainPrivacyIntegrationTest {
 
     @Test
     public void testCannotAddToAlreadyLockedGroup() throws Exception {
-        Base64String privacyGroupId = Base64String.wrap(generateRandomBytes(32));
+        final Base64String privacyGroupId = Base64String.wrap(generateRandomBytes(32));
         final String createTxHash =
                 nodeAlice
                         .privOnChainCreatePrivacyGroup(
@@ -181,7 +181,7 @@ public class BesuOnChainPrivacyIntegrationTest {
                         .send()
                         .getTransactionHash();
 
-        TransactionReceipt createReceipt = processor.waitForTransactionReceipt(createTxHash);
+        final TransactionReceipt createReceipt = processor.waitForTransactionReceipt(createTxHash);
         assertTrue(createReceipt.isStatusOK());
 
         final String lockTxHash =
@@ -191,7 +191,7 @@ public class BesuOnChainPrivacyIntegrationTest {
                         .send()
                         .getTransactionHash();
 
-        TransactionReceipt lockReceipt = processor.waitForTransactionReceipt(lockTxHash);
+        final TransactionReceipt lockReceipt = processor.waitForTransactionReceipt(lockTxHash);
         assertTrue(lockReceipt.isStatusOK());
 
         assertThrows(
@@ -207,7 +207,7 @@ public class BesuOnChainPrivacyIntegrationTest {
 
     @Test
     public void testCanExecuteSmartContractsInOnChainPrivacyGroup() throws Exception {
-        Base64String aliceBobGroup = Base64String.wrap(generateRandomBytes(32));
+        final Base64String aliceBobGroup = Base64String.wrap(generateRandomBytes(32));
         final String createTxHash =
                 nodeAlice
                         .privOnChainCreatePrivacyGroup(
@@ -218,7 +218,7 @@ public class BesuOnChainPrivacyIntegrationTest {
                         .send()
                         .getTransactionHash();
 
-        TransactionReceipt createReceipt = processor.waitForTransactionReceipt(createTxHash);
+        final TransactionReceipt createReceipt = processor.waitForTransactionReceipt(createTxHash);
         assertTrue(createReceipt.isStatusOK());
 
         // Find the privacy group that was built by Alice from Bob's node
@@ -270,7 +270,7 @@ public class BesuOnChainPrivacyIntegrationTest {
 
     @Test
     public void testCannotAddDuplicateMemberToPrivacyGroup() throws Exception {
-        Base64String privacyGroupId = Base64String.wrap(generateRandomBytes(32));
+        final Base64String privacyGroupId = Base64String.wrap(generateRandomBytes(32));
         final String txHash =
                 nodeAlice
                         .privOnChainCreatePrivacyGroup(
@@ -281,7 +281,7 @@ public class BesuOnChainPrivacyIntegrationTest {
                         .send()
                         .getTransactionHash();
 
-        TransactionReceipt receipt = processor.waitForTransactionReceipt(txHash);
+        final TransactionReceipt receipt = processor.waitForTransactionReceipt(txHash);
         assertTrue(receipt.isStatusOK());
 
         final String addTxHash =
@@ -294,7 +294,7 @@ public class BesuOnChainPrivacyIntegrationTest {
                         .send()
                         .getTransactionHash();
 
-        TransactionReceipt addReceipt = processor.waitForTransactionReceipt(addTxHash);
+        final TransactionReceipt addReceipt = processor.waitForTransactionReceipt(addTxHash);
         assertTrue(addReceipt.isStatusOK());
 
         final String secondAddTxHash =
@@ -307,7 +307,7 @@ public class BesuOnChainPrivacyIntegrationTest {
                         .send()
                         .getTransactionHash();
 
-        TransactionReceipt secondAddTxReceipt =
+        final TransactionReceipt secondAddTxReceipt =
                 processor.waitForTransactionReceipt(secondAddTxHash);
         assertFalse(secondAddTxReceipt.isStatusOK());
     }
@@ -318,10 +318,10 @@ public class BesuOnChainPrivacyIntegrationTest {
             final BigInteger aliceBalance,
             final BigInteger bobBalance)
             throws Exception {
-        final BigInteger aliceAlice = tokenAlice.balanceOf(ALICE.getAddress()).send();
-        final BigInteger aliceBob = tokenAlice.balanceOf(BOB.getAddress()).send();
-        final BigInteger bobAlice = tokenBob.balanceOf(ALICE.getAddress()).send();
-        final BigInteger bobBob = tokenBob.balanceOf(BOB.getAddress()).send();
+        final BigInteger aliceAlice = tokenAlice.balanceOf(ALICE.getAddress()).call();
+        final BigInteger aliceBob = tokenAlice.balanceOf(BOB.getAddress()).call();
+        final BigInteger bobAlice = tokenBob.balanceOf(ALICE.getAddress()).call();
+        final BigInteger bobBob = tokenBob.balanceOf(BOB.getAddress()).call();
 
         assertEquals(aliceAlice, (aliceBalance));
         assertEquals(aliceBob, (bobBalance));

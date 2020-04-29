@@ -172,13 +172,13 @@ public abstract class PrivateTransactionManager extends TransactionManager {
     }
 
     public EthSendTransaction sendTransactionEIP1559(
-            BigInteger gasPremium,
-            BigInteger feeCap,
-            BigInteger gasLimit,
-            String to,
-            String data,
-            BigInteger value,
-            boolean constructor)
+            final BigInteger gasPremium,
+            final BigInteger feeCap,
+            final BigInteger gasLimit,
+            final String to,
+            final String data,
+            final BigInteger value,
+            final boolean constructor)
             throws IOException {
         final BigInteger nonce =
                 besu.privGetTransactionCount(credentials.getAddress(), getPrivacyGroupId())

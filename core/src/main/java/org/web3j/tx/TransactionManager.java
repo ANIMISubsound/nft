@@ -90,28 +90,28 @@ public abstract class TransactionManager {
     }
 
     protected TransactionReceipt executeTransactionEIP1559(
-            BigInteger gasPremium,
-            BigInteger feeCap,
-            BigInteger gasLimit,
-            String to,
-            String data,
-            BigInteger value)
+            final BigInteger gasPremium,
+            final BigInteger feeCap,
+            final BigInteger gasLimit,
+            final String to,
+            final String data,
+            final BigInteger value)
             throws IOException, TransactionException {
 
         return executeTransactionEIP1559(gasPremium, feeCap, gasLimit, to, data, value, false);
     }
 
     protected TransactionReceipt executeTransactionEIP1559(
-            BigInteger gasPremium,
-            BigInteger feeCap,
-            BigInteger gasLimit,
-            String to,
-            String data,
-            BigInteger value,
-            boolean constructor)
+            final BigInteger gasPremium,
+            final BigInteger feeCap,
+            final BigInteger gasLimit,
+            final String to,
+            final String data,
+            final BigInteger value,
+            final boolean constructor)
             throws IOException, TransactionException {
 
-        EthSendTransaction ethSendTransaction =
+        final EthSendTransaction ethSendTransaction =
                 sendTransactionEIP1559(gasPremium, feeCap, gasLimit, to, data, value, constructor);
         return processResponse(ethSendTransaction);
     }
@@ -127,12 +127,12 @@ public abstract class TransactionManager {
     }
 
     public EthSendTransaction sendTransactionEIP1559(
-            BigInteger gasPremium,
-            BigInteger feeCap,
-            BigInteger gasLimit,
-            String to,
-            String data,
-            BigInteger value)
+            final BigInteger gasPremium,
+            final BigInteger feeCap,
+            final BigInteger gasLimit,
+            final String to,
+            final String data,
+            final BigInteger value)
             throws IOException {
         return sendTransactionEIP1559(gasPremium, feeCap, gasLimit, to, data, value, false);
     }

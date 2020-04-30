@@ -33,7 +33,7 @@ import org.web3j.abi.datatypes.Utf8String;
 public class Utils {
     private Utils() {}
 
-    static <T extends Type> String getTypeName(final TypeReference<T> typeReference) {
+    static <T extends Type<?>> String getTypeName(final TypeReference<T> typeReference) {
         try {
             final java.lang.reflect.Type reflectedType = typeReference.getType();
 
@@ -67,7 +67,7 @@ public class Utils {
         }
     }
 
-    static <T extends Type, U extends Type> String getParameterizedTypeName(
+    static <T extends Type<?>, U extends Type<?>> String getParameterizedTypeName(
             final TypeReference<T> typeReference, final Class<?> type) {
 
         try {
@@ -80,7 +80,7 @@ public class Utils {
                 final String parameterizedTypeName = getSimpleTypeName(parameterizedType);
                 return parameterizedTypeName
                         + "["
-                        + ((TypeReference.StaticArrayTypeReference) typeReference).getSize()
+                        + ((TypeReference.StaticArrayTypeReference<?>) typeReference).getSize()
                         + "]";
             } else {
                 throw new UnsupportedOperationException("Invalid type provided " + type.getName());

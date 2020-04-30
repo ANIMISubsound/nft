@@ -251,7 +251,7 @@ public class FunctionReturnDecoderTest {
 
         assertEquals(
                 FunctionReturnDecoder.decodeIndexedValue(
-                        hash, new TypeReference<DynamicArray>() {}),
+                        hash, new TypeReference<DynamicArray<Type<?>>>() {}),
                 (new Bytes32(Numeric.hexStringToByteArray(hash))));
     }
 }

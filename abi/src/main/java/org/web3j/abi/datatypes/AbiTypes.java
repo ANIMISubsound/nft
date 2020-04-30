@@ -132,7 +132,7 @@ public final class AbiTypes {
      * @param type A Solidity type.
      * @return The web3j Java class to represent this Solidity type.
      */
-    public static Class<? extends Type> getType(final String type) {
+    public static Class<? extends Type<?>> getType(final String type) {
         return getType(type, false);
     }
 
@@ -143,7 +143,7 @@ public final class AbiTypes {
      * @param primitives Use Java primitive types to wrap contract parameters.
      * @return The web3j Java class to represent this Solidity type.
      */
-    public static Class<? extends Type> getType(final String type, final boolean primitives) {
+    public static Class<? extends Type<?>> getType(final String type, final boolean primitives) {
         switch (type) {
             case "address":
                 return Address.class;

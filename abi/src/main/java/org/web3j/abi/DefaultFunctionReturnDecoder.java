@@ -72,31 +72,35 @@ public class DefaultFunctionReturnDecoder extends FunctionReturnDecoder {
         }
     }
 
-    private static List<Type<?>> build(
-            final String input, final List<TypeReference<Type<?>>> outputParameters) {
+    @SuppressWarnings("unchecked")
+    private static <T extends Type<?>> List<T> build(
+            final String input, final List<TypeReference<T>> outputParameters) {
         final List<Type<?>> results = new ArrayList<>(outputParameters.size());
 
         int offset = 0;
-        for (final TypeReference<?> typeReference : outputParameters) {
+        for (final TypeReference<T> typeReference : outputParameters) {
             try {
-                @SuppressWarnings("unchecked")
                 final Class<Type<?>> type = (Class<Type<?>>) typeReference.getClassType();
-
                 final int hexStringDataOffset = getDataOffset(input, offset, type);
 
-                final Type result;
+                final Type<?> result;
                 if (DynamicArray.class.isAssignableFrom(type)) {
                     result =
                             TypeDecoder.decodeDynamicArray(
-                                    input, hexStringDataOffset, typeReference);
+                                    input,
+                                    hexStringDataOffset,
+                                    (TypeReference<Array<Type<?>>>) typeReference);
                     offset += MAX_BYTE_LENGTH_FOR_HEX_STRING;
 
                 } else if (typeReference instanceof TypeReference.StaticArrayTypeReference) {
                     final int length =
-                            ((TypeReference.StaticArrayTypeReference) typeReference).getSize();
+                            ((TypeReference.StaticArrayTypeReference<?>) typeReference).getSize();
                     result =
                             TypeDecoder.decodeStaticArray(
-                                    input, hexStringDataOffset, typeReference, length);
+                                    input,
+                                    hexStringDataOffset,
+                                    (TypeReference<Array<Type<?>>>) typeReference,
+                                    length);
                     offset += length * MAX_BYTE_LENGTH_FOR_HEX_STRING;
 
                 } else if (StaticArray.class.isAssignableFrom(type)) {
@@ -106,7 +110,10 @@ public class DefaultFunctionReturnDecoder extends FunctionReturnDecoder {
                                             .substring(StaticArray.class.getSimpleName().length()));
                     result =
                             TypeDecoder.decodeStaticArray(
-                                    input, hexStringDataOffset, typeReference, length);
+                                    input,
+                                    hexStringDataOffset,
+                                    (TypeReference<Array<Type<?>>>) typeReference,
+                                    length);
                     offset += length * MAX_BYTE_LENGTH_FOR_HEX_STRING;
 
                 } else {
@@ -119,10 +126,10 @@ public class DefaultFunctionReturnDecoder extends FunctionReturnDecoder {
                 throw new UnsupportedOperationException("Invalid class reference provided", e);
             }
         }
-        return results;
+        return (List<T>) results;
     }
 
-    private static <T extends Type> int getDataOffset(
+    private static <T extends Type<?>> int getDataOffset(
             final String input, final int offset, final Class<T> type) {
         if (DynamicBytes.class.isAssignableFrom(type)
                 || Utf8String.class.isAssignableFrom(type)

@@ -171,6 +171,7 @@ public abstract class PrivateTransactionManager extends TransactionManager {
         return besu.eeaSendRawTransaction(rawSignedTransaction).send();
     }
 
+    @SuppressWarnings("unchecked")
     public EthSendTransaction sendTransactionEIP1559(
             final BigInteger gasPremium,
             final BigInteger feeCap,

@@ -25,30 +25,6 @@ public abstract class StaticArray<T extends Type<?>> extends Array<T> {
      */
     public static final int MAX_SIZE_OF_STATIC_ARRAY = 32;
 
-    @Deprecated
-    @SafeVarargs
-    public StaticArray(final T... values) {
-        this(values.length, values);
-    }
-
-    @Deprecated
-    @SafeVarargs
-    public StaticArray(final int expectedSize, final T... values) {
-        this(expectedSize, Arrays.asList(values));
-    }
-
-    @Deprecated
-    public StaticArray(final List<T> values) {
-        this(values.size(), values);
-    }
-
-    @Deprecated
-    @SuppressWarnings("unchecked")
-    public StaticArray(final int expectedSize, final List<T> values) {
-        super((Class<T>) AbiTypes.getType(values.get(0).getTypeAsString()), values);
-        checkValid(expectedSize);
-    }
-
     @SafeVarargs
     public StaticArray(final Class<T> type, final T... values) {
         this(type, Arrays.asList(values));

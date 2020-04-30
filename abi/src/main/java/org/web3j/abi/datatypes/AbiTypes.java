@@ -367,7 +367,7 @@ public final class AbiTypes {
         }
     }
 
-    public static String getTypeAString(final Class<? extends Type> type) {
+    public static String getTypeAString(final Class<? extends Type<?>> type) {
         if (Utf8String.class.equals(type)) {
             return "string";
         } else if (DynamicBytes.class.equals(type)) {

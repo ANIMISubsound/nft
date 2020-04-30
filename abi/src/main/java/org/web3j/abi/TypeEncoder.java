@@ -156,28 +156,25 @@ public class TypeEncoder {
         return encodeDynamicBytes(new DynamicBytes(utfEncoded));
     }
 
-    static <T extends Type> String encodeArrayValues(final Array<T> value) {
+    static <T extends Type<?>> String encodeArrayValues(final Array<T> value) {
         final StringBuilder result = new StringBuilder();
-        for (final Type type : value.getValue()) {
+        for (final Type<?> type : value.getValue()) {
             result.append(encode(type));
         }
         return result.toString();
     }
 
-    static <T extends Type> String encodeDynamicArray(final DynamicArray<T> value) {
+    static <T extends Type<?>> String encodeDynamicArray(final DynamicArray<T> value) {
         final int size = value.getValue().size();
         final String encodedLength = encode(new Uint(BigInteger.valueOf(size)));
         final String valuesOffsets = encodeArrayValuesOffsets(value);
         final String encodedValues = encodeArrayValues(value);
 
-        final StringBuilder result = new StringBuilder();
-        result.append(encodedLength);
-        result.append(valuesOffsets);
-        result.append(encodedValues);
-        return result.toString();
+        return encodedLength + valuesOffsets + encodedValues;
     }
 
-    private static <T extends Type> String encodeArrayValuesOffsets(final DynamicArray<T> value) {
+    private static <T extends Type<?>> String encodeArrayValuesOffsets(
+            final DynamicArray<T> value) {
         final StringBuilder result = new StringBuilder();
         final boolean arrayOfBytes =
                 !value.getValue().isEmpty() && value.getValue().get(0) instanceof DynamicBytes;

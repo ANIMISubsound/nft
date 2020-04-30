@@ -96,6 +96,7 @@ public class DefaultFunctionEncoderTest {
                                 new DynamicBytes("dave".getBytes()),
                                 new Bool(true),
                                 new DynamicArray<>(
+                                        Uint.class,
                                         new Uint(BigInteger.ONE),
                                         new Uint(BigInteger.valueOf(2)),
                                         new Uint(BigInteger.valueOf(3)))),
@@ -123,6 +124,7 @@ public class DefaultFunctionEncoderTest {
                         Arrays.asList(
                                 new Uint(BigInteger.valueOf(0x123)),
                                 new DynamicArray<>(
+                                        Uint32.class,
                                         new Uint32(BigInteger.valueOf(0x456)),
                                         new Uint32(BigInteger.valueOf(0x789))),
                                 new Bytes10("1234567890".getBytes()),

@@ -52,8 +52,8 @@ public class Arrays extends Contract {
     
     @SuppressWarnings("unchecked")
     public RemoteCall<List<Uint256>> multiDynamic(final List<List<BigInteger>> input) {
-        final Function function = new Function(FUNC_MULTIDYNAMIC, 
-                java.util.Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.DynamicArray<org.web3j.abi.datatypes.generated.StaticArray2>(
+        final Function function = new Function(FUNC_MULTIDYNAMIC,
+                java.util.Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.DynamicArray<>(
                         org.web3j.abi.datatypes.generated.StaticArray2.class,
                         org.web3j.abi.Utils.typeMap(input, org.web3j.abi.datatypes.generated.StaticArray2.class,
                 org.web3j.abi.datatypes.generated.Uint256.class))), 
@@ -71,7 +71,7 @@ public class Arrays extends Contract {
     @SuppressWarnings("unchecked")
     public RemoteCall<List<Uint256>> multiFixed(final List<List<BigInteger>> input) {
         final Function function = new Function(FUNC_MULTIFIXED,
-                java.util.Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.StaticArray6<org.web3j.abi.datatypes.generated.StaticArray2>(
+                java.util.Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.StaticArray6<>(
                         org.web3j.abi.datatypes.generated.StaticArray2.class,
                         org.web3j.abi.Utils.typeMap(input, org.web3j.abi.datatypes.generated.StaticArray2.class,
                 org.web3j.abi.datatypes.generated.Uint256.class))),

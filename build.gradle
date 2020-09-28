@@ -2,11 +2,11 @@ plugins {
     id 'java'
     id 'idea'
     id 'jacoco'
-    id "com.diffplug.gradle.spotless" version "3.25.0"
+    id "com.diffplug.gradle.spotless" version '3.25.0'
     id 'io.codearte.nexus-staging' version '0.21.1'
-    id "de.marcphilipp.nexus-publish" version "0.4.0"
-    id "de.undercouch.download" version "4.0.0"
-    id "com.jfrog.bintray" version "1.8.4"
+    id "de.marcphilipp.nexus-publish" version '0.4.0'
+    id "de.undercouch.download" version '4.0.0'
+    id "com.jfrog.bintray" version '1.8.4'
 }
 
 ext {
@@ -26,8 +26,8 @@ ext {
     junitVersion = '5.5.2'
     junitBenchmarkVersion = '0.7.2'
     logbackVersion = '1.2.3'
-    mockitoJunitVersion = "3.1.0"
-    junitPlatformLauncherVersion = "1.5.2"
+    mockitoJunitVersion = '3.1.0'
+    junitPlatformLauncherVersion = '1.5.2'
 }
 
 

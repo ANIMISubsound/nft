@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.web3j.generated.Arrays;
-import org.web3j.tx.gas.DefaultGasProvider;
 
 import static java.math.BigInteger.valueOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,7 +36,7 @@ public class ArraysIT extends Scenario {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        this.contract = Arrays.deploy(web3j, ALICE, new DefaultGasProvider()).send();
+        this.contract = Arrays.deploy(web3j, ALICE, STATIC_GAS_PROVIDER).send();
     }
 
     @Test
@@ -59,7 +58,7 @@ public class ArraysIT extends Scenario {
         final List<?> result = contract.fixedReverse(array).call();
         array.sort(Comparator.comparing(BigInteger::intValue));
 
-        assertEquals(result, (array));
+        assertEquals(array, result);
     }
 
     @Test
@@ -70,13 +69,13 @@ public class ArraysIT extends Scenario {
         final List<?> result = contract.dynamicReverse(array).call();
         array.sort(Comparator.comparing(BigInteger::intValue));
 
-        assertEquals(result, (array));
+        assertEquals(array, result);
     }
 
     @Test
     public void testEmptyDynamicReverse() throws Exception {
         final List<?> result = contract.dynamicReverse(new ArrayList<>()).call();
-        assertEquals(result, (Collections.emptyList()));
+        assertEquals(Collections.emptyList(), result);
     }
 
     @Test
@@ -91,7 +90,7 @@ public class ArraysIT extends Scenario {
                 contract.multiDynamic(java.util.Arrays.asList(array1, array2)).call();
 
         assertEquals(
-                result, (java.util.Arrays.asList(valueOf(1), valueOf(2), valueOf(3), valueOf(4))));
+                java.util.Arrays.asList(valueOf(1), valueOf(2), valueOf(3), valueOf(4)), result);
     }
 
     @Test
@@ -116,8 +115,7 @@ public class ArraysIT extends Scenario {
         final List<?> result = contract.multiFixed(input).call();
 
         assertEquals(
-                result,
-                (java.util.Arrays.asList(
+                java.util.Arrays.asList(
                         valueOf(1),
                         valueOf(2),
                         valueOf(3),
@@ -129,6 +127,7 @@ public class ArraysIT extends Scenario {
                         valueOf(9),
                         valueOf(10),
                         valueOf(11),
-                        valueOf(12))));
+                        valueOf(12)),
+                result);
     }
 }

@@ -28,9 +28,8 @@ public class SimpleStorageContractIT extends Scenario {
     @Test
     public void testSimpleStorageContract() throws Exception {
         final BigInteger value = BigInteger.valueOf(1000L);
-        final ContractGasProvider contractGasProvider = new DefaultGasProvider();
         final SimpleStorage simpleStorage =
-                SimpleStorage.deploy(web3j, ALICE, contractGasProvider).send();
+                SimpleStorage.deploy(web3j, ALICE, STATIC_GAS_PROVIDER).send();
         assertNotNull(simpleStorage.set(value).send());
         assertEquals(simpleStorage.get().call(), (value));
     }

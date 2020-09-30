@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class EnsIT {
 
     @Test
-    public void testEns() throws Exception {
+    public void testEns() {
 
         final Web3j web3j = Web3j.build(new HttpService());
         final EnsResolver ensResolver = new EnsResolver(web3j);

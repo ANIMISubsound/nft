@@ -43,7 +43,7 @@ public class FunctionWrappersIT extends Scenario {
                         STATIC_GAS_PROVIDER);
 
         final BigInteger result = fibonacci.fibonacci(BigInteger.valueOf(10)).call();
-        assertEquals(result, (BigInteger.valueOf(55)));
+        assertEquals(BigInteger.valueOf(55), result);
     }
 
     @Test
@@ -61,8 +61,7 @@ public class FunctionWrappersIT extends Scenario {
         final Fibonacci.NotifyEventResponse result =
                 fibonacci.getNotifyEvents(transactionReceipt).get(0);
 
-        assertEquals(result.input, (new Uint256(BigInteger.valueOf(15))));
-
-        assertEquals(result.result, (new Uint256(BigInteger.valueOf(610))));
+        assertEquals(BigInteger.valueOf(15), result.input);
+        assertEquals(BigInteger.valueOf(610), result.result);
     }
 }

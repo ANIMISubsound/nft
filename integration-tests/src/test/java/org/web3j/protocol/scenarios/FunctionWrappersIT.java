@@ -14,13 +14,11 @@ package org.web3j.protocol.scenarios;
 
 import java.math.BigInteger;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.generated.Fibonacci;
-import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
-import org.web3j.protocol.http.HttpService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -33,33 +31,28 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class FunctionWrappersIT extends Scenario {
 
+    private Fibonacci contract;
+
+    @BeforeEach
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+        this.contract = Fibonacci.deploy(web3j, ALICE, STATIC_GAS_PROVIDER).send();
+    }
+
     @Test
     public void testFibonacci() throws Exception {
-        final Fibonacci fibonacci =
-                Fibonacci.load(
-                        "0x3c05b2564139fb55820b18b72e94b2178eaace7d",
-                        Web3j.build(new HttpService()),
-                        ALICE,
-                        STATIC_GAS_PROVIDER);
-
-        final BigInteger result = fibonacci.fibonacci(BigInteger.valueOf(10)).call();
+        final BigInteger result = contract.fibonacci(BigInteger.valueOf(10)).call();
         assertEquals(BigInteger.valueOf(55), result);
     }
 
     @Test
     public void testFibonacciNotify() throws Exception {
-        final Fibonacci fibonacci =
-                Fibonacci.load(
-                        "0x3c05b2564139fb55820b18b72e94b2178eaace7d",
-                        Web3j.build(new HttpService()),
-                        ALICE,
-                        STATIC_GAS_PROVIDER);
-
         final TransactionReceipt transactionReceipt =
-                fibonacci.fibonacciNotify(BigInteger.valueOf(15)).send();
+                contract.fibonacciNotify(BigInteger.valueOf(15)).send();
 
         final Fibonacci.NotifyEventResponse result =
-                fibonacci.getNotifyEvents(transactionReceipt).get(0);
+                contract.getNotifyEvents(transactionReceipt).get(0);
 
         assertEquals(BigInteger.valueOf(15), result.input);
         assertEquals(BigInteger.valueOf(610), result.result);

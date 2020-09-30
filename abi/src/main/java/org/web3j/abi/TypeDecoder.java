@@ -320,8 +320,7 @@ class TypeDecoder {
                         throw new IllegalArgumentException(
                                 "Zero length fixed array is invalid type");
                     } else {
-                        return instantiateStaticArray(
-                                (StaticArrayTypeReference<T>) typeReference, elements, length);
+                        return instantiateStaticArray(typeReference, elements, length);
                     }
                 };
 
@@ -373,7 +372,7 @@ class TypeDecoder {
 
     @SuppressWarnings("unchecked")
     private static <T extends Type<?>> StaticArray<T> instantiateStaticArray(
-            final StaticArrayTypeReference<T> typeReference,
+            final TypeReference<StaticArray<T>> typeReference,
             final List<T> elements,
             final int length) {
         try {
@@ -384,7 +383,7 @@ class TypeDecoder {
             return (StaticArray<T>)
                     arrayClass
                             .getConstructor(Class.class, List.class)
-                            .newInstance(typeReference.getComponentType(), elements);
+                            .newInstance(Utils.getComponentType(typeReference), elements);
         } catch (final ReflectiveOperationException e) {
             throw new IllegalStateException(e);
         }

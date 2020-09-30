@@ -152,4 +152,10 @@ public class Utils {
         }
         return result;
     }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends Type<?>> Class<T> getComponentType(
+            final TypeReference<StaticArray<T>> typeReference) {
+        return (Class<T>) ((ParameterizedType) typeReference.getType()).getActualTypeArguments()[0];
+    }
 }

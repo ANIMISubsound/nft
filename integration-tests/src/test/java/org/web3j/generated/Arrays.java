@@ -51,7 +51,7 @@ public class Arrays extends Contract {
     }
     
     @SuppressWarnings("unchecked")
-    public RemoteCall<List<Uint256>> multiDynamic(final List<List<BigInteger>> input) {
+    public RemoteCall<List<BigInteger>> multiDynamic(final List<List<BigInteger>> input) {
         final Function function = new Function(FUNC_MULTIDYNAMIC,
                 java.util.Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.DynamicArray<>(
                         org.web3j.abi.datatypes.generated.StaticArray2.class,
@@ -69,7 +69,7 @@ public class Arrays extends Contract {
     }
 
     @SuppressWarnings("unchecked")
-    public RemoteCall<List<Uint256>> multiFixed(final List<List<BigInteger>> input) {
+    public RemoteCall<List<BigInteger>> multiFixed(final List<List<BigInteger>> input) {
         final Function function = new Function(FUNC_MULTIFIXED,
                 java.util.Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.StaticArray6<>(
                         org.web3j.abi.datatypes.generated.StaticArray2.class,
@@ -79,7 +79,7 @@ public class Arrays extends Contract {
         return new RemoteArrayCall<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public RemoteCall<List<Uint256>> fixedReverse(final List<BigInteger> input) {
+    public RemoteCall<List<BigInteger>> fixedReverse(final List<BigInteger> input) {
         final Function function = new Function(FUNC_FIXEDREVERSE, 
                 java.util.Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.generated.StaticArray10<org.web3j.abi.datatypes.generated.Uint256>(
                         org.web3j.abi.datatypes.generated.Uint256.class,
@@ -88,7 +88,7 @@ public class Arrays extends Contract {
         return new RemoteArrayCall<>(function, contractAddress, transactionManager, defaultBlockParameter);
     }
 
-    public RemoteCall<List<Uint256>> dynamicReverse(final List<BigInteger> input) {
+    public RemoteCall<List<BigInteger>> dynamicReverse(final List<BigInteger> input) {
         final Function function = new Function(FUNC_DYNAMICREVERSE, 
                 java.util.Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.DynamicArray<org.web3j.abi.datatypes.generated.Uint256>(
                         org.web3j.abi.datatypes.generated.Uint256.class,

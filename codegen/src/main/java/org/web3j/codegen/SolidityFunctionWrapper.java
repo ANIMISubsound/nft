@@ -84,8 +84,6 @@ public class SolidityFunctionWrapper extends Generator {
     private static final String TRANSACTION_RECEIPT = "transactionReceipt";
     private static final String INITIAL_VALUE = "initialWeiValue";
     private static final String CONTRACT_ADDRESS = "contractAddress";
-    private static final String GAS_PRICE = "gasPrice";
-    private static final String GAS_LIMIT = "gasLimit";
     private static final String FILTER = "filter";
     private static final String START_BLOCK = "startBlock";
     private static final String END_BLOCK = "endBlock";
@@ -565,7 +563,7 @@ public class SolidityFunctionWrapper extends Generator {
         for (final ParameterSpec parameterSpec : inputParameterTypes) {
             final TypeName typeName = getWrapperType(parameterSpec.type);
             nativeInputParameterTypes.add(
-                    ParameterSpec.builder(typeName, parameterSpec.name).build());
+                    ParameterSpec.builder(typeName, parameterSpec.name, Modifier.FINAL).build());
         }
 
         methodBuilder.addParameters(nativeInputParameterTypes);
@@ -873,7 +871,7 @@ public class SolidityFunctionWrapper extends Generator {
 
                     final CodeBlock.Builder callCode = CodeBlock.builder();
                     callCode.addStatement(
-                            "$T result = "
+                            "final $T result = "
                                     + "($T) executeCallSingleValueReturn(function, $T.class)",
                             listType,
                             listType,
@@ -985,22 +983,19 @@ public class SolidityFunctionWrapper extends Generator {
 
     TypeSpec buildEventResponseObject(
             final String className,
-            final List<org.web3j.codegen.SolidityFunctionWrapper.NamedTypeName> indexedParameters,
-            final List<org.web3j.codegen.SolidityFunctionWrapper.NamedTypeName>
-                    nonIndexedParameters) {
+            final List<NamedTypeName> indexedParameters,
+            final List<NamedTypeName> nonIndexedParameters) {
 
         final TypeSpec.Builder builder =
                 TypeSpec.classBuilder(className).addModifiers(Modifier.PUBLIC, Modifier.STATIC);
 
         builder.superclass(BaseEventResponse.class);
-        for (final org.web3j.codegen.SolidityFunctionWrapper.NamedTypeName namedType :
-                indexedParameters) {
+        for (final NamedTypeName namedType : indexedParameters) {
             final TypeName typeName = getIndexedEventWrapperType(namedType.typeName);
             builder.addField(typeName, namedType.getName(), Modifier.PUBLIC);
         }
 
-        for (final org.web3j.codegen.SolidityFunctionWrapper.NamedTypeName namedType :
-                nonIndexedParameters) {
+        for (final NamedTypeName namedType : nonIndexedParameters) {
             final TypeName typeName = getWrapperType(namedType.typeName);
             builder.addField(typeName, namedType.getName(), Modifier.PUBLIC);
         }
@@ -1011,9 +1006,8 @@ public class SolidityFunctionWrapper extends Generator {
     MethodSpec buildEventFlowableFunction(
             final String responseClassName,
             final String functionName,
-            final List<org.web3j.codegen.SolidityFunctionWrapper.NamedTypeName> indexedParameters,
-            final List<org.web3j.codegen.SolidityFunctionWrapper.NamedTypeName>
-                    nonIndexedParameters) {
+            final List<NamedTypeName> indexedParameters,
+            final List<NamedTypeName> nonIndexedParameters) {
 
         final String generatedFunctionName =
                 Strings.lowercaseFirstLetter(functionName) + "EventFlowable";
@@ -1024,7 +1018,7 @@ public class SolidityFunctionWrapper extends Generator {
         final MethodSpec.Builder flowableMethodBuilder =
                 MethodSpec.methodBuilder(generatedFunctionName)
                         .addModifiers(Modifier.PUBLIC)
-                        .addParameter(EthFilter.class, FILTER)
+                        .addParameter(EthFilter.class, FILTER, Modifier.FINAL)
                         .returns(parameterizedTypeName);
 
         final TypeSpec converter =
@@ -1041,12 +1035,12 @@ public class SolidityFunctionWrapper extends Generator {
                                         .addParameter(Log.class, "log", Modifier.FINAL)
                                         .returns(ClassName.get("", responseClassName))
                                         .addStatement(
-                                                "$T eventValues = extractEventParametersWithLog("
+                                                "final $T eventValues = extractEventParametersWithLog("
                                                         + buildEventDefinitionName(functionName)
                                                         + ", log)",
                                                 Contract.EventValuesWithLog.class)
                                         .addStatement(
-                                                "$1T typedResponse = new $1T()",
+                                                "final $1T typedResponse = new $1T()",
                                                 ClassName.get("", responseClassName))
                                         .addCode(
                                                 buildTypedResponse(
@@ -1076,13 +1070,13 @@ public class SolidityFunctionWrapper extends Generator {
         final MethodSpec.Builder flowableMethodBuilder =
                 MethodSpec.methodBuilder(generatedFunctionName)
                         .addModifiers(Modifier.PUBLIC)
-                        .addParameter(DefaultBlockParameter.class, START_BLOCK)
-                        .addParameter(DefaultBlockParameter.class, END_BLOCK)
+                        .addParameter(DefaultBlockParameter.class, START_BLOCK, Modifier.FINAL)
+                        .addParameter(DefaultBlockParameter.class, END_BLOCK, Modifier.FINAL)
                         .returns(parameterizedTypeName);
 
         flowableMethodBuilder
                 .addStatement(
-                        "$1T filter = new $1T($2L, $3L, " + "getContractAddress())",
+                        "final $1T filter = new $1T($2L, $3L, " + "getContractAddress())",
                         EthFilter.class,
                         START_BLOCK,
                         END_BLOCK)
@@ -1111,24 +1105,25 @@ public class SolidityFunctionWrapper extends Generator {
         final MethodSpec.Builder transactionMethodBuilder =
                 MethodSpec.methodBuilder(generatedFunctionName)
                         .addModifiers(Modifier.PUBLIC)
-                        .addParameter(TransactionReceipt.class, "transactionReceipt")
+                        .addParameter(
+                                TransactionReceipt.class, "transactionReceipt", Modifier.FINAL)
                         .returns(parameterizedTypeName);
 
         transactionMethodBuilder
                 .addStatement(
-                        "$T valueList = extractEventParametersWithLog("
+                        "final $T valueList = extractEventParametersWithLog("
                                 + buildEventDefinitionName(functionName)
                                 + ", "
                                 + "transactionReceipt)",
                         ParameterizedTypeName.get(List.class, Contract.EventValuesWithLog.class))
                 .addStatement(
-                        "$1T responses = new $1T(valueList.size())",
+                        "final $1T responses = new $1T(valueList.size())",
                         ParameterizedTypeName.get(
                                 ClassName.get(ArrayList.class),
                                 ClassName.get("", responseClassName)))
                 .beginControlFlow(
                         "for ($T eventValues : valueList)", Contract.EventValuesWithLog.class)
-                .addStatement("$1T typedResponse = new $1T()", ClassName.get("", responseClassName))
+                .addStatement("final $1T typedResponse = new $1T()", ClassName.get("", responseClassName))
                 .addCode(
                         buildTypedResponse(
                                 "typedResponse", indexedParameters, nonIndexedParameters, false))
@@ -1185,9 +1180,8 @@ public class SolidityFunctionWrapper extends Generator {
 
     CodeBlock buildTypedResponse(
             final String objectName,
-            final List<org.web3j.codegen.SolidityFunctionWrapper.NamedTypeName> indexedParameters,
-            final List<org.web3j.codegen.SolidityFunctionWrapper.NamedTypeName>
-                    nonIndexedParameters,
+            final List<NamedTypeName> indexedParameters,
+            final List<NamedTypeName> nonIndexedParameters,
             final boolean flowable) {
         final String nativeConversion;
 

@@ -181,7 +181,7 @@ public class SolidityFunctionWrapperTest extends TempFileProvider {
         final MethodSpec methodSpec = solidityFunctionWrapper.buildFunction(functionDefinition);
 
         final String expected =
-                "public org.web3j.protocol.core.RemoteCall<org.web3j.protocol.core.methods.response.TransactionReceipt> functionName(java.math.BigInteger param) {\n"
+                "public org.web3j.protocol.core.RemoteCall<org.web3j.protocol.core.methods.response.TransactionReceipt> functionName(final java.math.BigInteger param) {\n"
                         + "  final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(\n"
                         + "      FUNC_FUNCTIONNAME, \n"
                         + "      java.util.Arrays.<org.web3j.abi.datatypes.Type>asList(new org.web3j.abi.datatypes.generated.Uint8(param)), \n"
@@ -225,7 +225,7 @@ public class SolidityFunctionWrapperTest extends TempFileProvider {
         final MethodSpec methodSpec = solidityFunctionWrapper.buildFunction(functionDefinition);
 
         final String expected =
-                "public org.web3j.protocol.core.RemoteCall<org.web3j.protocol.core.methods.response.TransactionReceipt> functionName(java.math.BigInteger param, java.math.BigInteger weiValue) {\n"
+                "public org.web3j.protocol.core.RemoteCall<org.web3j.protocol.core.methods.response.TransactionReceipt> functionName(final java.math.BigInteger param, final java.math.BigInteger weiValue) {\n"
                         + "  final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(\n"
                         + "      FUNC_FUNCTIONNAME, \n"
                         + "      java.util.Arrays.<org.web3j.abi.datatypes.Type>asList(new org.web3j.abi.datatypes.generated.Uint8(param)), \n"
@@ -250,7 +250,7 @@ public class SolidityFunctionWrapperTest extends TempFileProvider {
         final MethodSpec methodSpec = solidityFunctionWrapper.buildFunction(functionDefinition);
 
         final String expected =
-                "public org.web3j.protocol.core.RemoteCall<java.math.BigInteger> functionName(java.math.BigInteger param) {\n"
+                "public org.web3j.protocol.core.RemoteCall<java.math.BigInteger> functionName(final java.math.BigInteger param) {\n"
                         + "  final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(FUNC_FUNCTIONNAME, \n"
                         + "      java.util.Arrays.<org.web3j.abi.datatypes.Type>asList(new org.web3j.abi.datatypes.generated.Uint8(param)), \n"
                         + "      java.util.Arrays.<org.web3j.abi.TypeReference<?>>asList(new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.generated.Int8>() {}));\n"
@@ -274,7 +274,7 @@ public class SolidityFunctionWrapperTest extends TempFileProvider {
         final MethodSpec methodSpec = solidityFunctionWrapper.buildFunction(functionDefinition);
 
         final String expected =
-                "public org.web3j.protocol.core.RemoteCall<java.util.List> functionName(java.math.BigInteger param) {\n"
+                "public org.web3j.protocol.core.RemoteCall<java.util.List> functionName(final java.math.BigInteger param) {\n"
                         + "  final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(FUNC_FUNCTIONNAME, \n"
                         + "      java.util.Arrays.<org.web3j.abi.datatypes.Type>asList(new org.web3j.abi.datatypes.generated.Uint8(param)), \n"
                         + "      java.util.Arrays.<org.web3j.abi.TypeReference<?>>asList(new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.DynamicArray<org.web3j.abi.datatypes.Address>>() {}));\n"
@@ -283,7 +283,7 @@ public class SolidityFunctionWrapperTest extends TempFileProvider {
                         + "        @java.lang.Override\n"
                         + "        @java.lang.SuppressWarnings(\"unchecked\")\n"
                         + "        public java.util.List call() throws java.lang.Exception {\n"
-                        + "          java.util.List<org.web3j.abi.datatypes.Type> result = (java.util.List<org.web3j.abi.datatypes.Type>) executeCallSingleValueReturn(function, java.util.List.class);\n"
+                        + "          final java.util.List<org.web3j.abi.datatypes.Type> result = (java.util.List<org.web3j.abi.datatypes.Type>) executeCallSingleValueReturn(function, java.util.List.class);\n"
                         + "          return convertToNative(result);\n"
                         + "        }\n"
                         + "      });\n"
@@ -306,7 +306,7 @@ public class SolidityFunctionWrapperTest extends TempFileProvider {
         final MethodSpec methodSpec = solidityFunctionWrapper.buildFunction(functionDefinition);
 
         final String expected =
-                "public org.web3j.protocol.core.RemoteCall<java.util.List> functionName(java.util.List<java.math.BigInteger> param) {\n"
+                "public org.web3j.protocol.core.RemoteCall<java.util.List> functionName(final java.util.List<java.math.BigInteger> param) {\n"
                         + "  final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(FUNC_FUNCTIONNAME, \n"
                         + "      java.util.Arrays.<org.web3j.abi.datatypes.Type>asList(new org.web3j.abi.datatypes.DynamicArray<org.web3j.abi.datatypes.generated.Uint8>(\n"
                         + "              org.web3j.abi.datatypes.generated.Uint8.class,\n"
@@ -317,7 +317,7 @@ public class SolidityFunctionWrapperTest extends TempFileProvider {
                         + "        @java.lang.Override\n"
                         + "        @java.lang.SuppressWarnings(\"unchecked\")\n"
                         + "        public java.util.List call() throws java.lang.Exception {\n"
-                        + "          java.util.List<org.web3j.abi.datatypes.Type> result = (java.util.List<org.web3j.abi.datatypes.Type>) executeCallSingleValueReturn(function, java.util.List.class);\n"
+                        + "          final java.util.List<org.web3j.abi.datatypes.Type> result = (java.util.List<org.web3j.abi.datatypes.Type>) executeCallSingleValueReturn(function, java.util.List.class);\n"
                         + "          return convertToNative(result);\n"
                         + "        }\n"
                         + "      });\n"
@@ -340,7 +340,7 @@ public class SolidityFunctionWrapperTest extends TempFileProvider {
         final MethodSpec methodSpec = solidityFunctionWrapper.buildFunction(functionDefinition);
 
         final String expected =
-                "public org.web3j.protocol.core.RemoteCall<java.util.List> functionName(java.util.List<java.util.List<java.math.BigInteger>> param) {\n"
+                "public org.web3j.protocol.core.RemoteCall<java.util.List> functionName(final java.util.List<java.util.List<java.math.BigInteger>> param) {\n"
                         + "  final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(FUNC_FUNCTIONNAME, \n"
                         + "      java.util.Arrays.<org.web3j.abi.datatypes.Type>asList(new org.web3j.abi.datatypes.DynamicArray<org.web3j.abi.datatypes.DynamicArray>(\n"
                         + "              org.web3j.abi.datatypes.DynamicArray.class,\n"
@@ -352,7 +352,7 @@ public class SolidityFunctionWrapperTest extends TempFileProvider {
                         + "        @java.lang.Override\n"
                         + "        @java.lang.SuppressWarnings(\"unchecked\")\n"
                         + "        public java.util.List call() throws java.lang.Exception {\n"
-                        + "          java.util.List<org.web3j.abi.datatypes.Type> result = (java.util.List<org.web3j.abi.datatypes.Type>) executeCallSingleValueReturn(function, java.util.List.class);\n"
+                        + "          final java.util.List<org.web3j.abi.datatypes.Type> result = (java.util.List<org.web3j.abi.datatypes.Type>) executeCallSingleValueReturn(function, java.util.List.class);\n"
                         + "          return convertToNative(result);\n"
                         + "        }\n"
                         + "      });\n"
@@ -396,7 +396,7 @@ public class SolidityFunctionWrapperTest extends TempFileProvider {
         final MethodSpec methodSpec = solidityFunctionWrapper.buildFunction(functionDefinition);
 
         final String expected =
-                "public org.web3j.protocol.core.RemoteCall<org.web3j.tuples.generated.Tuple2<java.math.BigInteger, java.math.BigInteger>> functionName(java.math.BigInteger param1, java.math.BigInteger param2) {\n"
+                "public org.web3j.protocol.core.RemoteCall<org.web3j.tuples.generated.Tuple2<java.math.BigInteger, java.math.BigInteger>> functionName(final java.math.BigInteger param1, final java.math.BigInteger param2) {\n"
                         + "  final org.web3j.abi.datatypes.Function function = new org.web3j.abi.datatypes.Function(FUNC_FUNCTIONNAME, \n"
                         + "      java.util.Arrays.<org.web3j.abi.datatypes.Type>asList(new org.web3j.abi.datatypes.generated.Uint8(param1), \n"
                         + "      new org.web3j.abi.datatypes.generated.Uint32(param2)), \n"
@@ -444,11 +444,11 @@ public class SolidityFunctionWrapperTest extends TempFileProvider {
                 "class testClass {\n"
                         + "  public static final org.web3j.abi.datatypes.Event TRANSFER_EVENT = new org.web3j.abi.datatypes.Event(\"Transfer\", \n"
                         + "      java.util.Arrays.<org.web3j.abi.TypeReference<?>>asList(new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Utf8String>(true) {}, new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Address>(true) {}, new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Address>(true) {}, new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.generated.Uint256>() {}, new org.web3j.abi.TypeReference<org.web3j.abi.datatypes.Utf8String>() {}));\n  ;\n\n"
-                        + "  public java.util.List<TransferEventResponse> getTransferEvents(org.web3j.protocol.core.methods.response.TransactionReceipt transactionReceipt) {\n"
-                        + "    java.util.List<org.web3j.tx.Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(TRANSFER_EVENT, transactionReceipt);\n"
-                        + "    java.util.ArrayList<TransferEventResponse> responses = new java.util.ArrayList<TransferEventResponse>(valueList.size());\n"
+                        + "  public java.util.List<TransferEventResponse> getTransferEvents(final org.web3j.protocol.core.methods.response.TransactionReceipt transactionReceipt) {\n"
+                        + "    final java.util.List<org.web3j.tx.Contract.EventValuesWithLog> valueList = extractEventParametersWithLog(TRANSFER_EVENT, transactionReceipt);\n"
+                        + "    final java.util.ArrayList<TransferEventResponse> responses = new java.util.ArrayList<TransferEventResponse>(valueList.size());\n"
                         + "    for (org.web3j.tx.Contract.EventValuesWithLog eventValues : valueList) {\n"
-                        + "      TransferEventResponse typedResponse = new TransferEventResponse();\n"
+                        + "      final TransferEventResponse typedResponse = new TransferEventResponse();\n"
                         + "      typedResponse.log = eventValues.getLog();\n"
                         + "      typedResponse.id = (byte[]) eventValues.getIndexedValues().get(0).getValue();\n"
                         + "      typedResponse.from = (java.lang.String) eventValues.getIndexedValues().get(1).getValue();\n"
@@ -460,12 +460,12 @@ public class SolidityFunctionWrapperTest extends TempFileProvider {
                         + "    return responses;\n"
                         + "  }\n"
                         + "\n"
-                        + "  public io.reactivex.Flowable<TransferEventResponse> transferEventFlowable(org.web3j.protocol.core.methods.request.EthFilter filter) {\n"
+                        + "  public io.reactivex.Flowable<TransferEventResponse> transferEventFlowable(final org.web3j.protocol.core.methods.request.EthFilter filter) {\n"
                         + "    return web3j.ethLogFlowable(filter).map(new io.reactivex.functions.Function<org.web3j.protocol.core.methods.response.Log, TransferEventResponse>() {\n"
                         + "      @java.lang.Override\n"
-                        + "      public TransferEventResponse apply(org.web3j.protocol.core.methods.response.Log log) {\n"
-                        + "        org.web3j.tx.Contract.EventValuesWithLog eventValues = extractEventParametersWithLog(TRANSFER_EVENT, log);\n"
-                        + "        TransferEventResponse typedResponse = new TransferEventResponse();\n"
+                        + "      public TransferEventResponse apply(final org.web3j.protocol.core.methods.response.Log log) {\n"
+                        + "        final org.web3j.tx.Contract.EventValuesWithLog eventValues = extractEventParametersWithLog(TRANSFER_EVENT, log);\n"
+                        + "        final TransferEventResponse typedResponse = new TransferEventResponse();\n"
                         + "        typedResponse.log = log;\n"
                         + "        typedResponse.id = (byte[]) eventValues.getIndexedValues().get(0).getValue();\n"
                         + "        typedResponse.from = (java.lang.String) eventValues.getIndexedValues().get(1).getValue();\n"
@@ -477,8 +477,8 @@ public class SolidityFunctionWrapperTest extends TempFileProvider {
                         + "    });\n"
                         + "  }\n"
                         + "\n"
-                        + "  public io.reactivex.Flowable<TransferEventResponse> transferEventFlowable(org.web3j.protocol.core.DefaultBlockParameter startBlock, org.web3j.protocol.core.DefaultBlockParameter endBlock) {\n"
-                        + "    org.web3j.protocol.core.methods.request.EthFilter filter = new org.web3j.protocol.core.methods.request.EthFilter(startBlock, endBlock, getContractAddress());\n"
+                        + "  public io.reactivex.Flowable<TransferEventResponse> transferEventFlowable(final org.web3j.protocol.core.DefaultBlockParameter startBlock, final org.web3j.protocol.core.DefaultBlockParameter endBlock) {\n"
+                        + "    final org.web3j.protocol.core.methods.request.EthFilter filter = new org.web3j.protocol.core.methods.request.EthFilter(startBlock, endBlock, getContractAddress());\n"
                         + "    filter.addSingleTopic(org.web3j.abi.EventEncoder.encode(TRANSFER_EVENT));\n"
                         + "    return transferEventFlowable(filter);\n"
                         + "  }\n"
@@ -500,11 +500,11 @@ public class SolidityFunctionWrapperTest extends TempFileProvider {
     }
 
     @Test
-    public void testBuildFuncNameConstants() throws Exception {
+    public void testBuildFuncNameConstants() {
         final AbiDefinition functionDefinition =
                 new AbiDefinition(
                         false,
-                        Arrays.asList(new AbiDefinition.NamedType("param", "uint8")),
+                        Collections.singletonList(new AbiDefinition.NamedType("param", "uint8")),
                         "functionName",
                         Collections.emptyList(),
                         "function",

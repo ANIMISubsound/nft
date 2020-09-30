@@ -111,8 +111,6 @@ public class SolidityFunctionWrapper extends Generator {
 
     private final int addressLength;
 
-    private static final String regex = "(\\w+)(?:\\[(.*?)\\])(?:\\[(.*?)\\])?";
-
     private final GenerationReporter reporter;
 
     public SolidityFunctionWrapper(final boolean useNativeJavaTypes, final int addressLength) {

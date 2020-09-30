@@ -230,7 +230,7 @@ public class SolidityFunctionWrapperGeneratorTest extends TempFileProvider {
             options.add(PRIMITIVE_TYPES_ARG);
         }
 
-        SolidityFunctionWrapperGenerator.main(options.toArray(new String[options.size()]));
+        SolidityFunctionWrapperGenerator.main(options.toArray(new String[0]));
 
         verifyGeneratedCode(
                 tempDirPath

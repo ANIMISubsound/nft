@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
+
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Modifier;
 
@@ -40,7 +41,6 @@ import com.squareup.javapoet.TypeVariableName;
 import io.reactivex.Flowable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.web3j.abi.EventEncoder;
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
@@ -59,6 +59,7 @@ import org.web3j.abi.datatypes.primitive.Short;
 import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
+import org.web3j.protocol.core.RemoteArrayCall;
 import org.web3j.protocol.core.RemoteCall;
 import org.web3j.protocol.core.RemoteTransaction;
 import org.web3j.protocol.core.methods.request.EthFilter;
@@ -92,6 +93,7 @@ public class SolidityFunctionWrapper extends Generator {
     private static final String TYPE_FUNCTION = "function";
     private static final String TYPE_EVENT = "event";
     private static final String NULL = "null";
+    private static final String DEFAULT_BLOCK_PARAMETER = "defaultBlockParameter";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SolidityFunctionWrapper.class);
 
@@ -846,62 +848,32 @@ public class SolidityFunctionWrapper extends Generator {
 
             methodBuilder.addStatement(
                     "final $T function = "
-                            + "new $T($N, \n$T.<$T>asList($L), "
-                            + "\n$T.<$T<?>>asList(new $T<$T>() {}))",
+                            + "new $T($N, \n$T.asList($L), "
+                            + "\n$T.asList(new $T<$T>() {}))",
                     Function.class,
                     Function.class,
                     funcNameToConst(functionName, useUpperCase),
                     Arrays.class,
-                    Type.class,
                     inputParams,
                     Arrays.class,
-                    TypeReference.class,
                     TypeReference.class,
                     typeName);
 
             if (useNativeJavaTypes) {
                 if (nativeReturnTypeName.equals(ClassName.get(List.class))) {
+                    methodBuilder.addAnnotation(
+                            AnnotationSpec.builder(SuppressWarnings.class)
+                                    .addMember("value", "$S", "unchecked")
+                                    .build());
+
                     // We return list. So all the list elements should
                     // also be converted to native types
-                    final TypeName listType = ParameterizedTypeName.get(List.class, Type.class);
-
-                    final CodeBlock.Builder callCode = CodeBlock.builder();
-                    callCode.addStatement(
-                            "final $T result = "
-                                    + "($T) executeCallSingleValueReturn(function, $T.class)",
-                            listType,
-                            listType,
-                            nativeReturnTypeName);
-                    callCode.addStatement("return convertToNative(result)");
-
-                    final TypeSpec callableType =
-                            TypeSpec.anonymousClassBuilder("")
-                                    .addSuperinterface(
-                                            ParameterizedTypeName.get(
-                                                    ClassName.get(Callable.class),
-                                                    nativeReturnTypeName))
-                                    .addMethod(
-                                            MethodSpec.methodBuilder("call")
-                                                    .addAnnotation(Override.class)
-                                                    .addAnnotation(
-                                                            AnnotationSpec.builder(
-                                                                            SuppressWarnings.class)
-                                                                    .addMember(
-                                                                            "value",
-                                                                            "$S",
-                                                                            "unchecked")
-                                                                    .build())
-                                                    .addModifiers(Modifier.PUBLIC)
-                                                    .addException(Exception.class)
-                                                    .returns(nativeReturnTypeName)
-                                                    .addCode(callCode.build())
-                                                    .build())
-                                    .build();
-
                     methodBuilder.addStatement(
-                            "return new $T(function,\n$L)",
-                            buildRemoteCall(nativeReturnTypeName),
-                            callableType);
+                            "return new $T(function, $L, $L, $L)",
+                            buildRemoteArrayCall(TypeName.OBJECT),
+                            CONTRACT_ADDRESS,
+                            TRANSACTION_MANAGER,
+                            DEFAULT_BLOCK_PARAMETER);
                 } else {
                     methodBuilder.addStatement(
                             "return executeRemoteCallSingleValueReturn(function, $T.class)",
@@ -934,6 +906,10 @@ public class SolidityFunctionWrapper extends Generator {
 
     private static ParameterizedTypeName buildRemoteCall(final TypeName typeName) {
         return ParameterizedTypeName.get(ClassName.get(RemoteCall.class), typeName);
+    }
+
+    private static ParameterizedTypeName buildRemoteArrayCall(final TypeName typeName) {
+        return ParameterizedTypeName.get(ClassName.get(RemoteArrayCall.class), typeName);
     }
 
     private void buildTransactionFunction(
@@ -1258,11 +1234,9 @@ public class SolidityFunctionWrapper extends Generator {
         objects.add(funcNameToConst(functionName, useUpperCase));
 
         objects.add(Arrays.class);
-        objects.add(Type.class);
         objects.add(inputParameters);
 
         objects.add(Arrays.class);
-        objects.add(TypeReference.class);
         for (final TypeName outputParameterType : outputParameterTypes) {
             objects.add(TypeReference.class);
             objects.add(outputParameterType);
@@ -1272,8 +1246,8 @@ public class SolidityFunctionWrapper extends Generator {
                 Collection.join(outputParameterTypes, ", ", typeName -> "new $T<$T>() {}");
 
         methodBuilder.addStatement(
-                "final $T function = new $T($N, \n$T.<$T>asList($L), \n$T"
-                        + ".<$T<?>>asList("
+                "final $T function = new $T($N, \n$T.asList($L), \n$T"
+                        + ".asList("
                         + asListParams
                         + "))",
                 objects.toArray());

@@ -17,8 +17,6 @@ import java.math.BigInteger;
 import org.junit.jupiter.api.Test;
 
 import org.web3j.generated.SimpleStorage;
-import org.web3j.tx.gas.ContractGasProvider;
-import org.web3j.tx.gas.DefaultGasProvider;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

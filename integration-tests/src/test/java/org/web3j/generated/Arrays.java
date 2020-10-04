@@ -58,14 +58,14 @@ public class Arrays extends Contract {
                         org.web3j.abi.Utils.typeMap(input, org.web3j.abi.datatypes.generated.StaticArray2.class,
                 org.web3j.abi.datatypes.generated.Uint256.class))), 
                 java.util.Arrays.<TypeReference<?>>asList(new TypeReference<DynamicArray<Uint256>>() {}));
-        return new RemoteArrayCall<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteArrayCall<>(function, contractAddress, true, transactionManager, defaultBlockParameter);
     }
 
     public RemoteCall<List<Address>> returnArray() {
         final Function function = new Function(FUNC_RETURNARRAY, 
                 java.util.Arrays.<Type<?>>asList(), 
                 java.util.Arrays.<TypeReference<?>>asList(new TypeReference<DynamicArray<Address>>() {}));
-        return new RemoteArrayCall<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteArrayCall<>(function, contractAddress, false, transactionManager, defaultBlockParameter);
     }
 
     @SuppressWarnings("unchecked")
@@ -76,7 +76,7 @@ public class Arrays extends Contract {
                         org.web3j.abi.Utils.typeMap(input, org.web3j.abi.datatypes.generated.StaticArray2.class,
                 org.web3j.abi.datatypes.generated.Uint256.class))),
                 java.util.Arrays.<TypeReference<?>>asList(new TypeReference<DynamicArray<Uint256>>() {}));
-        return new RemoteArrayCall<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteArrayCall<>(function, contractAddress, true, transactionManager, defaultBlockParameter);
     }
 
     public RemoteCall<List<BigInteger>> fixedReverse(final List<BigInteger> input) {
@@ -85,7 +85,7 @@ public class Arrays extends Contract {
                         org.web3j.abi.datatypes.generated.Uint256.class,
                         org.web3j.abi.Utils.typeMap(input, org.web3j.abi.datatypes.generated.Uint256.class))), 
                 java.util.Arrays.<TypeReference<?>>asList(new TypeReference<StaticArray10<Uint256>>() {}));
-        return new RemoteArrayCall<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteArrayCall<>(function, contractAddress, true, transactionManager, defaultBlockParameter);
     }
 
     public RemoteCall<List<BigInteger>> dynamicReverse(final List<BigInteger> input) {
@@ -94,7 +94,7 @@ public class Arrays extends Contract {
                         org.web3j.abi.datatypes.generated.Uint256.class,
                         org.web3j.abi.Utils.typeMap(input, org.web3j.abi.datatypes.generated.Uint256.class))), 
                 java.util.Arrays.<TypeReference<?>>asList(new TypeReference<DynamicArray<Uint256>>() {}));
-        return new RemoteArrayCall<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteArrayCall<>(function, contractAddress, true, transactionManager, defaultBlockParameter);
     }
 
     public static RemoteTransaction<Arrays> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {

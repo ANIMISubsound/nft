@@ -49,7 +49,7 @@ public class ShipIt extends Contract {
         final Function function = new Function(FUNC_SHIPMENTS, 
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(param0)), 
                 Arrays.<TypeReference<?>>asList(new TypeReference<Address>() {}, new TypeReference<Address>() {}, new TypeReference<Uint256>() {}, new TypeReference<Uint256>() {}, new TypeReference<Uint8>() {}, new TypeReference<Uint256>() {}, new TypeReference<Utf8String>() {}, new TypeReference<Bytes32>() {}));
-        return new RemoteCall8<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall8<>(function, contractAddress, true, transactionManager, defaultBlockParameter);
     }
 
     public static RemoteTransaction<ShipIt> deploy(final Web3j web3j, final Credentials credentials, final ContractGasProvider contractGasProvider) {

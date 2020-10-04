@@ -56,14 +56,12 @@ public class Scenario {
     */
     static final Credentials ALICE =
             Credentials.create(
-                    "", // 32 byte hex value
-                    "0x" // 64 byte hex value
+                    "0xdcfaa05934c312fd7c7de69e4da6e1d897d2d377c4377816a13bdbe063167dba"
                     );
 
     static final Credentials BOB =
             Credentials.create(
-                    "", // 32 byte hex value
-                    "0x" // 64 byte hex value
+                    "0x48ca55be1ca1147334ec606cfb9ec7797368f546d166e65dcc1b255461dc2da5"
                     );
 
     private static final BigInteger ACCOUNT_UNLOCK_DURATION = BigInteger.valueOf(30);

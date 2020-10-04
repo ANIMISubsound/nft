@@ -118,7 +118,7 @@ public class Ballot extends Contract {
         final Function function = new Function(FUNC_VOTERS,
                 Arrays.<Type<?>>asList(new org.web3j.abi.datatypes.Address(param0)),
                 Arrays.<TypeReference<?>>asList(new TypeReference<Uint256>() {}, new TypeReference<Bool>() {}, new TypeReference<Address>() {}, new TypeReference<Uint256>() {}));
-        return new RemoteCall4<>(function, contractAddress, transactionManager, defaultBlockParameter);
+        return new RemoteCall4<>(function, contractAddress, true, transactionManager, defaultBlockParameter);
     }
 
     public RemoteCall<byte[]> winnerName() {
